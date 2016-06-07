@@ -1,0 +1,96 @@
+<#import "/base/base.html" as base>
+<#import "/base/layout.html" as layout>
+
+<#macro bmsheadcontent>
+    <#assign bms_head_content>
+        <#nested/>
+    </#assign>
+</#macro>
+<#macro bmsheadjscontent>
+    <#assign bms_head_js_content>
+        <#nested/>
+    </#assign>
+</#macro>
+
+<#macro bmsjscontent>
+    <#assign bms_js_content>
+        <#nested/>
+    </#assign>
+</#macro>
+
+<#macro bmshtml bmsModel title>
+
+<@base.headcontent>
+	<!--icheck-->
+	<link href="${ctx}/adminx/js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+	<link href="${ctx}/adminx/js/iCheck/skins/square/square.css" rel="stylesheet">
+	<link href="${ctx}/adminx/js/iCheck/skins/square/red.css" rel="stylesheet">
+	<link href="${ctx}/adminx/js/iCheck/skins/square/blue.css" rel="stylesheet">
+	
+	<link href="${ctx}/adminx/js/advanced-datatable/css/demo_page.css" rel="stylesheet" />
+  	<link href="${ctx}/adminx/js/advanced-datatable/css/demo_table.css" rel="stylesheet" />
+	<link href="${ctx}/adminx/js/data-tables/DT_bootstrap.css" rel="stylesheet">
+	
+	${bms_head_content!""}
+</@base.headcontent>
+
+<@base.headjscontent>
+	${bms_head_js_content!""}
+</@base.headjscontent>
+
+<@base.jscontent>
+	<!--easy pie chart-->
+	<script src="${ctx}/adminx/js/easypiechart/jquery.easypiechart.js"></script>
+	<script src="${ctx}/adminx/js/easypiechart/easypiechart-init.js"></script>
+	
+	<!--Sparkline Chart-->
+	<script src="${ctx}/adminx/js/sparkline/jquery.sparkline.js"></script>
+	<script src="${ctx}/adminx/js/sparkline/sparkline-init.js"></script>
+	
+	<!--icheck -->
+	<script src="${ctx}/adminx/js/iCheck/jquery.icheck.js"></script>
+	<script src="${ctx}/adminx/js/icheck-init.js"></script>
+	
+	<!-- jQuery Flot Chart-->
+	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.js"></script>
+	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.tooltip.js"></script>
+	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.resize.js"></script>
+	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.pie.resize.js"></script>
+	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.selection.js"></script>
+	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.stack.js"></script>
+	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.time.js"></script>
+	<script src="${ctx}/adminx/js/main-chart.js"></script>
+	<!-- 要在scripts.js之前-->
+	<script src="${ctx}/adminx/js/mine/core.js"></script>
+	<!--common scripts for all pages-->
+	<script src="${ctx}/adminx/js/scripts.js"></script>
+	
+	${bms_js_content!""}
+</@base.jscontent>
+
+<@base.html title "sticky-header">
+	<section>
+		<@layout.showNav bmsModel />
+	    
+	    <!-- main content start-->
+	    <div class="main-content" >
+			<@layout.showHeader bmsModel />
+			
+			<!-- 每个页面不同的内容在这里 -->
+			<#nested/>	
+
+			
+			<!--footer section start-->
+		    <footer class="sticky-footer">
+		        2016 &copy; AdminEx by ThemeBucket
+		    </footer>
+		    <!--footer section end-->
+	    </div>
+	    <!-- main content end-->
+	</section>
+	
+</@base.html>
+
+</#macro>
+
+
