@@ -1,0 +1,39 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
+
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb panel">
+                    <li><a href="#"><i class="fa fa-home"></i> 酒店及会议室信息发布平台</a></li>
+                    <li><a href="#">系统管理</a></li>
+                    <li><a href="#">用户管理</a></li>
+                    <li class="active"><#if action=="create">新增<#else>编辑</#if></li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<@func.form "${ctx}/sys/user/${action}">
+						<@func.formInput "text" "userLoginname" "登录名" "${sysUser.userLoginname}" "{required:true,minlength:2}" />
+						<@func.formInput "text" "userName" "用户名称" "${sysUser.userName}" "{required:true}" />
+						<@func.formSelect "userTypeid" "用户类型">
+							<@dict.showOptions "enums.USER_TYPE" "${sysUser.userTypeid}" />
+						</@func.formSelect>
+						
+						<div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button type="submit" class="btn btn-primary">保  存</button>
+                                <a target href="${ctx}/sys/user/list" class="btn btn-default">返  回</a>
+                            </div>
+                        </div>
+					</@func.form>
+				</section>
+			</div>
+		</div>
+		
+	</div>

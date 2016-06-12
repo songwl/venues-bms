@@ -79,9 +79,7 @@
        <bean id="showDictTemplate" class="com.venues.bms.core.freemarker.ShowDictTemplate">
 			<property name="mappingClazz">
             	<map>
-                           <!--  <entry key="order" value="com.maidou.app.vo.CrowdOrderEnum"/>
-                            <entry key="subject" value="com.maidou.app.vo.CrowdSubjectEnum"/>
-                            <entry key="subjectRank" value="com.maidou.app.vo.CrowdSubjectRankEnum"/> -->
+            		<entry key="enums" value="com.venues.bms.vo.Enums"/>
                 </map>
             </property>
             <property name="dataLoaderMap">

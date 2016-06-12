@@ -51,7 +51,7 @@ public abstract class SelectUtils {
 			for (Object obj : array) {
 				Method m = ReflectionUtils.findMethod(clazz, "getLabel");
 				String cnName = (String) m.invoke(obj);
-				m = ReflectionUtils.findMethod(clazz, "name");
+				m = ReflectionUtils.findMethod(clazz, "getValue");
 				String name = (String) m.invoke(obj);
 				LabelValue lv = new LabelValue(cnName, name);
 

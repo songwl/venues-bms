@@ -1,5 +1,8 @@
 package com.venues.bms.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.venues.bms.po.SysUser;
 
 public interface SysUserMapper {
@@ -53,4 +56,7 @@ public interface SysUserMapper {
 
 	SysUser selectByLoginname(String loginname);
 
+	int selectCountByParams(Map<String, Object> params);
+
+	List<SysUser> selectByParams(Map<String, Object> params);
 }

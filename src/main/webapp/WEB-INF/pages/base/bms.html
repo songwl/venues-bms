@@ -52,18 +52,24 @@
 	<script src="${ctx}/adminx/js/icheck-init.js"></script>
 	
 	<!-- jQuery Flot Chart-->
-	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.js"></script>
+	<!-- <script src="${ctx}/adminx/js/flot-chart/jquery.flot.js"></script>
 	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.tooltip.js"></script>
 	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.resize.js"></script>
 	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.pie.resize.js"></script>
 	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.selection.js"></script>
 	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.stack.js"></script>
 	<script src="${ctx}/adminx/js/flot-chart/jquery.flot.time.js"></script>
-	<script src="${ctx}/adminx/js/main-chart.js"></script>
-	<!-- 要在scripts.js之前-->
-	<script src="${ctx}/adminx/js/mine/core.js"></script>
+	<script src="${ctx}/adminx/js/main-chart.js"></script> -->
+	
+	<script type="text/javascript" src="${ctx}/adminx/js/jquery.validate.js"></script>
+	<script type="text/javascript" src="${ctx}/adminx/js/jquery.metadata.js"></script>
+	<script src="${ctx}/js/bms.validate.js"></script>
+	
 	<!--common scripts for all pages-->
 	<script src="${ctx}/adminx/js/scripts.js"></script>
+	
+	<script src="${ctx}/js/bms.ui.js"></script>
+	
 	
 	${bms_js_content!""}
 </@base.jscontent>
@@ -77,8 +83,9 @@
 			<@layout.showHeader bmsModel />
 			
 			<!-- 每个页面不同的内容在这里 -->
+			<div class="body-section">
 			<#nested/>	
-
+			</div>
 			
 			<!--footer section start-->
 		    <footer class="sticky-footer">

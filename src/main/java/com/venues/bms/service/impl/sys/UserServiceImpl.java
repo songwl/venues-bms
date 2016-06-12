@@ -3,11 +3,13 @@ package com.venues.bms.service.impl.sys;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.venues.bms.core.model.Page;
 import com.venues.bms.dao.SysAuthorityMapper;
 import com.venues.bms.dao.SysMenuMapper;
 import com.venues.bms.dao.SysUserMapper;
@@ -76,6 +78,7 @@ public class UserServiceImpl implements UserService {
 		nav.setNid(menu.getMenuId());
 		nav.setName(menu.getMenuName());
 		nav.setParentId(menu.getMenuParentid());
+		nav.setIcon(menu.getMenuIcon());
 		if (menu.getMenuIsmenu()) { // menu
 			nav.setType(BmsNavigation.BmsNavType.MENU.name());
 		} else { // url
@@ -100,5 +103,24 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return chilren;
+	}
+
+	@Override
+	public Page<SysUser> findSysUserPage(Page<SysUser> page, Map<String, Object> params) {
+		int count = sysUserMapper.selectCountByParams(params);
+		if (count > 0) {
+			page.setTotalCount(count);
+
+			params.put("begin", page.getBeginRow());
+			params.put("offset", page.getPageSize());
+			params.put("orderBy", page.getOrderBy());
+			List<SysUser> list = findSysUserList(params);
+			page.setItemList(list);
+		}
+		return page;
+	}
+
+	private List<SysUser> findSysUserList(Map<String, Object> params) {
+		return sysUserMapper.selectByParams(params);
 	}
 }

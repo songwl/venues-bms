@@ -8,7 +8,7 @@
 
 <#macro form action>
 	<div class="panel-body">
-	    <form class="form-horizontal" action=${action} method="post">
+	    <form eidt class="form-horizontal" action=${action} method="post">
 	        <#nested />
 	    </form>
     </div>
@@ -16,20 +16,31 @@
 
 <#macro queryForm action>
 	<div class="panel-body">
-	    <form class="form-inline" action=${action} method="post">
+	    <form query class="form-inline" action=${action} method="post">
 	        <#nested />
 	    </form>
     </div>
 </#macro>
 
-<#macro formInput type name label value>
+<#macro formInput type name label value valid>
     <div class="form-group">
-        <label for="${name}" class="control-label col-lg-2 col-sm-2">${label}</label>
-        <!-- <input type="${type}" class="form-control" name="${name}" <#if value??>value="${value}"</#if>/> -->
-        <div class="col-lg-10">
-            <input type="${type}" class="form-control" name="${name}" <#if value??>value="${value}"</#if>/>
-            <label for="${name}" class="error"></label>
+        <label for="${name}" class="control-label col-sm-2">${label}</label>
+        <div class="col-sm-6">
+            <input type="${type}" class="form-control ${valid}" name="${name}"  <#if value??>value="${value}"</#if>/>
         </div>
+        <label for="${name}" class="error col-sm-4"></label>
+    </div>
+</#macro>
+
+<#macro formSelect name label valid>
+    <div class="form-group">
+        <label for="${name}" class="control-label col-sm-2">${label}</label>
+        <div class="col-sm-6">
+        	<select name="${name}" class="form-control m-bot15 ${valid}">
+                <#nested/>
+            </select>
+        </div>
+        <label for="${name}" class="error col-sm-4"></label>
     </div>
 </#macro>
 

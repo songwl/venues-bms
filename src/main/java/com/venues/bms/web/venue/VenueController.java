@@ -1,6 +1,5 @@
 package com.venues.bms.web.venue;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,9 @@ public class VenueController extends BaseController {
 
 	@RequestMapping(value = "/list")
 	public String list(ModelMap model) throws Exception {
-		Page<VeVenue> page = new Page<>(1, 10);
-		Map<String, Object> params = new HashMap<>();
+		Page<VeVenue> page = this.getPageRequest();
+		Map<String, Object> params = this.getSearchRequest();
+
 		page = venueService.findVenuePage(page, params);
 		model.put("page", page);
 		return "venue/list";

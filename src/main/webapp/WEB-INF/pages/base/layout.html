@@ -32,7 +32,7 @@
 
             <!--sidebar nav start-->
             <ul class="nav nav-pills nav-stacked custom-nav">
-                <li <#if navType!0==url.nid>class="active"</#if>><a href="${ctx}/index"><i class="fa fa-home"></i> <span>主页</span></a></li>
+                <li <#if bmsModel.navId==null || bmsModel.navId==0>class="active"</#if>><a href="${ctx}/index"><i class="fa fa-home"></i> <span>主页</span></a></li>
 
 				<#list bmsModel.bmsNavigationList as nav>
 					<#if nav.type=="MENU">
@@ -78,7 +78,7 @@
 </#macro>
 
 <#macro showMenu menu>
-    <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>${menu.name}</span></a>
+    <li class="menu-list"><a href="#"><i class="fa ${menu.icon?if_exists}"></i> <span>${menu.name}</span></a>
         <ul class="sub-menu-list">
         	<#list menu.children as nav>
 	            <@showUrl nav />
@@ -88,7 +88,7 @@
 </#macro>
 
 <#macro showUrl url>
-	<li <#if navType!0==url.nid>class="active"</#if>><a href="${ctx}${url.url}?navId=${url.nid}"><i class="fa fa-th-list"></i> <span>${url.name}</span></a></a></li>
+	<li <#if bmsModel.navId!=null && bmsModel.navId==url.nid>class="active"</#if>><a href="" url="${ctx}${url.url}?navId=${url.nid}"><i class="fa ${url.icon?if_exists}"></i> <span>${url.name}</span></a></a></li>
 </#macro>
 
 

@@ -45,7 +45,7 @@ public class PermissionFilter implements Filter {
 			//验证是否登录
 			Object user = ServletUtil.getSession(req, res, ServletUtil.SESSION_USER);
 			if (user == null || uri.equalsIgnoreCase(req.getContextPath()) || uri.equalsIgnoreCase(req.getContextPath() + "/")) {
-				res.sendRedirect("login");
+				res.sendRedirect(req.getContextPath() + "/login");
 				return;
 			}
 			//验证权限

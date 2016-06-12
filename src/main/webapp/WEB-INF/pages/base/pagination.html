@@ -1,6 +1,6 @@
 <#macro page pageInfo="" paramPage="page" ajax="">
 <#if pageInfo!0 gt 0>
-	<div class="row-fluid">
+	<div class="panel-body">
 		<form action="${pageInfo.url}" page>
 		<div class="span6">
 			<div class="dataTables_info" id="hidden-table-info_info">第${pageInfo.page}页/共${pageInfo.totalCount}条</div>
@@ -82,7 +82,7 @@
 			</div>
        	</div>
 	</form>
-   	</div> -->
+   	</div> 
    	
 	<script type="text/javascript">
 		$(function(){
@@ -120,6 +120,6 @@
 				</#if>
 			}
 		})
-	</script>
+	</script>-->
 </#if>
 </#macro>

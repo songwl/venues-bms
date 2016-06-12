@@ -22,6 +22,8 @@ public class BmsNavigation implements Serializable {
 
 	private String url; //url内容
 
+	private String icon;
+
 	private Integer parentId;
 
 	private List<BmsNavigation> children;
@@ -72,6 +74,14 @@ public class BmsNavigation implements Serializable {
 
 	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }
