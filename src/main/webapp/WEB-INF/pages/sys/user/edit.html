@@ -18,12 +18,19 @@
 		<div class="row">
 			<div class="col-md-12">
 				<section class="panel">
-					<@func.form "${ctx}/sys/user/${action}">
-						<@func.formInput "text" "userLoginname" "登录名" "${sysUser.userLoginname}" "{required:true,minlength:2}" />
-						<@func.formInput "text" "userName" "用户名称" "${sysUser.userName}" "{required:true}" />
-						<@func.formSelect "userTypeid" "用户类型">
-							<@dict.showOptions "enums.USER_TYPE" "${sysUser.userTypeid}" />
-						</@func.formSelect>
+					<@func.validForm "${ctx}/sys/user/${action}" "${ctx}/sys/user/list">
+						<input type="hidden" name="userId" value="${sysUser.userId}" />
+						<@func.formGroup "登录名" "userLoginname">
+							<input type="text" class="form-control {required:true}" name="userLoginname"  value="${sysUser.userLoginname}" <#if sysUser.userLoginname??>readonly</#if> />
+						</@func.formGroup>
+						<@func.formGroup "用户名称" "userName">
+							<input type="text" class="form-control {required:true}" name="userName"  value="${sysUser.userName}" />
+						</@func.formGroup>
+						<@func.formGroup "用户类型" "userTypeid">
+							<select name="userTypeid" class="form-control m-bot15">
+				               <@dict.showOptions "enums.USER_TYPE" "${sysUser.userTypeid}" />
+				            </select>
+						</@func.formGroup>
 						
 						<div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
@@ -31,7 +38,7 @@
                                 <a target href="${ctx}/sys/user/list" class="btn btn-default">返  回</a>
                             </div>
                         </div>
-					</@func.form>
+					</@func.validForm>
 				</section>
 			</div>
 		</div>

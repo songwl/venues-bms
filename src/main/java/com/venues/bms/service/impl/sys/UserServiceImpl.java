@@ -123,4 +123,9 @@ public class UserServiceImpl implements UserService {
 	private List<SysUser> findSysUserList(Map<String, Object> params) {
 		return sysUserMapper.selectByParams(params);
 	}
+
+	@Override
+	public int deleteSysUserByUserId(Integer userId) {
+		return sysUserMapper.deleteByPrimaryKey(userId);
+	}
 }

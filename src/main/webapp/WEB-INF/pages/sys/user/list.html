@@ -1,5 +1,6 @@
 <#import "/base/bms.html" as bms>
 <#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
 
 	<div class="wrapper">
 		<div class="row">
@@ -46,10 +47,11 @@
 				              <td>${item.userId}</td>
 				              <td>${item.userLoginname}</td>
 				              <td>${item.userName}</td>
-				              <td>${item.userTypeid}</td>
+				              <td><@dict.showLabel "enums.USER_TYPE" "${item.userTypeid}" /></td>
 				              <td>
-				              	  <a class="btn btn-xs btn-danger" href="javascript:#">删除</a>
-				                  <a class="btn btn-xs btn-warning" href="javascript:#">密码重置</a>
+				              	  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/sys/user/delete/${item.userId}">删除</a>
+				                  <a ajaxToDo callurl="none" class="btn btn-xs btn-warning" href="${ctx}/sys/user/reset/${item.userId}">密码重置</a>
+				                  <a target class="btn btn-xs btn-info" href="${ctx}/sys/user/update/${item.userId}">编辑</a>
 				              </td>
 				           </tr>
 						</#list>

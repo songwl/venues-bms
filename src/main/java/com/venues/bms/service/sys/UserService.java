@@ -38,6 +38,13 @@ public interface UserService {
 	int updateSysUser(SysUser user);
 
 	/**
+	 * 修改用户
+	 * @param user
+	 * @return
+	 */
+	int deleteSysUserByUserId(Integer userId);
+
+	/**
 	 * 获取用户后台导航
 	 * @param userId
 	 * @return

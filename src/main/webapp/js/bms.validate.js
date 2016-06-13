@@ -1,13 +1,11 @@
 
 jQuery.validator.setDefaults({
 	ignore:".ignore",
-	//errorElement:"label",
+	errorElement:"label",
 	errorPlacement:function(error,element) {  
-		//var name = element.prop("name");
-		//error.appendTo($(".error[for="+name+"]"));
-		error.appendTo(element.parent()); 
+		error.addClass("col-sm-4");
+		error.insertAfter(element.parent()); 
 	},
-	submitHandler: function(form) { form.submit(); }
 });
 
 jQuery.extend(jQuery.validator.messages, {

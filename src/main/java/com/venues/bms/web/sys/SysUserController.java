@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.venues.bms.core.crypto.CryptoUtils;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.core.model.ResultMessage;
 import com.venues.bms.po.SysUser;
@@ -35,7 +36,7 @@ public class SysUserController extends BaseController {
 
 		page = userService.findSysUserPage(page, searchParams);
 		model.put("page", page);
-		model.put("params", searchParams);
+		model.put("searchParams", searchParams);
 		return "sys/user/list";
 	}
 
@@ -46,30 +47,56 @@ public class SysUserController extends BaseController {
 		return "sys/user/edit";
 	}
 
-	@RequestMapping(value = "create", method = RequestMethod.POST)
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultMessage create(SysUser sysUser) {
+		//初始密码都默认为123456
+		sysUser.setUserPassword(CryptoUtils.md5("123456"));
 		userService.saveSysUser(sysUser);
 		return this.ajaxDoneSuccess("创建成功");
 	}
 
-	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") java.lang.Integer id, Model model) {
-		model.addAttribute("vm", userService.getSysUserByUserId(id));
+		model.addAttribute("sysUser", userService.getSysUserByUserId(id));
 		model.addAttribute("action", "update");
 		return "sys/user/edit";
 	}
 
-	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable("id") java.lang.Integer id, Model model) {
-		model.addAttribute("vm", userService.getSysUserByUserId(id));
+		model.addAttribute("sysUser", userService.getSysUserByUserId(id));
 		return "sys/user/view";
 	}
 
-	@RequestMapping(value = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultMessage update(SysUser sysUser) {
-		userService.saveSysUser(sysUser);
+		SysUser dbUser = userService.getSysUserByUserId(sysUser.getUserId());
+		dbUser.setUserName(sysUser.getUserName());
+		dbUser.setUserTypeid(sysUser.getUserTypeid());
+		userService.updateSysUser(dbUser);
 		return this.ajaxDoneSuccess("修改成功");
+	}
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage delete(@PathVariable("id") Integer userId) {
+		userService.deleteSysUserByUserId(userId);
+		return this.ajaxDoneSuccess("删除成功");
+	}
+
+	/**
+	 * 重置密码
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/reset/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage reset(@PathVariable("id") Integer userId) {
+		SysUser dbUser = userService.getSysUserByUserId(userId);
+		dbUser.setUserPassword(CryptoUtils.md5("123456"));
+		userService.updateSysUser(dbUser);
+		return this.ajaxDoneSuccess("重置成功");
 	}
 }

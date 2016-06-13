@@ -4,21 +4,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.venues.bms.core.cache.impl.MapCache;
 import com.venues.bms.core.model.LoginAccount;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.core.model.ResultMessage;
@@ -26,7 +21,6 @@ import com.venues.bms.core.spring.interceptor.BaseCommController;
 import com.venues.bms.core.spring.interceptor.HttpLocalThread;
 import com.venues.bms.core.utils.ServletUtil;
 import com.venues.bms.core.utils.WebUtils;
-import com.venues.bms.vo.CacheConstants;
 
 /**
  * 
@@ -126,7 +120,7 @@ public abstract class BaseController extends BaseCommController {
 		return WebUtils.getParametersStartingWith(SEARCH_PARAMETERS_STARTING_WITH_PARAM);
 	}
 
-	@ModelAttribute
+	/*@ModelAttribute
 	public void loadBms(Model model, @RequestParam(defaultValue = "0") Integer navId) {
 		Map<String, Object> bms = new HashMap<>();
 		bms.put("navId", navId);
@@ -136,5 +130,5 @@ public abstract class BaseController extends BaseCommController {
 			bms.put("bmsNavigationList", MapCache.getInstance().get(CacheConstants.CACHE_BMS_NAVIGATION_BY_USERTYPE_ + account.getLoginUserType()));
 		}
 		model.addAttribute("bmsModel", bms);
-	}
+	}*/
 }
