@@ -146,4 +146,28 @@
       Log_UserTypeId = #{logUsertypeid,jdbcType=INTEGER}
     where Log_Id = #{logId,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_sys_log
+    <include refid="Base_Query_Sql" />
+    <if test="begin != null and offset != null" >
+  		limit #{begin},#{offset} 
+  	</if>
+  </select>
+  <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(*)
+    from tbl_sys_log
+    <include refid="Base_Query_Sql" />
+  </select>
+  <sql id="Base_Query_Sql">
+  	where 1=1 
+   	<if test="logTimestamp != null" > 
+   		AND Log_Timestamp > #{logTimestamp,jdbcType=TIMESTAMP}
+   	</if>
+   	<if test="endLogTimestamp != null" > 
+   		AND  #{endLogTimestamp,jdbcType=TIMESTAMP} > Log_Timestamp 
+   	</if>
+  </sql>
 </mapper>

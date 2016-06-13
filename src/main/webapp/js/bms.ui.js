@@ -105,8 +105,8 @@ function formSubmit(form){
 		var data = $form.serialize();
 		$.post(url, data,function(rs){
 			if(rs["success"]==true){
-				if($form.find("input[name=callurl]").length>0){
-					var callurl = $form.find("input[name=callurl]").val();
+				if($form.attr("callurl")){
+					var callurl = $form.attr("callurl");
 					loadMainBody(callurl);
 				}
 			}else{

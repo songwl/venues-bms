@@ -1,5 +1,8 @@
 package com.venues.bms.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.venues.bms.po.SysLog;
 
 public interface SysLogMapper {
@@ -50,4 +53,8 @@ public interface SysLogMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SysLog record);
+    
+	int selectCountByParams(Map<String, Object> params);
+	
+	List<SysLog> selectByParams(Map<String, Object> params);
 }
