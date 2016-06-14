@@ -35,4 +35,31 @@ public abstract class Enums {
 			return t;
 		}
 	}
+
+	public static enum LOG_TYPE {
+		ERROR("错误"), NEW("新增"), UPDATE("修改");
+
+		private String cnName;
+
+		LOG_TYPE(String cnName) {
+			this.cnName = cnName;
+		}
+
+		public String getValue() {
+			return this.name();
+		}
+
+		public String getLabel() {
+			return this.cnName;
+		}
+
+		public static String getCnName(String t) {
+			for (LOG_TYPE s : values()) {
+				if (s.name().equalsIgnoreCase(t)) {
+					return s.getLabel();
+				}
+			}
+			return t;
+		}
+	}
 }

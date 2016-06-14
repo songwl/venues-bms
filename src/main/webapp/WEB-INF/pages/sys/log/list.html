@@ -20,20 +20,22 @@
 				<section class="panel">
 					<@func.queryForm "${ctx}/sys/log/list">
 				    	<div class="form-group">
-					    	<label for="logUserid" class="control-label text-right">用户登录名:</label>
-					    	<input type="text" class="form-control" name="search_logUserid" id="logUserid" value="${searchParams.logUserid!''}">
+					    	<label for="logUsername" class="control-label text-right">用户登录名:</label>
+					    	<input type="text" class="form-control" name="search_logUsername" id="logUsername" value="${searchParams.logUsername!''}">
 					  	</div>
 					  	<div class="form-group">
-					    	<label for="logTypeid" class="control-label text-right">日志类型:</label>
-					    	<input type="text" class="form-control" name="search_logTypeid" id="logTypeid" value="${searchParams.logTypeid!''}">
+					    	<label for="logType" class="control-label text-right">日志类型:</label>
+					    	<select class="form-control" name="search_logType">
+					    		<@dict.showOptions "enums.LOG_TYPE" "${searchParams.logType!''}" />
+					    	</select>
 					  	</div>
 					  	<div class="form-group">
-					    	<label for="logTimestamp" class="control-label text-right">起始日期:</label>
-					    	<input type="text" class="form-control" name="search_logTimestamp" id="logTimestamp" value="${searchParams.logTimestamp!''}">
+					    	<label for="startLogTimestamp" class="control-label text-right">起始日期:</label>
+					    	<input type="text" class="form-control" name="search_startLogTimestamp" id="startLogTimestamp" value="${searchParams.logTimestamp!''}">
 					  	</div>
 					  	<div class="form-group">
 					    	<label for="endLogTimestamp" class="control-label text-right">结束日期:</label>
-					    	<input type="text" class="form-control" name="search_logTimestamp" id="end:LgTimestamp" value="${searchParams.logTimestamp!''}">
+					    	<input type="text" class="form-control" name="search_endLogTimestamp" id="endLogTimestamp" value="${searchParams.logTimestamp!''}">
 					  	</div>
 					  	<button class="btn btn-primary" type="submit">查  询</button>
 <!-- 				      	<a class="btn btn-success" target href="${ctx}/sys/user/new">新  增</a> -->
@@ -55,12 +57,11 @@
 				        <#list page.itemList as item>
 				           <tr>
 				              <td>${item.logId}</td>
-				              <td>${item.logTypeid}</td>
-				              <td>${item.logUserid}</td>
-				              <td>${item.logMenuid}</td>
+				              <td><@dict.showLabel "enums.LOG_TYPE" "${item.logType}" /></td>
+				              <td>${item.logUsername}</td>
+				              <td>${item.logTitle}</td>
 				              <td>${item.logInfo}</td>
-				              <td>${item.logTimestamp}</td>
-<!-- 				              <td><@dict.showLabel "enums.USER_TYPE" "${item.userTypeid}" /></td> -->
+				              <td>${item.logTimestamp?string('yyyy-MM-dd HH:mm:ss')}</td>
 				              <td>
 				              	  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/sys/log/delete/${item.logId}">删除</a>
 				              </td>
