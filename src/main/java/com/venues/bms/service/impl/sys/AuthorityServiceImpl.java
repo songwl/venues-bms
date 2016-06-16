@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import com.venues.bms.core.cache.CacheHelper;
@@ -89,7 +90,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public List<SysMenu> queryAuthMenuTreeByUserType(Integer userType) {
+	public List<SysMenu> queryAuthMenuByUserType(Integer userType,boolean isTree) {
 		//通过用户类型区分菜单权限
 		SysAuthority sa = new SysAuthority();
 		sa.setAtUsertypeid(userType);
@@ -103,8 +104,13 @@ public class AuthorityServiceImpl implements AuthorityService {
 			SysMenu menu = sysMenuMapper.selectByPrimaryKey(auth.getAtMenuid());
 			menus.add(menu);
 		}
-		List<SysMenu> navTree = getMenusByParentId(0, menus);
-		return navTree;
+		if(isTree){
+			List<SysMenu> navTree = getMenusByParentId(0, menus);
+			return navTree;
+		}else{
+			return menus;
+		}
+		
 	}
 
 	private List<SysMenu> getMenusByParentId(final Integer parentId, final List<SysMenu> menus) {
@@ -130,5 +136,35 @@ public class AuthorityServiceImpl implements AuthorityService {
 		List<SysMenu> menus = sysMenuMapper.selectByParams(params);
 		List<SysMenu> navTree = getMenusByParentId(0, menus);
 		return navTree;
+	}
+
+	@Override
+	public void saveAuthorityMenus(Integer userTypeId, List<Integer> menuIdList) {
+		Assert.notNull(userTypeId,"userTypeId不能为空");
+		//先删除旧的
+		SysAuthority authParam = new SysAuthority();
+		authParam.setAtUsertypeid(userTypeId);
+		List<SysAuthority> oldAuthList = sysAuthorityMapper.selectBySysAuthority(authParam);
+		if(!CollectionUtils.isEmpty(oldAuthList)){
+			for(SysAuthority oldAuth : oldAuthList){
+				sysAuthorityMapper.deleteByPrimaryKey(oldAuth.getAtId());
+			}
+		}
+		
+		if(!CollectionUtils.isEmpty(menuIdList)){
+			for(Integer menuId : menuIdList){
+				SysAuthority auth = new SysAuthority();
+				auth.setAtUsertypeid(userTypeId);
+				auth.setAtMenuid(menuId);
+				sysAuthorityMapper.insert(auth);
+			}
+		}
+		
+		String key = CacheConstants.CACHE_BMS_NAVIGATION_BY_USERTYPE_ + userTypeId;
+		//后台导航缓存
+		CacheHelper cacheHelper = MapCache.getInstance();
+		if (cacheHelper.has(key)) { //缓存清空
+			cacheHelper.remove(key);
+		}
 	}
 }

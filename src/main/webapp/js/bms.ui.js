@@ -112,24 +112,42 @@ function initPicker(){
 
 //初始化tree
 function initTree(){
+	var DataSourceTree = function () {
+	};
+
+	DataSourceTree.prototype = {
+	    data: function (options, callback) {
+	        var data = $.extend(true, []);
+	        callback({ data: data });
+	    }
+	};
+	
 	$('.body-section .func-tree').each(function(i,ele){
 		$(ele).tree({
+			dataSource: new DataSourceTree(),
 			selectable: false
 		});
 	});
 	
-	$('.body-section .func-tree input[type=checkbox]').click(function(){
-		
+	$(".body-section .func-tree input[type='checkbox']").click(function(event){
+		var $this = $(this);
+		var checked = $this.prop("checked");
+		var selectType = $this.attr("selectType");
+		var $folder = $this.closest(".tree-folder");
+		if(selectType=="folder"){
+			$folder.find(".tree-folder-content .tree-item input[type=checkbox]").prop("checked",checked);
+			event.stopPropagation(); 
+		}else{
+			if($folder.length>0){
+				if(checked || $folder.find(".tree-item input[type=checkbox]:checked").length==0){
+					$folder.find(".tree-folder-header input[type=checkbox]").prop("checked",checked);
+				}
+			}
+		}
 	});
-	/*$('.body-section .func-tree').tree({
-        //dataSource: treeDataSource2,
-        //loadingHTML: '<img src="images/input-spinner.gif"/>',
-    });*/
 	
-	/*$('.body-section .func-tree .tree-folder .tree-folder-header').click(function(){
-		$(this).next().toggle();
-	});*/
 }
+
 
 function toPage($this){
 	var $form = $this.parents("form");

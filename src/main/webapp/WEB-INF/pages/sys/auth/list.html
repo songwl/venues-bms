@@ -1,6 +1,6 @@
 <#import "/base/bms.html" as bms>
 <#import "/base/func.html" as func>
-<#import "/base/dict.html" as dict>
+<#import "/base/tree.html" as tree>
 
 	<div class="wrapper">
 		<div class="row">
@@ -23,7 +23,6 @@
 				          <tr>
 				            <th>用户角色</th>
 				            <th>权限菜单</th>
-				            <th>权限菜单tree</th>
 				            <th>操作</th>
 				          </tr>
 				        </thead>
@@ -31,17 +30,10 @@
 				           <tr>
 				              <td>${userType.label}</td>
 				              <td>
-				              	<#if menuMap[userType.value]??>
-									<#list menuMap[userType.value] as menu>
-										${menu.menuName}
-									</#list>				              
-				              	</#if>
+				              	<@tree.tree list=menuMap[userType.value] idFieldName="menuId" nameFieldName="menuName" childFieldName="children" />
 				              </td>
 				              <td>
-				              	<@func.tree list=menuMap[userType.value] idFieldName="menuId" nameFieldName="menuName" childFieldName="children" selectable=true multiSelect=true selectName="menuIds" />
-				              </td>
-				              <td>
-				              	  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/sys/auth/update/${userType.code}">编辑</a>
+				              	  <a target class="btn btn-xs btn-danger" href="${ctx}/sys/auth/update/${userType.code}">编辑</a>
 				              </td>
 				           </tr>
 						</#list>

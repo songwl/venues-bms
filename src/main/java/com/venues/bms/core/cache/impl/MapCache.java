@@ -99,4 +99,9 @@ public class MapCache implements CacheHelper {
 	public boolean has(String name) {
 		return m_expiredObjects.containsKey(name);
 	}
+
+	@Override
+	public void remove(String name) {
+		m_executor.execute(createRemoveRunnable(name));
+	}
 }

@@ -16,4 +16,6 @@ public interface CacheHelper {
 	<R extends Object> R get(final String name, final Class<R> type);
 
 	boolean has(final String name);
+	
+	void remove(final String name);
 }

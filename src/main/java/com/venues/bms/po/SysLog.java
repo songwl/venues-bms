@@ -52,6 +52,10 @@ public class SysLog implements Serializable {
 	 */
 	private Date logTimestamp;
 
+	public SysLog(){
+		
+	}
+			
 	public SysLog(String logType, String logUsername, String logTitle, String logInfo) {
 		this.logType = logType;
 		this.logUsername = logUsername;

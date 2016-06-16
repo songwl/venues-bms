@@ -15,15 +15,23 @@ public interface AuthorityService {
 	List<BmsNavigation> queryBmsNavByUserType(Integer userType);
 
 	/**
-	 * 查询用户角色下的所有菜单tree
+	 * 查询用户角色下的所有菜单
 	 * @param userType
+	 * @param isTree 是否需要树状结构
 	 * @return
 	 */
-	List<SysMenu> queryAuthMenuTreeByUserType(Integer userType);
+	List<SysMenu> queryAuthMenuByUserType(Integer userType,boolean isTree);
 
 	/**
 	 * 查询所有的菜单tree
 	 * @return
 	 */
 	List<SysMenu> queryAllMenuTree();
+
+	/**
+	 * 保存权限菜单
+	 * @param userTypeId
+	 * @param menuIdList
+	 */
+	void saveAuthorityMenus(Integer userTypeId, List<Integer> menuIdList);
 }
