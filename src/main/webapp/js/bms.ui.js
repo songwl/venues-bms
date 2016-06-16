@@ -32,6 +32,9 @@ function loadMainBody(url,data){
 }
 
 function initMainBody(){
+	initPicker();
+	initTree();
+	
 	$(".body-section form[query]").submit(function(){
 		var $form = $(this);
 		var url = $form.attr("action");
@@ -87,6 +90,47 @@ function initMainBody(){
 	});
 }
 
+//初始化时间控件
+function initPicker(){
+	$('.body-section .date-picker').datepicker({
+		format: 'yyyy-mm-dd',
+		language: 'cn',
+		autoclose : true,
+        todayHighlight : true,
+        clearBtn : true
+	});
+	
+	$('.body-section .datetime-picker').datetimepicker({
+		format: 'yyyy-mm-dd hh:ii:dd',
+		language: 'cn',
+		autoclose: true,
+		todayHighlight : true,
+		clearBtn : true
+	});
+	
+}
+
+//初始化tree
+function initTree(){
+	$('.body-section .func-tree').each(function(i,ele){
+		$(ele).tree({
+			selectable: false
+		});
+	});
+	
+	$('.body-section .func-tree input[type=checkbox]').click(function(){
+		
+	});
+	/*$('.body-section .func-tree').tree({
+        //dataSource: treeDataSource2,
+        //loadingHTML: '<img src="images/input-spinner.gif"/>',
+    });*/
+	
+	/*$('.body-section .func-tree .tree-folder .tree-folder-header').click(function(){
+		$(this).next().toggle();
+	});*/
+}
+
 function toPage($this){
 	var $form = $this.parents("form");
 
@@ -116,3 +160,25 @@ function formSubmit(form){
 	}
 	return false;
 }
+
+$.fn.datetimepicker.dates["cn"] = {
+	days: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    daysShort: ["日", "一", "二", "三", "四", "五", "六", "七"],
+    daysMin: ["日", "一", "二", "三", "四", "五", "六", "七"],
+    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+    monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+    meridiem: ["上午", "下午"],
+    today: "今天",
+    clear: "清除"
+};
+
+$.fn.datepicker.dates["cn"] = {
+	days: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    daysShort: ["日", "一", "二", "三", "四", "五", "六", "七"],
+    daysMin: ["日", "一", "二", "三", "四", "五", "六", "七"],
+    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+    monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+    meridiem: ["上午", "下午"],
+    today: "今天",
+    clear: "清除"
+};

@@ -10,20 +10,24 @@ public abstract class Enums {
 	public static enum USER_TYPE {
 		SYS_ADMIN(1, "系统管理员"), VENUE_MANAGER(2, "场所管理员");
 
-		private Integer value;
+		private Integer code;
 		private String cnName;
 
-		USER_TYPE(Integer value, String cnName) {
-			this.value = value;
+		USER_TYPE(Integer code, String cnName) {
+			this.code = code;
 			this.cnName = cnName;
 		}
 
 		public String getValue() {
-			return this.value.toString();
+			return this.code.toString();
 		}
 
 		public String getLabel() {
 			return this.cnName;
+		}
+
+		public Integer getCode() {
+			return this.code;
 		}
 
 		public static String getCnName(String t) {
@@ -37,7 +41,7 @@ public abstract class Enums {
 	}
 
 	public static enum LOG_TYPE {
-		ERROR("错误"), NEW("新增"), UPDATE("修改");
+		ERROR("错误"), NEW("新增"), UPDATE("修改"), DELETE("删除");
 
 		private String cnName;
 

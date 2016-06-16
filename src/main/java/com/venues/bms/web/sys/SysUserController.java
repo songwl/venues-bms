@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.venues.bms.core.crypto.CryptoUtils;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.core.model.ResultMessage;
 import com.venues.bms.po.SysUser;
+import com.venues.bms.service.sys.LogService;
 import com.venues.bms.service.sys.UserService;
+import com.venues.bms.vo.Enums;
 import com.venues.bms.web.BaseController;
 
 /**
@@ -28,6 +31,9 @@ public class SysUserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private LogService logService;
 
 	@RequestMapping(value = "/list")
 	public String list(ModelMap model) throws Exception {
@@ -50,9 +56,15 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultMessage create(SysUser sysUser) {
+		SysUser su = userService.getSysUserByLoginname(sysUser.getUserLoginname());
+		if (su != null) {
+			return this.ajaxDoneError("登录名已存在");
+		}
 		//初始密码都默认为123456
 		sysUser.setUserPassword(CryptoUtils.md5("123456"));
 		userService.saveSysUser(sysUser);
+
+		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "用户管理", JSONObject.toJSONString(sysUser));
 		return this.ajaxDoneSuccess("创建成功");
 	}
 
@@ -76,6 +88,8 @@ public class SysUserController extends BaseController {
 		dbUser.setUserName(sysUser.getUserName());
 		dbUser.setUserTypeid(sysUser.getUserTypeid());
 		userService.updateSysUser(dbUser);
+
+		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "用户管理", JSONObject.toJSONString(sysUser));
 		return this.ajaxDoneSuccess("修改成功");
 	}
 
@@ -83,6 +97,8 @@ public class SysUserController extends BaseController {
 	@ResponseBody
 	public ResultMessage delete(@PathVariable("id") Integer userId) {
 		userService.deleteSysUserByUserId(userId);
+
+		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "用户管理", "删除：userId=" + userId);
 		return this.ajaxDoneSuccess("删除成功");
 	}
 
@@ -97,6 +113,8 @@ public class SysUserController extends BaseController {
 		SysUser dbUser = userService.getSysUserByUserId(userId);
 		dbUser.setUserPassword(CryptoUtils.md5("123456"));
 		userService.updateSysUser(dbUser);
+
+		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "用户管理", "重置密码：userId=" + userId);
 		return this.ajaxDoneSuccess("重置成功");
 	}
 }

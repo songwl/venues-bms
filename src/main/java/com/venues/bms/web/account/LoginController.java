@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.venues.bms.core.cache.CacheHelper;
-import com.venues.bms.core.cache.impl.MapCache;
 import com.venues.bms.core.crypto.CryptoUtils;
 import com.venues.bms.core.model.LoginAccount;
 import com.venues.bms.core.model.ResultMessage;
 import com.venues.bms.core.utils.ServletUtil;
 import com.venues.bms.service.sys.UserService;
-import com.venues.bms.vo.CacheConstants;
 import com.venues.bms.web.BaseController;
 
 /**
@@ -95,12 +92,6 @@ public class LoginController extends BaseController {
 		try {
 			ServletUtil.initMaidouSessionId(request, response);
 			ServletUtil.putSession(request, response, ServletUtil.SESSION_USER, account);
-			//后台导航缓存
-			CacheHelper cacheHelper = MapCache.getInstance();
-			String key = CacheConstants.CACHE_BMS_NAVIGATION_BY_USERTYPE_ + account.getLoginUserType();
-			if (!cacheHelper.has(key)) { //缓存
-				cacheHelper.put(key, userService.queryUserMenuByUserId(account.getLoginUserId()));
-			}
 		} catch (Exception e) {
 			//登陆失败
 			return false;

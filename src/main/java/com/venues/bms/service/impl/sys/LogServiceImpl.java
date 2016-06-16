@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.dao.SysLogMapper;
 import com.venues.bms.po.SysLog;
-import com.venues.bms.po.SysUser;
 import com.venues.bms.service.sys.LogService;
+import com.venues.bms.vo.Enums.LOG_TYPE;
 
 @Service
 public class LogServiceImpl implements LogService {
@@ -18,9 +18,7 @@ public class LogServiceImpl implements LogService {
 	private SysLogMapper syslogMapper;
 
 	@Override
-	public Page<SysLog> findSysLogPage(Page<SysLog> page,
-			Map<String, Object> params) {
-		// TODO Auto-generated method stub
+	public Page<SysLog> findSysLogPage(Page<SysLog> page, Map<String, Object> params) {
 		int count = syslogMapper.selectCountByParams(params);
 		if (count > 0) {
 			page.setTotalCount(count);
@@ -33,15 +31,20 @@ public class LogServiceImpl implements LogService {
 		}
 		return page;
 	}
+
 	private List<SysLog> findSysLogList(Map<String, Object> params) {
 		return syslogMapper.selectByParams(params);
 	}
-	
+
 	@Override
 	public int deleteSysLogByLogId(Integer logId) {
-		// TODO Auto-generated method stub
 		return syslogMapper.deleteByPrimaryKey(logId);
 	}
-	
-	
+
+	@Override
+	public void saveLog(LOG_TYPE logType, String username, String title, String info) {
+		SysLog log = new SysLog(logType.name(), username, title, info);
+		syslogMapper.insert(log);
+	}
+
 }

@@ -1,11 +1,9 @@
 package com.venues.bms.service.sys;
 
-import java.util.List;
 import java.util.Map;
 
 import com.venues.bms.core.model.Page;
 import com.venues.bms.po.SysUser;
-import com.venues.bms.vo.BmsNavigation;
 
 public interface UserService {
 
@@ -43,13 +41,6 @@ public interface UserService {
 	 * @return
 	 */
 	int deleteSysUserByUserId(Integer userId);
-
-	/**
-	 * 获取用户后台导航
-	 * @param userId
-	 * @return
-	 */
-	List<BmsNavigation> queryUserMenuByUserId(Integer userId);
 
 	/**
 	 * 分页查询

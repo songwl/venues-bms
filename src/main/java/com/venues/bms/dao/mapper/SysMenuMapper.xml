@@ -134,4 +134,20 @@
       Menu_Icon = #{menuIcon,jdbcType=VARCHAR}
     where Menu_Id = #{menuId,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_sys_menu
+    where 1=1 
+   	<if test="menuParentid != null" > 
+   		AND Menu_ParentId = #{menuParentid,jdbcType=INTEGER}
+   	</if>
+   	<if test="menuName != null" > 
+       	AND Menu_Name like CONCAT('%',#{menuName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="begin != null and offset != null" >
+  		limit #{begin},#{offset} 
+  	</if>
+  </select>
 </mapper>

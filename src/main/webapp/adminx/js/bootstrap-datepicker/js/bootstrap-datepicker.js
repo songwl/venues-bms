@@ -23,6 +23,9 @@
 	
 	var Datepicker = function(element, options){
 		this.element = $(element);
+		this.language = options.language || this.element.data('date-language') || "en";
+		this.language = this.language in $.fn.datepicker.dates ? this.language : "en";
+		DPGlobal.dates = $.fn.datepicker.dates[this.language],
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
 		this.picker = $(DPGlobal.template)
 							.appendTo('body')
@@ -74,6 +77,13 @@
 					break;
 			}
 		}
+		this.autoclose = false;
+		if ('autoclose' in options) {
+			this.autoclose = options.autoclose;
+		} else if ('dateAutoclose' in this.element.data()) {
+			this.autoclose = this.element.data('date-autoclose');
+		}
+		
 		this.startViewMode = this.viewMode;
 		this.weekStart = options.weekStart||this.element.data('date-weekstart')||0;
 		this.weekEnd = this.weekStart === 0 ? 6 : this.weekStart - 1;
@@ -302,6 +312,9 @@
 								date: this.date,
 								viewMode: DPGlobal.modes[this.viewMode].clsName
 							});
+							if (this.autoclose) {
+								this.hide();
+							}
 						}
 						break;
 				}
@@ -336,6 +349,19 @@
 	$.fn.datepicker.defaults = {
 	};
 	$.fn.datepicker.Constructor = Datepicker;
+	
+	$.fn.datepicker.dates = {
+			en: {
+				days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+				daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+				daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+				months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+				monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				meridiem: ["am", "pm"],
+				suffix: ["st", "nd", "rd", "th"],
+				today: "Today"
+			}
+		};
 	
 	var DPGlobal = {
 		modes: [

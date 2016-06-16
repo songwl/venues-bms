@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.venues.bms.core.model.Page;
 import com.venues.bms.po.SysLog;
+import com.venues.bms.vo.Enums;
 
 public interface LogService {
 	/**
@@ -20,4 +21,6 @@ public interface LogService {
 	 * @return
 	 */
 	int deleteSysLogByLogId(Integer logId);
+
+	void saveLog(Enums.LOG_TYPE logType, String username, String title, String info);
 }
