@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Drag Move</title>
+
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dragmove.js"></script>
+  <script type="text/javascript" src="resizable.js"></script>
+
+  <script>
+  	
+  	$(function() {  
+
+   	  // All div elements
+    	$('div.drag').dragmove(); 
+    	$('div.drag').resizable({
+    		handles : "n,e,se,all",
+				helper : true,
+				helperStyle : {
+					"border" : "1px solid #888"
+				},
+				maxHeight : 600,
+				maxWidth : 600,
+				minHeight : 10,
+				minWidth : 10,
+				onStartResize : function() {
+					$(this).dragmove("disable");
+				},
+				onResize : function() {
+				},
+				onStopResize : function() {
+					$(this).dragmove("enable");
+				}
+    		
+    	}); 
+
+		});
+  </script>
+
+		<style>
+			html, body {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #111;
+    }
+    
+    div.drag {
+        position: absolute;
+        z-index: 1;
+        width: 200px;
+        height: 200px;
+        line-height: 205px;
+        background: #FFF;
+    }
+    div.drag:nth-child(1) {
+        top: 40%;
+        left: 40%;
+        background-color:red;
+    }
+    div.drag:nth-child(2) {
+        top: 20%;
+        left: 20%;
+        border-radius: 50%;
+        background-color:green;
+    }
+    div.drag:nth-child(3) {
+        top: 15%;
+        left: 65%;
+        border-radius: 30px;
+    }
+    div.drag:hover {
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+    }
+    div.drag:active {
+        cursor: -webkit-grabbing;
+        cursor: -moz-grabbing;
+        background: rgba(125,125,125,0.95);
+        z-index: 2;
+    }
+    @media (max-device-width: 1024px) {
+    
+		div.drag:active { background: #FFF; }
+    
+    }
+    </style> 
+</head>
+<body>
+  
+
+    <div class="drag">Drag Me1</div>
+    <div class="drag">Drag Me2</div>
+    <div class="drag">Drag Me3</div>
+
+
+</body>
+</html>
