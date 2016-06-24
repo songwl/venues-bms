@@ -1,0 +1,26 @@
+	div.freedrag {
+        position: absolute;
+        z-index: 1;
+        width: 200px;
+        height: 200px;
+        line-height: 205px;
+        background: #000;
+		top: 40%;
+        left: 40%;
+    }
+   
+    div.freedrag:hover {
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+    }
+    div.freedrag:active {
+        cursor: -webkit-grabbing;
+        cursor: -moz-grabbing;
+        background: rgba(125,125,125,0.95);
+        z-index: 2;
+    }
+    @media (max-device-width: 1024px) {
+    
+		div.freedrag:active { background: #FFF; }
+    
+    }
