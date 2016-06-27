@@ -3,12 +3,15 @@ package com.venues.bms.web.file;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,92 +19,69 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
-import com.venues.bms.core.utils.JSONResultUtils;
+import com.venues.bms.core.model.ResultMessage;
+import com.venues.bms.po.FiAttach;
 import com.venues.bms.service.file.FileService;
+import com.venues.bms.web.BaseController;
 
 /**
  * 
  * Created by song on 2016/6/24.
  */
 @Controller
-@RequestMapping(value = "/upload")
-public class FileUploadController {
+@RequestMapping(value = "/file")
+public class FileUploadController extends BaseController{
+	
+	private static Logger logger = LoggerFactory.getLogger(FileUploadController.class);
+	
+	public static final String UPLOAD_ROOT_FOLDER = "upload";
 
 	@Autowired
 	private FileService fileService;
 
-	@RequestMapping("/image")
+	@RequestMapping("/upload")
 	@ResponseBody
-	public void uploadImage(@RequestParam("imgFile") CommonsMultipartFile localUrl, HttpServletResponse response) throws IOException {
-		JSONObject obj = new JSONObject();
+	public ResultMessage upload(@RequestParam("vfile") CommonsMultipartFile localUrl, HttpServletResponse response) throws IOException {
 		File file = null;
-		int error = 0;
 		try {
-
-			//localUrl.transferTo(file);
 			DiskFileItem fileItem = (DiskFileItem) localUrl.getFileItem();
-			file = new File(System.getProperty("java.io.tmpdir") + "/" + RandomStringUtils.randomNumeric(10) + "_" + fileItem.getName());
+			String path = UPLOAD_ROOT_FOLDER + this.getStoragePath();
+			file = new File(path);
+			
+			logger.info("上传文件开始：" + localUrl.getOriginalFilename());
 			IOUtils.copy(fileItem.getInputStream(), new FileOutputStream(file));
-			//String path = FileClient.uploadImageToRemote(file, file.getName());
-			//obj.put("url", Constant.getInstance().getProperty("image_host")+path);
+			logger.info("上传文件结束：" + localUrl.getOriginalFilename());
+			
+			FiAttach attach = new FiAttach();
+			attach.setCreateTime(Calendar.getInstance().getTime());
+			attach.setSize(localUrl.getSize());
+			attach.setName(localUrl.getOriginalFilename());
+			attach.setExt(StringUtils.lowerCase(StringUtils.substringAfterLast(localUrl.getOriginalFilename(), ".")));
+			attach.setUrlPath(path);
+			
+			fileService.saveAttach(attach);
 		} catch (Exception ex) {
-			error = 1;
-			ex.printStackTrace();
-			obj.put("message", ex.getMessage());
+			return this.ajaxDoneError("message", ex.getMessage());
 		} finally {
 			if (file != null) {
 				file.delete();
 			}
 		}
-		obj.put("error", error);
-
-		JSONResultUtils.output(response, obj);
+		return this.ajaxDoneSuccess("上传成功");
 	}
 
-	@RequestMapping("/file/upload.do")
-	@ResponseBody
-	public void uploadFile(@RequestParam(required = true) String serviceType, @RequestParam("file") CommonsMultipartFile file, String sourceType, String sourceId, String sourceTable,
-			String sourceField, HttpServletResponse response) throws IOException {
-		JSONObject obj = new JSONObject();
-		int error = 0;
-		try {
-			String fileName = file.getOriginalFilename();
-			String fileType = "";
-			if (fileName.contains(".")) {
-				fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
-			}
-			/*ComFile comFile=new ComFile();
-			comFile.setServiceType(serviceType);
-			comFile.setBaisFile(file.getBytes());
-			comFile.setFileName(fileName);
-			comFile.setSuffix(fileType);
-			comFile.setCreateTime(new Date());
-			comFile.setSourceId(sourceId);
-			comFile.setSourceTable(sourceTable);
-			comFile.setSourceType(sourceType);
-			comFile.setSourceField(sourceField);
-			comFile.setDisplayName(fileName);
-			comFile.setStatus("Y");
-			Long fileId = comFileService.uploadFile(comFile);
-			
-			comFile.setFileId(fileId);
-			obj.put("comFile", comFile);*/
-		} catch (Exception ex) {
-			error = 1;
-			ex.printStackTrace();
-			obj.put("message", "上传文件异常");
-		} finally {
-			if (file != null) {
-				if (file.getInputStream() != null) {
-					file.getInputStream().close();
-				}
-				if (file.getFileItem() != null) {
-					file.getFileItem().delete();
-				}
-			}
-		}
-		obj.put("error", error);
-		JSONResultUtils.output(response, obj);
+	
+	
+	/**
+	 * 按当前日期生产路径：/2008_2/5_20/，/年_季/月_日/
+	 * 
+	 * @return 相对路径
+	 */
+	private String getStoragePath() {
+		StringBuilder sb = new StringBuilder();
+		Calendar cal = Calendar.getInstance();
+		sb.append("/").append(cal.get(Calendar.YEAR)).append('_').append(cal.get((Calendar.MONTH)) / 3 + 1).append("/").append(cal.get(Calendar.MONTH) + 1).append('_')
+				.append(cal.get(Calendar.DAY_OF_MONTH)).append("/");
+		return sb.toString();
 	}
 }
