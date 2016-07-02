@@ -50,6 +50,7 @@
 				return true;
 			},
 			onComplete:function(file,dt){
+				debugger;
 				var result=eval("("+dt+")");
 				if(result.error==0){ //成功
 					if (!$.isFunction(callback)){ 
