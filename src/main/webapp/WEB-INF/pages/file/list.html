@@ -1,0 +1,189 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb panel">
+                    <li><a href="#"><i class="fa fa-home"></i> 酒店及会议室信息发布平台</a></li>
+                    <li><a href="#">资源管理</a></li>
+                    <li class="active">列表</li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<@func.queryForm "${ctx}/file/list">
+				    	<div class="form-group">
+					    	<label for="fileName" class="control-label text-right">资源名称:</label>
+					    	<input type="text" class="form-control" name="search_fileName" id="fileName" value="${searchParams.fileName!''}">
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="fileExt" class="control-label text-right">资源类型:</label>
+					    	<select class="form-control" name="search_fileExt">
+					    		<@dict.showOptions "enums.FILE_EXT" "${searchParams.fileExt!''}" />
+					    	</select>
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="startTime" class="control-label text-right">起始日期:</label>
+					    	<input type="text" class="form-control date-picker" name="search_startTime" id="startTime" value="${searchParams.startTime!''}">
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="endTime" class="control-label text-right">结束日期:</label>
+					    	<input type="text" class="form-control date-picker" name="search_endTime" id="endTime" value="${searchParams.endTime!''}">
+					  	</div>
+					  	<button class="btn btn-primary" type="submit">查询</button>
+				      	<a href="#fileCreateModal" data-toggle="modal" class="btn btn-success">上传</a>
+					</@func.queryForm>
+					
+					<hr/>
+					<@func.table>
+				    	<thead>
+				          <tr>
+				            <th>资源名称</th>
+				            <th>所属用户</th>
+				            <th>资源类型</th>
+				            <th>资源大小</th>
+				            <th>上传时间</th>
+				            <th>描述</th>
+				          </tr>
+				        </thead>
+				        <#list page.itemList as item >
+				           <tr>
+				              <td>${item.attach.name}</td>
+				              <td>${item.userID}</td>
+				              <td>${item.attach.ext}</td>
+				              <td>${item.attach.displaySize}</td>
+				              <td>${item.fileUploadTime?string("yyyy-MM-dd")}</td>
+				              <td>
+				                  ${item.describeInfo}
+				              </td>
+				           </tr>
+						</#list>
+				    </@func.table>
+				    <#import "/base/pagination.html" as pagination>
+					<@pagination.page page/>
+				</section>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	<!--Create Modal -->
+    <div class="modal fade" id="fileCreateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">上传资源</h4>
+                </div>
+
+                <div class="modal-body row">
+					<div class="col-md-5 upload-modal" style="height:150px;text-align: center;cursor: pointer;padding-top:50px;border: 1px solid;">
+						<button class="btn btn-success upload">点击上传</button>
+					</div>
+                    <div class="col-md-5 img-modal">
+                    	
+                        <!-- <img src="images/gallery/image1.jpg" alt="">
+
+                        <p class="mtop10"><strong>资源名称:</strong> img01.jpg</p>
+                        <p><strong>资源类型:</strong> jpg</p>
+                        <p><strong>Resolution:</strong> 300x200</p>
+                        <p><strong>上传人:</strong> ThemeBucket</p> -->
+                    </div>
+                    <div class="col-md-7">
+                        <!-- <div class="form-group">
+                            <label> Name</label>
+                            <input id="name" value="img01.jpg" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label> Tittle Text</label>
+                            <input id="title" value="awesome image" class="form-control">
+                        </div> -->
+                        <div class="form-group">
+                            <label> 描述</label>
+                            <textarea rows="2" class="form-control"></textarea>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label> Link URL</label>
+                            <input id="link" value="images/gallery/img01.jpg" class="form-control">
+                        </div> -->
+                        <div class="pull-right">
+                            <button class="btn btn-danger btn-sm" type="button">审核通过</button>
+                            <button class="btn btn-success btn-sm" type="button">Save changes</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+    
+    <!--Edit Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">编辑资源</h4>
+                </div>
+
+                <div class="modal-body row">
+
+                    <div class="col-md-5 img-modal">
+                        <img src="images/gallery/image1.jpg" alt="">
+
+                        <p class="mtop10"><strong>资源名称:</strong> img01.jpg</p>
+                        <p><strong>资源类型:</strong> jpg</p>
+                        <p><strong>Resolution:</strong> 300x200</p>
+                        <p><strong>上传人:</strong> ThemeBucket</p>
+                    </div>
+                    <div class="col-md-7">
+                        <!-- <div class="form-group">
+                            <label> Name</label>
+                            <input id="name" value="img01.jpg" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label> Tittle Text</label>
+                            <input id="title" value="awesome image" class="form-control">
+                        </div> -->
+                        <div class="form-group">
+                            <label> 描述</label>
+                            <textarea rows="2" class="form-control"></textarea>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label> Link URL</label>
+                            <input id="link" value="images/gallery/img01.jpg" class="form-control">
+                        </div> -->
+                        <div class="pull-right">
+                            <button class="btn btn-danger btn-sm" type="button">审核通过</button>
+                            <button class="btn btn-success btn-sm" type="button">Save changes</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+	
+	<script src="${ctx}/js/ajaxupload/ajaxupload.js"></script>
+	<script src="${ctx}/js/bms.ajaxupload.js"></script>
+	<script type="text/javascript">
+		BmsAjaxUpload($("#fileCreateModal .upload-modal .upload"),function(attach){
+			$("#fileCreateModal .upload-modal").hide();
+			var html = '<img src="'+attach.urlPath+'" alt="">';
+			html += '<p class="mtop10"><strong>资源名称:</strong>'+attach.name+'</p>';
+			html += '<p><strong>资源类型:</strong> '+attach.ext+'</p>';
+			html += '<p><strong>资源大小 :</strong> '+attach.size+'</p>';
+			html += '';
+			$("#fileCreateModal .img-modal").html(html);
+		});
+	</script>

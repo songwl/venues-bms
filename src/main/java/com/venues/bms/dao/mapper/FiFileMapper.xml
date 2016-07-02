@@ -135,4 +135,42 @@
       IsPass = #{isPass,jdbcType=INTEGER}
     where ID = #{ID,jdbcType=INTEGER}
   </update>
+  
+   <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_file file
+    left join tbl_attach attach on file.AttachId = attach.ID
+    <include refid="Base_Query_Sql" />
+    <if test="begin != null and offset != null" >
+  		limit #{begin},#{offset} 
+  	</if>
+  </select>
+  <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(file.ID)
+    from tbl_file file
+    left join tbl_attach attach on file.AttachId = attach.ID
+    <include refid="Base_Query_Sql" />
+  </select>
+  <sql id="Base_Query_Sql">
+  	where 1=1 
+   	<if test="ID != null" > 
+   		AND file.ID = #{ID,jdbcType=INTEGER}
+   	</if>
+   	<if test="UserID != null" > 
+       	AND file.UserID = #{UserID,jdbcType=INTEGER}
+    </if>
+    <if test="startTime != null" > 
+       	AND file.FileUploadTime > #{startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endTime != null" > 
+       	AND file.FileUploadTime &lt; #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="fileName != null" > 
+       	AND attach.Name like CONCAT('%',#{fileName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="fileExt != null" > 
+       	AND attach.Ext = #{fileExt,jdbcType=VARCHAR}
+    </if>
+  </sql>
 </mapper>

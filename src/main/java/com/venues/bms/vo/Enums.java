@@ -66,4 +66,25 @@ public abstract class Enums {
 			return t;
 		}
 	}
+	
+	public static enum FILE_EXT {
+		JPG,PNG,FLV;
+		
+		public String getValue() {
+			return this.name();
+		}
+
+		public String getLabel() {
+			return this.name();
+		}
+		
+		public static String getCnName(String t) {
+			for (FILE_EXT s : values()) {
+				if (s.name().equalsIgnoreCase(t)) {
+					return s.getLabel();
+				}
+			}
+			return t;
+		}
+	}
 }

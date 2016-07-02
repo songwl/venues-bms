@@ -2,6 +2,7 @@ package com.venues.bms.service.impl.sys;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,9 +87,15 @@ public class AuthorityServiceImpl implements AuthorityService {
 				}
 			}
 		}
+		Collections.sort(chilren, new Comparator<BmsNavigation>() {
+			@Override
+			public int compare(BmsNavigation o1, BmsNavigation o2) {
+				return o1.getNid()-o2.getNid();
+			}
+		});;
 		return chilren;
 	}
-
+	
 	@Override
 	public List<SysMenu> queryAuthMenuByUserType(Integer userType,boolean isTree) {
 		//通过用户类型区分菜单权限

@@ -29,7 +29,7 @@ import com.venues.bms.web.BaseController;
  * Created by song on 2016/6/24.
  */
 @Controller
-@RequestMapping(value = "/file")
+@RequestMapping(value = "/file/upload")
 public class FileUploadController extends BaseController{
 	
 	private static Logger logger = LoggerFactory.getLogger(FileUploadController.class);
@@ -39,7 +39,7 @@ public class FileUploadController extends BaseController{
 	@Autowired
 	private FileService fileService;
 
-	@RequestMapping("/upload")
+	@RequestMapping("")
 	@ResponseBody
 	public ResultMessage upload(@RequestParam("vfile") CommonsMultipartFile localUrl, HttpServletResponse response) throws IOException {
 		File file = null;
@@ -60,6 +60,7 @@ public class FileUploadController extends BaseController{
 			attach.setUrlPath(path);
 			
 			fileService.saveAttach(attach);
+			return this.ajaxDoneSuccess("上传成功",attach);
 		} catch (Exception ex) {
 			return this.ajaxDoneError("message", ex.getMessage());
 		} finally {
@@ -67,7 +68,6 @@ public class FileUploadController extends BaseController{
 				file.delete();
 			}
 		}
-		return this.ajaxDoneSuccess("上传成功");
 	}
 
 	

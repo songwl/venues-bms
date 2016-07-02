@@ -20,16 +20,12 @@
 	 * ## serviceType 文件对应的服务类型  默认类型 basecode
 	 * @param callback 回调方法 传入comFile对象
 	 */
-	MaidouAjaxUpload = function($ele,callback){
-		var serviceType ="basecode";
-		if($ele.attr("serviceType")){
-			serviceType = $ele.attr("serviceType");
-		}
+	BmsAjaxUpload = function($ele,callback){
 		new AjaxUpload($ele,{
-			action:'/back/pub/file/upload.do',
-			data: {"serviceType":serviceType},
+			action:'/venues/file/upload',
+			data: {"serviceType":""},
 			autoSubmit:true,
-			name:'file',
+			name:'vfile',
 			onSubmit:function(file,ext){
 				var fileTypeExts = $ele.attr("fileTypeExts");
 				if(fileTypeExts && $.trim(fileTypeExts)!=""){
@@ -54,25 +50,25 @@
 				return true;
 			},
 			onComplete:function(file,dt){
-				var data=eval("("+dt+")");
-				if(data.error==0){ //成功
+				var result=eval("("+dt+")");
+				if(result.error==0){ //成功
 					if (!$.isFunction(callback)){ 
 						callback = eval('(' + callback + ')');
 					}
 					if($.isFunction(callback)){
-						callback(data["comFile"]);
+						callback(result["attr"]["data"]);
 					}
 				}else{
-					alert(data.message);
+					alert(result.message);
 				}
 			}
 		});
 		
 	};
 	
-	MaidouAjaxImageUpload = function($ele,callback){
+	/*MaidouAjaxImageUpload = function($ele,callback){
 		new AjaxUpload($ele,{
-			action:'/back/pub/image/upload.do',
+			action:'/venues/file/upload',
 			autoSubmit:true,
 			name:'imgFile',
 			onSubmit:function(file,ext){
@@ -85,7 +81,7 @@
 				}
 				
 				if (fileType=="IMAGE" && ext && /^(jpg|png|jpeg|gif)$/.test(ext)){
-					/*var data={};
+					var data={};
 					var $form=$("#uploadForm");
 					data["productId"]=current_product_id;
 					data["type"]=$form.find("select[name=type] :selected").val();
@@ -93,7 +89,7 @@
 					this.setData(data);
 					this.disable();
 					return true;
-					*/
+					
 				} else if (fileType=="AUDIO" && ext && /^(wav|mp3|wma|ogg|ape|acc)$/.test(ext)){
 					
 				}else{
@@ -117,5 +113,5 @@
 			}
 		});
 		
-	};
+	};*/
 })();
