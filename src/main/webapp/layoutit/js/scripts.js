@@ -1,7 +1,7 @@
 function supportstorage() {
-	if (typeof window.localStorage=='object') 
+	/*if (typeof window.localStorage=='object') 
 		return true;
-	else
+	else*/
 		return false;		
 }
 
@@ -34,14 +34,16 @@ function saveLayout(){
 	}
 	layouthistory = data;
 	//console.log(data);
-	/*$.ajax({  
+	var templateId = $("[data-target=#saveModal]").data("templateid");
+	$.ajax({  
 		type: "POST",  
-		url: "/build/saveLayout",  
-		data: { layout: $('.demo').html() },  
+		url: CTX+"/template/saveContent",  
+		data: { "id": templateId, "templateContent": $('.demo').html() },  
 		success: function(data) {
 			//updateButtonsVisibility();
+			//$("#saveModal").modal("show");
 		}
-	});*/
+	});
 }
 
 function downloadLayout(){
@@ -313,15 +315,15 @@ function downloadLayoutSrc() {
 }
 
 var currentDocument = null;
-var timerSave = 1000;
+var timerSave = 60000; //60s
 var stopsave = 0;
 var startdrag = 0;
 var demoHtml = $(".demo").html();
 var currenteditor = null;
-$(window).resize(function() {
+/*$(window).resize(function() {
 	$("body").css("min-height", $(window).height() - 90);
 	$(".demo").css("min-height", $(window).height() - 160)
-});
+});*/
 
 function restoreData(){
 	if (supportstorage()) {
@@ -353,7 +355,7 @@ $(document).ready(function() {
 	restoreData();
 	var contenthandle = CKEDITOR.replace( 'contenteditor' ,{
 		language: 'zh-cn',
-		contentsCss: ['/venues/layoutit/css/bootstrap-combined.min.css'],
+		contentsCss: [CTX+'/layoutit/css/bootstrap-combined.min.css'],
 		allowedContent: true
 	});
 	$("body").css("min-height", $(window).height() - 90);
@@ -420,7 +422,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		downloadLayoutSrc();
 	});
-	$("[data-target=#shareModal]").click(function(e) {
+	$("[data-target=#saveModal]").click(function(e) {
 		e.preventDefault();
 		handleSaveLayout();
 	});

@@ -14,4 +14,12 @@ public interface FileService {
 	Page<FiFile> findFilePage(Page<FiFile> page, Map<String, Object> params);
 
 	List<FiFile> findFileList(Map<String, Object> params);
+
+	FiFile saveFile(FiFile file);
+
+	FiFile getFile(Integer fileId);
+
+	int deleteFile(Integer fileId);
+
+	int updatePassFile(Integer fileId);
 }
