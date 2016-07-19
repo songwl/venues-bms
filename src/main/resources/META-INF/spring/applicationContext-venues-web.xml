@@ -23,6 +23,7 @@
        <mvc:resources mapping="/js/**" location="/js/" />
        <mvc:resources mapping="/images/**" location="/images/" />
        <mvc:resources mapping="/img/**" location="/img/" />
+       <mvc:resources mapping="/upload/**" location="/upload/" />
 
        <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
               <property name="order" value="0" />
@@ -67,7 +68,7 @@
               </property>
        </bean>
 		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-			 <property name="maxUploadSize" value="5000000"></property>
+			 <property name="maxUploadSize" value="20000000"></property>
 		</bean> 
 		
        <mvc:interceptors>

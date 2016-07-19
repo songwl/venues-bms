@@ -27,37 +27,25 @@
 			autoSubmit:true,
 			name:'vfile',
 			onSubmit:function(file,ext){
-				var fileTypeExts = $ele.attr("fileTypeExts");
-				if(fileTypeExts && $.trim(fileTypeExts)!=""){
-					if(ext) {
-						ext = ext.toLowerCase();
-					}
-					if (ext && /^(fileTypeExts)$/.test(ext)){
-						/*var data={};
-						var $form=$("#uploadForm");
-						data["productId"]=current_product_id;
-						data["type"]=$form.find("select[name=type] :selected").val();
-						data["imgname"]=$form.find("input[name=imgname]").val();
-						this.setData(data);
-						this.disable();
-						return true;
-						*/
-					}else{
-						alert("文件格式错误");
-						return false;
-					}
+				if(ext) {
+					ext = ext.toLowerCase();
+				}
+				if (ext && /^(jpg|png|flv)$/.test(ext)){
+					
+				}else{
+					alert("文件格式错误。目前仅支持jpg|png|flv");
+					return false;
 				}
 				return true;
 			},
 			onComplete:function(file,dt){
-				debugger;
 				var result=eval("("+dt+")");
 				if(result.error==0){ //成功
 					if (!$.isFunction(callback)){ 
 						callback = eval('(' + callback + ')');
 					}
 					if($.isFunction(callback)){
-						callback(result["attr"]["data"]);
+						callback(result["attach"]);
 					}
 				}else{
 					alert(result.message);

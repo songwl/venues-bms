@@ -71,7 +71,7 @@ public abstract class BaseController extends BaseCommController {
 		mav.setCode(statusCode);
 		mav.setMessage(message);
 		if (data != null) {
-			mav.put("data", data);
+			mav.setData(data);
 		}
 		return mav;
 	}
