@@ -1,5 +1,6 @@
 <#import "/base/bms.html" as bms>
 <#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
 
 	<div class="wrapper">
 		<div class="row">
@@ -24,7 +25,7 @@
 					  	<div class="form-group">
 					    	<label for="fileExt" class="control-label text-right">资源类型:</label>
 					    	<select class="form-control" name="search_fileExt">
-					    		<@dict.showOptions "enums.FILE_EXT" "${searchParams.fileExt!''}" />
+					    		<@dict.showOptions "enums.FILE_EXT" "${searchParams.fileExt!''}" "Y" />
 					    	</select>
 					  	</div>
 					  	<div class="form-group">
@@ -36,30 +37,44 @@
 					    	<input type="text" class="form-control date-picker" name="search_endTime" id="endTime" value="${searchParams.endTime!''}">
 					  	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
-				      	<a href="#fileCreateModal" data-toggle="modal" class="btn btn-success">上传</a>
+				      	
 					</@func.queryForm>
 					
 					<hr/>
+					<div class="col-md-12">
+						<a checkToDo rel="ids" class="btn btn-danger" href="${ctx}/file/batchDelete">删除</a>
+					    <a checkToDo rel="ids" class="btn btn-info" href="${ctx}/file/batchPass">审核通过</a>
+					    <a href="#fileCreateModal" data-toggle="modal" class="btn btn-success">上传</a>
+				    </div>
 					<@func.table>
 				    	<thead>
 				          <tr>
+				            <th><input type="checkbox" name="checkAll" rel="ids" /></th>
 				            <th>资源名称</th>
 				            <th>所属用户</th>
 				            <th>资源类型</th>
 				            <th>资源大小</th>
 				            <th>上传时间</th>
+				            <th>状态</th>
 				            <th>描述</th>
+				            <th>操作</th>
 				          </tr>
 				        </thead>
 				        <#list page.itemList as item >
-				           <tr>
-				              <td>${item.attach.name}</td>
-				              <td>${item.userID}</td>
-				              <td>${item.attach.ext}</td>
-				              <td>${item.attach.displaySize}</td>
+				           <tr downloadPath="${item.attach.downloadPath}">
+				           	  <td><input type="checkbox" name="ids" value="${item.id}" /></td>
+				              <td class="s-name"><a href="#" class="view-file">${item.attach.name}</td>
+				              <td class="s-user">${item.userID}</td>
+				              <td class="s-ext">${item.attach.ext}</td>
+				              <td class="s-size">${item.attach.displaySize}</td>
 				              <td>${item.fileUploadTime?string("yyyy-MM-dd")}</td>
+				              <td><#if item.isPass==0>未审核<#else>审核通过</#if></td>
+				              <td class="s-describeInfo">${item.describeInfo}</td>
 				              <td>
-				                  ${item.describeInfo}
+				              	<a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/file/delete/${item.id}">删除</a>
+				              	<#if item.isPass==0>
+				              	<a ajaxToDo class="btn btn-xs btn-info" href="${ctx}/file/pass/${item.id}">审核通过</a>
+				              	</#if>
 				              </td>
 				           </tr>
 						</#list>
@@ -83,42 +98,26 @@
                 </div>
 
                 <div class="modal-body row">
-					<div class="col-md-5" style="height:150px;border: 1px solid;">
-						<div class="upload-modal" style="margin-top:50px;margin-left:65px;cursor: pointer;position: relative;">
+					<div class="col-md-6 upload-modal" style="height:150px;border: 1px solid #d7d7d7;">
+						<div style="margin-top:50px;margin-left:75px;cursor: pointer;position: relative;">
 							<button class="btn btn-success upload">点击上传</button>
 						</div>
 					</div>
-                    <div class="col-md-5 img-modal">
-                    	
-                        <!-- <img src="images/gallery/image1.jpg" alt="">
-
-                        <p class="mtop10"><strong>资源名称:</strong> img01.jpg</p>
-                        <p><strong>资源类型:</strong> jpg</p>
-                        <p><strong>Resolution:</strong> 300x200</p>
-                        <p><strong>上传人:</strong> ThemeBucket</p> -->
-                    </div>
-                    <div class="col-md-7">
-                        <!-- <div class="form-group">
-                            <label> Name</label>
-                            <input id="name" value="img01.jpg" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label> Tittle Text</label>
-                            <input id="title" value="awesome image" class="form-control">
-                        </div> -->
-                        <div class="form-group">
-                            <label> 描述</label>
-                            <textarea rows="2" class="form-control"></textarea>
-                        </div>
-                        <!-- <div class="form-group">
-                            <label> Link URL</label>
-                            <input id="link" value="images/gallery/img01.jpg" class="form-control">
-                        </div> -->
-                        <div class="pull-right">
-                            <button class="btn btn-danger btn-sm" type="button">审核通过</button>
-                            <button class="btn btn-success btn-sm" type="button">Save changes</button>
-                        </div>
-                    </div>
+					<div class="col-md-6 img-modal">
+	                
+	                </div>
+	                <div class="col-md-6">
+	                	<form modal action="${ctx}/file/create" callurl="${ctx}/file/list">
+	                        <div class="form-group">
+	                            <label> 描述</label>
+	                            <input type="hidden" name="attachId" value="" class="{required:true}" />
+	                            <textarea rows="10" class="form-control" name="describeInfo"></textarea>
+	                        </div>
+	                        <div class="pull-right">
+	                            <button class="btn btn-success btn-sm" type="submit">保  存</button>
+	                        </div>
+	                    </form>
+	               </div>
 
                 </div>
 
@@ -127,45 +126,31 @@
     </div>
     <!-- modal -->
     
-    <!--Edit Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!--VIEW Modal -->
+    <div class="modal fade" id="fileViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">编辑资源</h4>
+                    <h4 class="modal-title">查看资源</h4>
                 </div>
 
                 <div class="modal-body row">
-
-                    <div class="col-md-5 img-modal">
-                        <img src="images/gallery/image1.jpg" alt="">
-
-                        <p class="mtop10"><strong>资源名称:</strong> img01.jpg</p>
-                        <p><strong>资源类型:</strong> jpg</p>
-                        <p><strong>Resolution:</strong> 300x200</p>
-                        <p><strong>上传人:</strong> ThemeBucket</p>
+                    <div class="col-md-6 img-modal">
+                        <div align="center" id="s-video" style="display: none;"></div>
+                        <img src="" alt="" id="s-img">
+                        <p class="mtop10"><strong>资源名称:</strong> <span id="s-name"></span></p>
+                        <p><strong>资源类型:</strong> <span id="s-ext"></span></p>
+                        <p><strong>资源大小:</strong> <span id="s-size"></span></p>
+                        <p><strong>上传人:</strong> <span id="s-user"></span></p>
                     </div>
-                    <div class="col-md-7">
-                        <!-- <div class="form-group">
-                            <label> Name</label>
-                            <input id="name" value="img01.jpg" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label> Tittle Text</label>
-                            <input id="title" value="awesome image" class="form-control">
-                        </div> -->
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label> 描述</label>
-                            <textarea rows="2" class="form-control"></textarea>
+                            <p id="s-describeInfo"></p>
                         </div>
-                        <!-- <div class="form-group">
-                            <label> Link URL</label>
-                            <input id="link" value="images/gallery/img01.jpg" class="form-control">
-                        </div> -->
                         <div class="pull-right">
-                            <button class="btn btn-danger btn-sm" type="button">审核通过</button>
-                            <button class="btn btn-success btn-sm" type="button">Save changes</button>
+                        	<!-- <a id="s-pass" ajaxToDo class="btn btn-xs btn-info" href="#" callurl="none">审核通过</a> -->
                         </div>
                     </div>
 
@@ -178,14 +163,68 @@
 	
 	<script src="${ctx}/js/ajaxupload/ajaxupload.js"></script>
 	<script src="${ctx}/js/bms.ajaxupload.js"></script>
+	<script src="${ctx}/js/swfplayer/swfobject.js"></script>
 	<script type="text/javascript">
 		BmsAjaxUpload($("#fileCreateModal .upload-modal .upload"),function(attach){
 			$("#fileCreateModal .upload-modal").hide();
-			var html = '<img src="'+attach.urlPath+'" alt="">';
+			var html = '';
+			var ext = attach.ext;
+			var filePath = "${ctx}/"+attach.downloadPath;
+			if(ext=="flv"){
+				html += '<div align="center" id="c-video" style="display: none;"></div>';
+			}else{
+				html += '<img src="${ctx}/'+attach.downloadPath+'" alt="">';
+			}
 			html += '<p class="mtop10"><strong>资源名称:</strong>'+attach.name+'</p>';
 			html += '<p><strong>资源类型:</strong> '+attach.ext+'</p>';
-			html += '<p><strong>资源大小 :</strong> '+attach.size+'</p>';
-			html += '';
+			html += '<p><strong>资源大小 :</strong> '+attach.displaySize+'</p>';
+			$("#fileCreateModal form input[name='attachId']").val(attach.id);
 			$("#fileCreateModal .img-modal").html(html);
+			
+			if(ext=="flv"){
+				showVideo("c-video",filePath);
+				$("#fileCreateModal #c-video").show();	
+			}
 		});
+		
+		$('#fileCreateModal').on('hidden.bs.modal', function () {
+			$("#fileCreateModal .upload-modal").show();
+			$("#fileCreateModal .img-modal").html("");
+			$("#fileCreateModal form input[name='attachId']").val("");
+			$("#fileCreateModal form textarea").val("");
+		});
+		
+		$(".view-file").click(function(){
+			var $tr = $(this).closest("tr");
+			var ext = $.trim($tr.find(".s-ext").text());
+			var filePath = "${ctx}/"+$tr.attr("downloadPath");
+			if(ext=="flv"){
+				showVideo("s-video",filePath);
+				$("#fileViewModal #s-video").show();
+				$("#fileViewModal #s-img").hide();
+			}else{
+				$("#fileViewModal #s-video").html("");
+				$("#fileViewModal #s-video").hide();
+				$("#fileViewModal #s-img").attr("src",filePath);
+				$("#fileViewModal #s-img").show();
+			}
+			$("#fileViewModal #s-name").text($tr.find(".s-name").text());
+			$("#fileViewModal #s-ext").text(ext);
+			$("#fileViewModal #s-size").text($tr.find(".s-size").text());
+			$("#fileViewModal #s-user").text($tr.find(".s-user").text());
+			$("#fileViewModal #s-describeInfo").text($tr.find(".s-describeInfo").text());
+			$('#fileViewModal').modal('show');
+			return false;
+		});
+		
+		function showVideo(rel,filePath){
+			var width = 250;
+			var height = 150;
+			var s1 = new SWFObject("${ctx}/js/swfplayer/flvplayer.swf","single",width,height,"7");
+			s1.addParam("allowfullscreen","true");
+			s1.addVariable("file", filePath);
+			s1.addVariable("width",width);
+			s1.addVariable("height",height);
+			s1.write(rel);
+		};
 	</script>

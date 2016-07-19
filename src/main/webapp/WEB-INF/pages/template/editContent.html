@@ -1,5 +1,6 @@
 <#import "/base/base.html" as base>
 <#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
 
 <!DOCTYPE html>
 <html>
@@ -7,7 +8,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="title" content="LayoutIt! - Bootstrap可视化布局系统">
+<meta name="title" content="自定义模版">
 <meta name="description" content="LayoutIt! 可拖放排序在线编辑的Bootstrap可视化布局系统">
 <meta name="keywords" content="可视化,布局,系统">
 <title>Bootstrap 可视化布局系统</title>
@@ -50,8 +51,8 @@
 				              <button type="button" class="btn btn-primary" id="sourcepreview"><i class="icon-eye-open icon-white"></i>预览</button>
 				            </div>
 				            <div class="btn-group">
-				              <button type="button" class="btn btn-primary" data-target="#downloadModal" rel="/build/downloadModal" role="button" data-toggle="modal"><i class="icon-chevron-down icon-white"></i>下载</button>
-				              <button class="btn btn-primary" href="/share/index" role="button" data-toggle="modal" data-target="#shareModal"><i class="icon-share icon-white"></i>保存</button>
+				              <!-- <button type="button" class="btn btn-primary" data-target="#downloadModal" rel="/build/downloadModal" role="button" data-toggle="modal"><i class="icon-chevron-down icon-white"></i>下载</button> -->
+				              <button class="btn btn-primary" href="#save" role="button" data-templateid="${template.id}" data-toggle="modal" data-target="#saveModal"><i class="icon-share icon-white"></i>保存</button>
 				              <button class="btn btn-primary" href="#clear" id="clear"><i class="icon-trash icon-white"></i>清空</button>
 				            </div>
 				            <div class="btn-group">
@@ -842,7 +843,7 @@
 		        </ul> -->
 		        
 		        <ul class="nav nav-list accordion-group">
-		          <li class="nav-header"><i class="icon-plus icon-white"></i> 作用域 </li>
+		          <li class="nav-header"><i class="icon-plus icon-white"></i> 模块 </li>
 		          <li style="display: none;" class="boxes mute" id="elmFreeDrag">
 		          	<div class="box box-element"> <a href="#close" class="remove label label-important"><i class="icon-remove icon-white"></i>删除</a> <span class="drag label"><i class="icon-move"></i>拖动</span>
 		          		<span class="configuration">
@@ -868,7 +869,7 @@
 		              	</span>
 		              <div class="preview">文本域</div>
 		              <div class="view" id="myFreeDragText">
-		              		<div class="freedrag-text"><p contenteditable="true">这里填写你要的文本。。。</p></div>
+		              		<div class="freedrag-text" contenteditable="true"><p contenteditable="true">这里填写你要的文本。。。</p></div>
 		              </div>
 		            </div>
 		            <div class="box box-element"> <a href="#close" class="remove label label-important"><i class="icon-remove icon-white"></i>删除</a> <span class="drag label"><i class="icon-move"></i>拖动</span>
@@ -899,8 +900,8 @@
 		    <!--/span-->
 		    
 		    <!-- start demo -->
-		    <div class="demo ui-sortable" style="min-height: 304px; ">
-		    	
+		    <div class="demo ui-sortable">
+		    	${template.templateContent!''}
 		    </div>
 		    <!-- end demo -->
 		    
@@ -942,7 +943,7 @@
 		  </div>
 		  <div class="modal-footer"> <a class="btn" data-dismiss="modal">关闭</a> </div>
 		</div>
-		<div class="modal hide fade" role="dialog" id="shareModal">
+		<div class="modal hide fade" role="dialog" id="saveModal">
 		  <div class="modal-header"> <a class="close" data-dismiss="modal">×</a>
 		    <h3>保存</h3>
 		  </div>

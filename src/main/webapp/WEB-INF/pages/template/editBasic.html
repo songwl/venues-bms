@@ -1,0 +1,73 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
+
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb panel">
+                    <li><a href="#"><i class="fa fa-home"></i> 酒店及会议室信息发布平台</a></li>
+                    <li><a href="#">模版管理</a></li>
+                    <li class="active"><#if action=="create">新增<#else>编辑</#if></li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<@func.validForm "${ctx}/template/${action}">
+						<input type="hidden" name="id" value="${template.id}" />
+						<@func.formGroup "模版名称" "templateName">
+							<input type="text" class="form-control" name="templateName" id="templateName" value="${template.templateName!''}">
+						</@func.formGroup>
+						<@func.formGroup "模版类型" "templateType">
+							<select class="form-control" name="templateType">
+					    		<@dict.showOptions "enums.TEMPLATE_TYPE" "${template.templateType!''}" />
+					    	</select>
+						</@func.formGroup>
+						<@func.formGroup "描述" "templateDescription">
+							<textarea class="form-control" name="templateDescription" rows="" cols="">${template.templateDescription!''}</textarea>
+						</@func.formGroup>
+						
+						<div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                            	<#if action=="create">
+									<button type="button" id="createTemplate" class="btn btn-success">创建模版，开始编辑模版</button>
+								<#else>
+									<button type="submit" class="btn btn-primary">保存模版</button>
+									<a target href="${ctx}/template/editFrame/${template.id}" class="btn btn-info">编辑模版</a>
+								</#if>
+                                <a target href="${ctx}/template/list" class="btn btn-default">返  回</a>
+                            </div>
+                        </div>
+					</@func.validForm>
+				</section>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		$("#createTemplate").click(function(){
+			var $this = $(this);
+			var $form = $this.closest("form");
+			var valid = $form.valid();
+			if(valid){
+				var url = $form.attr("action");
+				var data = $form.serialize();
+				$.post(url, data,function(rs){
+					if(rs["success"]==true){
+						var id = rs["data"];
+						var callurl = "${ctx}/template/editFrame/"+id;
+						loadMainBody(callurl);
+					}else{
+						alertMsg.error(rs["message"]);
+					}
+		        }, "json");
+			}
+			return false;
+		});
+		
+	</script>

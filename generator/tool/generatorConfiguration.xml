@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >  
 <generatorConfiguration>  
-    <properties url="file:///E:/workbench/venues/venues/generator/tool/init.properties"/>  
+    <properties url="file:///G:/workbench/venues-bms/generator/tool/init.properties"/>  
 
     <classPathEntry location="${classPath}" />  
       
@@ -43,35 +43,13 @@
         </javaClientGenerator>  
           
 		  
-		<table schema="${jdbc_schema}" tableName="tbl_sys_user"
-			domainObjectName="SysUser" enableCountByExample="false"  
+		<table schema="${jdbc_schema}" tableName="tbl_tpl_template"
+			domainObjectName="TplTemplate" enableCountByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false"  
             enableUpdateByExample="false">
+            <property name="useActualColumnNames" value="true" />
 		</table>
-		<table schema="${jdbc_schema}" tableName="tbl_sys_authority"
-			domainObjectName="SysAuthority" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">
-			
-		</table>
-		<table schema="${jdbc_schema}" tableName="tbl_sys_dictionary"
-			domainObjectName="SysDict" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">
-			
-		</table>
-		<table schema="${jdbc_schema}" tableName="tbl_sys_log"
-			domainObjectName="SysLog" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">
-			
-		</table>
-		<table schema="${jdbc_schema}" tableName="tbl_sys_menu"
-			domainObjectName="SysMenu" enableCountByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false"  
-            enableUpdateByExample="false">
-			
-		</table>
+		
 		
         <!-- 配置表信息 -->  
 		<!-- 		

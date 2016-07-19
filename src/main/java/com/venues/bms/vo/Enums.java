@@ -66,10 +66,10 @@ public abstract class Enums {
 			return t;
 		}
 	}
-	
+
 	public static enum FILE_EXT {
-		JPG,PNG,FLV;
-		
+		JPG, PNG, FLV;
+
 		public String getValue() {
 			return this.name();
 		}
@@ -77,9 +77,36 @@ public abstract class Enums {
 		public String getLabel() {
 			return this.name();
 		}
-		
+
 		public static String getCnName(String t) {
 			for (FILE_EXT s : values()) {
+				if (s.name().equalsIgnoreCase(t)) {
+					return s.getLabel();
+				}
+			}
+			return t;
+		}
+	}
+
+	public static enum TEMPLATE_TYPE {
+		FREE("免费模版"), PAY("付费模版");
+
+		private String cnName;
+
+		TEMPLATE_TYPE(String cnName) {
+			this.cnName = cnName;
+		}
+
+		public String getValue() {
+			return this.name();
+		}
+
+		public String getLabel() {
+			return this.cnName;
+		}
+
+		public static String getCnName(String t) {
+			for (TEMPLATE_TYPE s : values()) {
 				if (s.name().equalsIgnoreCase(t)) {
 					return s.getLabel();
 				}

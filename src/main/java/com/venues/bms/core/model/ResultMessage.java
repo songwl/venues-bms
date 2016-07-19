@@ -14,6 +14,7 @@ public class ResultMessage implements Serializable {
 	private Map<String, Object> attr;
 	private int code;
 	private String message;
+	private Object data;
 
 	public int getCode() {
 		return code;
@@ -57,4 +58,13 @@ public class ResultMessage implements Serializable {
 		this.code = ERROR_CODE;
 		this.message = ex.getMessage();
 	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+
 }

@@ -15,10 +15,10 @@ import com.venues.bms.service.file.FileService;
 
 @Service
 public class FileServiceImpl implements FileService {
-	
+
 	@Autowired
 	private FiFileMapper fiFileMapper;
-	
+
 	@Autowired
 	private FiAttachMapper fiAttachMapper;
 
@@ -27,7 +27,7 @@ public class FileServiceImpl implements FileService {
 		fiAttachMapper.insert(attach);
 		return attach;
 	}
-	
+
 	@Override
 	public Page<FiFile> findFilePage(Page<FiFile> page, Map<String, Object> params) {
 		int count = fiFileMapper.selectCountByParams(params);
@@ -46,10 +46,37 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public List<FiFile> findFileList(Map<String, Object> params) {
 		List<FiFile> list = fiFileMapper.selectByParams(params);
-		for(FiFile file : list){
+		for (FiFile file : list) {
 			file.setAttach(fiAttachMapper.selectByPrimaryKey(file.getAttachId()));
 		}
 		return list;
+	}
+
+	@Override
+	public FiFile saveFile(FiFile file) {
+		fiFileMapper.insert(file);
+		return file;
+	}
+
+	@Override
+	public FiFile getFile(Integer fileId) {
+		FiFile file = fiFileMapper.selectByPrimaryKey(fileId);
+		file.setAttach(fiAttachMapper.selectByPrimaryKey(file.getAttachId()));
+		return file;
+	}
+
+	@Override
+	public int deleteFile(Integer fileId) {
+		FiFile file = fiFileMapper.selectByPrimaryKey(fileId);
+		file.setIsDelete(1);
+		return fiFileMapper.updateByPrimaryKey(file);
+	}
+
+	@Override
+	public int updatePassFile(Integer fileId) {
+		FiFile file = fiFileMapper.selectByPrimaryKey(fileId);
+		file.setIsPass(1);
+		return fiFileMapper.updateByPrimaryKey(file);
 	}
 
 }
