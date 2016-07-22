@@ -1,0 +1,28 @@
+<#import "/base/func.html" as afunc>
+<#import "/base/dict.html" as adict>
+
+<#macro showAttr attr itemName value>
+	<@afunc.formGroup "${attr.attrName}" "${itemName}">
+		<#if attr.attrType == "input">
+    		<input type="text" class="form-control" name="${itemName}"  value="${value}" />
+		<#elseif attr.attrType == "radio">
+			<@adict.showRadio dictType="DICT" dictKey="${attr.dataSource}" selectValue="${value}" name="${itemName}" required="" />
+		<#elseif attr.attrType == "checkbox">
+			<@adict.showCheckbox dictType="DICT" dictKey="${attr.dataSource}" selectValue="${value}" name="${itemName}" required="" />
+		<#elseif attr.attrType == "select">
+			<select name="${itemName}" class="form-control m-bot15">
+               <@adict.showOptions dictType="DICT"  dictKey="${attr.dataSource}" selectValue="${value}" />
+            </select>
+		<#elseif attr.attrType == "textarea">
+			<textarea class="form-control" name="${itemName}">${value}</textarea>
+		<#elseif attr.attrType == "richtext">
+		
+		<#elseif attr.attrType == "image">
+		
+		<#elseif attr.attrType == "video">
+		
+	    </#if>
+             
+	</@afunc.formGroup>
+    
+</#macro>

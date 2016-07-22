@@ -25,7 +25,7 @@
 						</@func.formGroup>
 						<@func.formGroup "模版类型" "templateType">
 							<select class="form-control" name="templateType">
-					    		<@dict.showOptions "enums.TEMPLATE_TYPE" "${template.templateType!''}" />
+					    		<@dict.showOptions dictKey="enums.TEMPLATE_TYPE" selectValue="${template.templateType!''}" />
 					    	</select>
 						</@func.formGroup>
 						<@func.formGroup "描述" "templateDescription">

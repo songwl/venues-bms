@@ -26,7 +26,7 @@
 					  	<div class="form-group">
 					    	<label for="logType" class="control-label text-right">日志类型:</label>
 					    	<select class="form-control" name="search_logType">
-					    		<@dict.showOptions "enums.LOG_TYPE" "${searchParams.logType!''}" />
+					    		<@dict.showOptions dictKey="enums.LOG_TYPE" selectValue="${searchParams.logType!''}" haveBlank="Y" />
 					    	</select>
 					  	</div>
 					  	<div class="form-group">
@@ -57,7 +57,7 @@
 				        <#list page.itemList as item>
 				           <tr>
 				              <td>${item.logId}</td>
-				              <td><@dict.showLabel "enums.LOG_TYPE" "${item.logType}" /></td>
+				              <td><@dict.showLabel dictKey="enums.LOG_TYPE" selectValue="${item.logType}" /></td>
 				              <td>${item.logUsername}</td>
 				              <td>${item.logTitle}</td>
 				              <td>${item.logInfo}</td>

@@ -170,4 +170,12 @@
       Sort = #{sort,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByGroupId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_attr
+    where AttrGroupId = #{attrGroupId,jdbcType=INTEGER}
+    order by sort asc
+  </select>
 </mapper>

@@ -28,7 +28,7 @@
 						</@func.formGroup>
 						<@func.formGroup "用户类型" "userTypeid">
 							<select name="userTypeid" class="form-control m-bot15">
-				               <@dict.showOptions "enums.USER_TYPE" "${sysUser.userTypeid}" />
+				               <@dict.showOptions dictKey="enums.USER_TYPE" selectValue="${sysUser.userTypeid}" />
 				            </select>
 						</@func.formGroup>
 						

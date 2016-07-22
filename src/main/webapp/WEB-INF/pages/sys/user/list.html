@@ -47,7 +47,7 @@
 				              <td>${item.userId}</td>
 				              <td>${item.userLoginname}</td>
 				              <td>${item.userName}</td>
-				              <td><@dict.showLabel "enums.USER_TYPE" "${item.userTypeid}" /></td>
+				              <td><@dict.showLabel dictKey="enums.USER_TYPE" selectValue="${item.userTypeid}" /></td>
 				              <td>
 				              	  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/sys/user/delete/${item.userId}">删除</a>
 				                  <a ajaxToDo callurl="none" class="btn btn-xs btn-warning" href="${ctx}/sys/user/reset/${item.userId}">密码重置</a>

@@ -25,7 +25,7 @@
 					  	<div class="form-group">
 					    	<label for="fileExt" class="control-label text-right">资源类型:</label>
 					    	<select class="form-control" name="search_fileExt">
-					    		<@dict.showOptions "enums.FILE_EXT" "${searchParams.fileExt!''}" "Y" />
+					    		<@dict.showOptions dictKey="enums.FILE_EXT" selectValue="${searchParams.fileExt!''}" haveBlank="Y" />
 					    	</select>
 					  	</div>
 					  	<div class="form-group">

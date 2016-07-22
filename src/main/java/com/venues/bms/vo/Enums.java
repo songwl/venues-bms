@@ -114,4 +114,58 @@ public abstract class Enums {
 			return t;
 		}
 	}
+
+	public static enum VENUE_TYPE {
+		HOTEL("酒店"), MEETING("会所"), SPECIAL("特殊场所"), LANDMARK("地标");
+
+		private String cnName;
+
+		VENUE_TYPE(String cnName) {
+			this.cnName = cnName;
+		}
+
+		public String getValue() {
+			return this.name();
+		}
+
+		public String getLabel() {
+			return this.cnName;
+		}
+
+		public static String getCnName(String t) {
+			for (VENUE_TYPE s : values()) {
+				if (s.name().equalsIgnoreCase(t)) {
+					return s.getLabel();
+				}
+			}
+			return t;
+		}
+	}
+
+	public static enum LANGUAGE {
+		CHINESE("中文"), ENGLISH("英文");
+
+		private String cnName;
+
+		LANGUAGE(String cnName) {
+			this.cnName = cnName;
+		}
+
+		public String getValue() {
+			return this.name();
+		}
+
+		public String getLabel() {
+			return this.cnName;
+		}
+
+		public static String getCnName(String t) {
+			for (LANGUAGE s : values()) {
+				if (s.name().equalsIgnoreCase(t)) {
+					return s.getLabel();
+				}
+			}
+			return t;
+		}
+	}
 }

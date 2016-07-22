@@ -22,7 +22,7 @@
 					<@func.validForm "${ctx}/sys/auth/update" "${ctx}/sys/auth/list">
 						<@func.formGroup "用户类型" "userTypeId">
 							<input type="hidden" name="userTypeId" value="${userTypeId}" />
-							<@dict.showLabel "enums.USER_TYPE" "${userTypeId}" />
+							<@dict.showLabel dictKey="enums.USER_TYPE" selectValue="${userTypeId}" />
 						</@func.formGroup>
 						<@func.formGroup "菜单列表" "menuIds">
 							<@tree.tree list=allMenuList idFieldName="menuId" pidFieldName="menuParentid" nameFieldName="menuName" childFieldName="children" selectable=true multiSelect=true selectName="menuIds" selectValues=userTypeMenuIds />

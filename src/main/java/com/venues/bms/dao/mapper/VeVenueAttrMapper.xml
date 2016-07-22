@@ -146,4 +146,13 @@
       AttrValue = #{attrValue,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByVenueId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_venue_attr
+    where VenueId = #{venueId,jdbcType=INTEGER}
+    order by Id
+  </select>
+  
 </mapper>
