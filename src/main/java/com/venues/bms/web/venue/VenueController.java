@@ -125,6 +125,7 @@ public class VenueController extends BaseController {
 		//初始密码都默认为123456
 		sysUser.setUserPassword(CryptoUtils.md5("123456"));
 		sysUser.setUserTypeid(Enums.USER_TYPE.VENUE_MANAGER.getCode());
+		sysUser = userService.saveSysUser(sysUser);
 		return sysUser.getUserId();
 	}
 }

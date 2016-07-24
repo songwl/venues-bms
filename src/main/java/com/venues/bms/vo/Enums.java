@@ -89,7 +89,7 @@ public abstract class Enums {
 	}
 
 	public static enum TEMPLATE_TYPE {
-		FREE("免费模版"), PAY("付费模版");
+		FREE("免费"), PAY("付费");
 
 		private String cnName;
 
@@ -161,6 +161,40 @@ public abstract class Enums {
 
 		public static String getCnName(String t) {
 			for (LANGUAGE s : values()) {
+				if (s.name().equalsIgnoreCase(t)) {
+					return s.getLabel();
+				}
+			}
+			return t;
+		}
+	}
+	
+	public static enum PAGE_TYPE {
+		HomePage(1,"首页"), OverviewPage(2,"概述页"),PromotionPage(3,"促销页"),NewsPage(4,"新闻页"),
+		GalleryPage(5,"画廊页"),VideoPage(6,"视频页"),MeetingPage(7,"会议室页"),MapPage(8,"地图页"),PlanePage(9,"平面图");
+
+		private Integer code;
+		private String cnName;
+
+		PAGE_TYPE(int code,String cnName) {
+			this.code=code;
+			this.cnName = cnName;
+		}
+		
+		public Integer getCode(){
+			return this.code;
+		}
+
+		public String getValue() {
+			return this.code.toString();
+		}
+
+		public String getLabel() {
+			return this.cnName;
+		}
+
+		public static String getCnName(String t) {
+			for (PAGE_TYPE s : values()) {
 				if (s.name().equalsIgnoreCase(t)) {
 					return s.getLabel();
 				}

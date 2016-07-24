@@ -1,5 +1,8 @@
 package com.venues.bms.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.venues.bms.po.PgPage;
 
 public interface PgPageMapper {
@@ -50,4 +53,8 @@ public interface PgPageMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(PgPage record);
+
+	int selectCountByParams(Map<String, Object> params);
+
+	List<PgPage> selectByParams(Map<String, Object> params);
 }

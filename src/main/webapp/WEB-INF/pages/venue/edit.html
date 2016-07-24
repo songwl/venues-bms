@@ -19,18 +19,19 @@
 			<div class="col-md-12">
 				<section class="panel">
 					<@func.validForm "${ctx}/venue/${action}" "${ctx}/venue/list">
-						<input type="hidden" name="userId" value="${sysUser.userId}" />
+						<input type="hidden" name="id" value="${venue.id}" />
+						<#-- 
 						<@func.formGroup "场所编号" "venueCode">
 							<input type="text" class="form-control {required:true}" name="venueCode"  value="${venue.venueCode}" <#if venue.venueCode??>readonly</#if> />
-						</@func.formGroup>
+						</@func.formGroup> -->
 						<@func.formGroup "场所管理员" "venueManager">
 							<input type="text" class="form-control {required:true}" name="venueManager"  value="${venue.venueManager}" />
 						</@func.formGroup>
 						<@func.formGroup "场所类型" "venueTypes">
-			               <@dict.showCheckbox dictKey="enums.VENUE_TYPE" selectValue="${venue.venueTypes}" objectName="venueTypes" required="required" />
+			               <@dict.showCheckbox dictKey="enums.VENUE_TYPE" selectValue="${venue.venueTypes}" name="venueTypes" required="required" />
 						</@func.formGroup>
 						<@func.formGroup "语言" "languages">
-			               <@dict.showCheckbox dictKey="enums.LANGUAGE" selectValue="${venue.languages}" objectName="languages" required="required" />
+			               <@dict.showCheckbox dictKey="enums.LANGUAGE" selectValue="${venue.languages}" name="languages" required="required" />
 						</@func.formGroup>
 						<@func.formGroup "地区" "area">
 			               <select name="stateId" class="form-control m-bot15">
@@ -46,31 +47,42 @@
 						<@func.formGroup "纬度" "latitude">
 			               <input type="text" class="form-control {required:true}" name="latitude"  value="${venue.latitude}" />
 						</@func.formGroup>
-						<@func.formGroup "排序" "seq">
-			               <input type="text" class="form-control {required:true}" name="seq"  value="${venue.seq}" />
-						</@func.formGroup>
+						
 						<@func.formGroup "支付类型" "payType">
-			               <input type="text" class="form-control {required:true}" name="payType"  value="${venue.payType}" />
+							<select name="payType" class="form-control m-bot15">
+								<@dict.showOptions dictKey="enums.TEMPLATE_TYPE" selectValue="${venue.payType}"  />
+				           	</select>
 						</@func.formGroup>
 						
+						<div class="row">
 						<@showDictContent dictType="EMNU" dictKey="enums.LANGUAGE" />
 						<#assign languages = dictList />
-						<#list attrGroups as attrGroup>
-							<#list languages as language>
-								<div id="${attrGroup.venueType}_${language.value}" class="attrGroup">
-									${attrGroup.attrGroupName}(${language.label})
-									<#list attrGroup.attrs as attr>
-										<#assign key = "${attrGroup.venueType}_${language.value}_${attr.attrCode}" />	
+						<#list languages as language>
+							<div id="${language.value}" class="col-md-12 language" style="border:1px solid #eff2f7;margin-bottom: 15px;"><h3>${language.label}</h3>
+								
+							<#list attrGroups as attrGroup>
+								<#if attrGroup.attrs?? && attrGroup.attrs?size gt 0>
+								<div id="${attrGroup.venueType}_${language.value}" class="attrGroup col-md-12" style="padding-top:15px;border-top: 1px solid #eff2f7;">
+									<div class="col-md-2">
+										<h4>${attrGroup.attrGroupName}</h4>
+									</div>
+									<div class="col-md-10">
+									<#list attrGroup.attrs as attrObj>
+										<#assign key = "${attrGroup.venueType}_${language.value}_${attrObj.attrCode}" />	
 										<#assign prefix = "attrs[${key}]" />
 										<input type="hidden" name="${prefix}.language" value="${language.value}" />
 										<input type="hidden" name="${prefix}.venueType" value="${attrGroup.venueType}" />
-										<input type="hidden" name="${prefix}.attrId" value="${attr.attrId}" />
-										<input type="hidden" name="${prefix}.attrCode" value="${attr.attrCode}" />
-										<@attr.showAttr attr "${prefix}.attrValue" "${venue.attrs[key].attrValue}" />
+										<input type="hidden" name="${prefix}.attrId" value="${attrObj.attrId}" />
+										<input type="hidden" name="${prefix}.attrCode" value="${attrObj.attrCode}" />
+										<@attr.showAttr attrObj "${prefix}.attrValue" "${venue.attrs[key].attrValue}" />
 									</#list>
+									</div>
 								</div>
+								</#if>
 							</#list>
+							</div>
 						</#list>
+						</div>
 						
 						<div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
@@ -86,8 +98,9 @@
 	</div>
 	
 	<script type="text/javascript">
+		$(".language").hide();
 		$(".attrGroup").hide();
-		$(".attrGroup").find("input,textarea").prop("disabled",true);
+		$(".language").find("input,textarea").prop("disabled",true);
 		
 		$(function(){
 			//初始化选中的数据
@@ -97,6 +110,7 @@
 					var language = $(iele).prop("value");
 					var divId = "#"+venueType+"_"+language;
 					
+					$("#"+language).show();
 					$(divId).find("input,textarea").prop("disabled",false);
 					$(divId).show();
 				});
@@ -126,6 +140,7 @@
 				$(ele).click(function(){
 					var checked = $(ele).prop("checked");
 					var language = $(ele).prop("value");
+					
 					$("input[name='venueTypes']:checked").each(function(i,iele){
 						var venueType = $(iele).prop("value");
 						var divId = "#"+venueType+"_"+language;
@@ -137,7 +152,15 @@
 							$(divId).hide();
 						}
 					});
-					
+					if(checked){
+						$("#"+language).show();
+						$("#DEFAULT_"+language).show();
+						$("#DEFAULT_"+language).find("input,textarea").prop("disabled",false);
+					}else{
+						$("#"+language).hide();
+						$("#DEFAULT_"+language).hide();
+						$("#DEFAULT_"+language).find("input,textarea").prop("disabled",true);
+					}
 				});
 			});	
 		});
