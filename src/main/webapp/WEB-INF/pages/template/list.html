@@ -30,7 +30,7 @@
 					    	<input type="text" class="form-control date-picker" name="search_endTime" id="endTime" value="${searchParams.endTime!''}">
 					  	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
-				      	<a target class="btn btn-success" href="${ctx}/template/new">新  增</a>
+				      	<a target="_blank" class="btn btn-success" href="${ctx}/template/new">新  增</a>
 					</@func.queryForm>
 					
 					<hr/>
@@ -51,7 +51,7 @@
 				              <td>${item.templateDescription}</td>
 				              <td>${item.templateCreateTime?string("yyyy-MM-dd HH:mm")}</td>
 				              <td>
-				              	  <a target class="btn btn-xs btn-info" href="${ctx}/template/update/${item.id}">编辑</a>
+				              	  <a target="_blank" class="btn btn-xs btn-info" href="${ctx}/template/update/${item.id}">编辑</a>
 				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/template/delete/${item.userId}">删除</a>
 				              </td>
 				           </tr>

@@ -20,6 +20,7 @@ import com.venues.bms.po.TplTemplate;
 import com.venues.bms.service.sys.LogService;
 import com.venues.bms.service.tpl.TemplateService;
 import com.venues.bms.vo.Enums;
+import com.venues.bms.vo.FlexParam;
 import com.venues.bms.web.BaseController;
 
 /**
@@ -52,17 +53,42 @@ public class TemplateController extends BaseController {
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String createForm(ModelMap model) throws Exception {
+		FlexParam param = new FlexParam();
+		param.setTpType(FlexParam.TP_TYPE.template.name());
+		param.setIsNewOrModify(0);
+		param.setIsOnlyView(0);
+		param.setUserId(this.getCurrentAccountId());
+		param.setUserType(this.getCurrentAccount().getLoginUserType());
+		model.put("param", param);
+		return "Html2Venues";
+	}
+
+	/*@RequestMapping(value = "/new", method = RequestMethod.GET)
+	public String createForm(ModelMap model) throws Exception {
 		model.put("template", new TplTemplate());
 		model.put("action", "create");
 		return "template/editBasic";
-	}
+	}*/
 
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+	public String updateForm(@PathVariable("id") java.lang.Integer id, ModelMap model) {
+		FlexParam param = new FlexParam();
+		param.setTpType(FlexParam.TP_TYPE.template.name());
+		param.setTpID(id);
+		param.setIsNewOrModify(1);
+		param.setIsOnlyView(0);
+		param.setUserId(this.getCurrentAccountId());
+		param.setUserType(this.getCurrentAccount().getLoginUserType());
+		model.put("param", param);
+		return "Html2Venues";
+	}
+	/*
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") java.lang.Integer id, ModelMap model) {
 		model.put("template", templateService.getTemplate(id));
 		model.put("action", "update");
 		return "template/editBasic";
-	}
+	}*/
 
 	@RequestMapping(value = "/editFrame/{id}", method = RequestMethod.GET)
 	public String editFrame(ModelMap model, @PathVariable("id") java.lang.Integer id) throws Exception {
@@ -112,7 +138,7 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public ResultMessage delete(@PathVariable("id") Integer userId) {
 		/*userService.deleteSysUserByUserId(userId);
-
+		
 		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "用户管理", "删除：userId=" + userId);*/
 		return this.ajaxDoneSuccess("删除成功");
 	}

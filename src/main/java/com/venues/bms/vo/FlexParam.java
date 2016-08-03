@@ -17,7 +17,6 @@ public class FlexParam {
 	private Integer pageTypeID;//页面类型
 	private Integer userId;//当前用户id
 	private String userType;//当前用户类型
-	private Integer userTypeParentId;//当前用户类型的父ID
 
 	public String getTpType() {
 		return tpType;
@@ -73,14 +72,6 @@ public class FlexParam {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
-	}
-
-	public Integer getUserTypeParentId() {
-		return userTypeParentId;
-	}
-
-	public void setUserTypeParentId(Integer userTypeParentId) {
-		this.userTypeParentId = userTypeParentId;
 	}
 
 	@Override
