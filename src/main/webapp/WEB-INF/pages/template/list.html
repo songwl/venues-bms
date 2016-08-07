@@ -1,5 +1,6 @@
 <#import "/base/bms.html" as bms>
 <#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
 
 	<div class="wrapper">
 		<div class="row">
@@ -47,7 +48,7 @@
 				        <#list page.itemList as item>
 				           <tr>
 				              <td>${item.templateName}</td>
-				              <td>${item.templateType}</td>
+				              <td><@dict.showLabel dictKey="enums.TEMPLATE_TYPE" selectValue="${item.templateType}" /></td>
 				              <td>${item.templateDescription}</td>
 				              <td>${item.templateCreateTime?string("yyyy-MM-dd HH:mm")}</td>
 				              <td>

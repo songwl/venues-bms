@@ -46,7 +46,7 @@
 					    	<input type="checkbox" class="form-control" name="search_pagePublish" id="pagePublish" value="1" <#if searchParams.pagePublish!'' == 1>checked</#if> />
 					  	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
-				      	<a target class="btn btn-success" href="${ctx}/template/new">新  增</a>
+				      	<a target="_blank" class="btn btn-success" href="${ctx}/template/new">新  增</a>
 					</@func.queryForm>
 					
 					<hr/>
@@ -67,17 +67,18 @@
 				        </thead>
 				        <#list page.itemList as item>
 				           <tr>
-				           	  <td>${item.venueID}</td>
+				           	  <td><@dict.showVenue dictKey="${item.venueID}" /></td>
 				              <td>${item.pageName}</td>
-				              <td>${item.templateId}</td>
+				              <td><@dict.showTemplate dictKey="${item.templateID}" /></td>
 				              <td>${item.pageCreateTime?string("yyyy-MM-dd HH:mm")}</td>
 				              <td>${item.pageModifyTime?string("yyyy-MM-dd HH:mm")}</td>
-				              <td>${item.pageTypeID}</td>
-				              <td>${item.pageState}</td>
-				              <td>${item.pagePublish}</td>
+				              <td><@dict.showLabel dictKey="enums.PAGE_TYPE" selectValue="${item.pageTypeID}" /></td>
+				              <td><@dict.showLabel dictKey="enums.PAGE_STATUS" selectValue="${item.pageState}" /></td>
+				              <td><#if item.pagePublish==1>是<#else>否</#if></td>
 				              <td>${item.templateDescription}</td>
 				              <td>
-				              	  <a target class="btn btn-xs btn-info" href="${ctx}/page/update/${item.id}">编辑</a>
+				              	  <a target="_blank" class="btn btn-xs btn-info" href="${ctx}/page/update/${item.id}">编辑</a>
+				              	  <a target="_blank" class="btn btn-xs btn-info" href="${ctx}/page/view/${item.id}">查看</a>
 				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/page/delete/${item.id}">删除</a>
 				              </td>
 				           </tr>

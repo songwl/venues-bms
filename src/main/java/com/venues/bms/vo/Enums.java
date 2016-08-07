@@ -89,16 +89,18 @@ public abstract class Enums {
 	}
 
 	public static enum TEMPLATE_TYPE {
-		FREE("免费"), PAY("付费");
+		FREE(29, "免费"), PAY(30, "付费");
 
+		private int code;
 		private String cnName;
 
-		TEMPLATE_TYPE(String cnName) {
+		TEMPLATE_TYPE(int code, String cnName) {
+			this.code = code;
 			this.cnName = cnName;
 		}
 
 		public String getValue() {
-			return this.name();
+			return String.valueOf(this.code);
 		}
 
 		public String getLabel() {
@@ -168,20 +170,20 @@ public abstract class Enums {
 			return t;
 		}
 	}
-	
+
 	public static enum PAGE_TYPE {
-		HomePage(1,"首页"), OverviewPage(2,"概述页"),PromotionPage(3,"促销页"),NewsPage(4,"新闻页"),
-		GalleryPage(5,"画廊页"),VideoPage(6,"视频页"),MeetingPage(7,"会议室页"),MapPage(8,"地图页"),PlanePage(9,"平面图");
+		HomePage(40, "首页"), OverviewPage(43, "概述页"), PromotionPage(41, "促销页"), NewsPage(42, "新闻页"), GalleryPage(58, "画廊页"), VideoPage(59, "视频页"), MeetingPage(64, "会议室页"), MapPage(72,
+				"地图页"), PlanePage(73, "平面图");
 
 		private Integer code;
 		private String cnName;
 
-		PAGE_TYPE(int code,String cnName) {
-			this.code=code;
+		PAGE_TYPE(int code, String cnName) {
+			this.code = code;
 			this.cnName = cnName;
 		}
-		
-		public Integer getCode(){
+
+		public Integer getCode() {
 			return this.code;
 		}
 
@@ -195,6 +197,39 @@ public abstract class Enums {
 
 		public static String getCnName(String t) {
 			for (PAGE_TYPE s : values()) {
+				if (s.name().equalsIgnoreCase(t)) {
+					return s.getLabel();
+				}
+			}
+			return t;
+		}
+	}
+
+	public static enum PAGE_STATUS {
+		Submit(36, "提交"), AuditPass(37, "审核通过"), AuditNotPass(38, "审核不通过");
+
+		private Integer code;
+		private String cnName;
+
+		PAGE_STATUS(int code, String cnName) {
+			this.code = code;
+			this.cnName = cnName;
+		}
+
+		public Integer getCode() {
+			return this.code;
+		}
+
+		public String getValue() {
+			return this.code.toString();
+		}
+
+		public String getLabel() {
+			return this.cnName;
+		}
+
+		public static String getCnName(String t) {
+			for (PAGE_STATUS s : values()) {
 				if (s.name().equalsIgnoreCase(t)) {
 					return s.getLabel();
 				}

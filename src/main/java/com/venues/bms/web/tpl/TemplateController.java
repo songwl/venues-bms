@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.venues.bms.core.model.Constant;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.core.model.ResultMessage;
+import com.venues.bms.po.TmpTemplate;
 import com.venues.bms.po.TplTemplate;
 import com.venues.bms.service.sys.LogService;
 import com.venues.bms.service.tpl.TemplateService;
@@ -39,7 +41,7 @@ public class TemplateController extends BaseController {
 
 	@RequestMapping(value = "/list")
 	public String list(ModelMap model) throws Exception {
-		/*Page<TplTemplate> page = this.getPageRequest();
+		Page<TmpTemplate> page = this.getPageRequest();
 		Map<String, Object> params = this.getSearchRequest();
 
 		List<String> orderBy = new ArrayList<>();
@@ -47,7 +49,7 @@ public class TemplateController extends BaseController {
 		page.setOrderBy(orderBy);
 		page = templateService.findTemplatePage(page, params);
 		model.put("page", page);
-		model.put("searchParams", params);*/
+		model.put("searchParams", params);
 		return "template/list";
 	}
 
@@ -59,8 +61,7 @@ public class TemplateController extends BaseController {
 		param.setIsOnlyView(0);
 		param.setUserId(this.getCurrentAccountId());
 		param.setUserType(this.getCurrentAccount().getLoginUserType());
-		model.put("param", param);
-		return "HtmlToVenues";
+		return "redirect:" + Constant.getInstance().getProperty("flex_url") + "?" + param.toString();
 	}
 
 	/*@RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -79,8 +80,7 @@ public class TemplateController extends BaseController {
 		param.setIsOnlyView(0);
 		param.setUserId(this.getCurrentAccountId());
 		param.setUserType(this.getCurrentAccount().getLoginUserType());
-		model.put("param", param);
-		return "HtmlToVenues";
+		return "redirect:" + Constant.getInstance().getProperty("flex_url") + "?" + param.toString();
 	}
 	/*
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
@@ -108,7 +108,7 @@ public class TemplateController extends BaseController {
 		template.setTemplateCreateTime(new Date());
 		template.setTemplateUpdateTime(new Date());
 		template.setUserId(this.getCurrentAccountId());
-		template = templateService.saveTemplate(template);
+		//template = templateService.saveTemplate(template);
 
 		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "用户管理", JSONObject.toJSONString(template));
 		return this.ajaxDoneSuccess("创建成功", template.getId());
@@ -118,7 +118,7 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public ResultMessage update(TplTemplate template) {
 		template.setTemplateUpdateTime(new Date());
-		templateService.updateTemplate(template);
+		//templateService.updateTemplate(template);
 
 		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "用户管理", JSONObject.toJSONString(template));
 		return this.ajaxDoneSuccess("修改成功");
@@ -127,9 +127,9 @@ public class TemplateController extends BaseController {
 	@RequestMapping(value = "/saveContent", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultMessage saveContent(ModelMap model, TplTemplate template) throws Exception {
-		TplTemplate dbObj = templateService.getTemplate(template.getId());
-		dbObj.setTemplateContent(template.getTemplateContent());
-		templateService.updateTemplate(dbObj);
+		//TplTemplate dbObj = templateService.getTemplate(template.getId());
+		//dbObj.setTemplateContent(template.getTemplateContent());
+		//templateService.updateTemplate(dbObj);
 
 		return this.ajaxDoneSuccess("保存成功");
 	}

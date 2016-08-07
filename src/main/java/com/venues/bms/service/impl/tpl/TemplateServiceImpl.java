@@ -7,50 +7,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.venues.bms.core.model.Page;
-import com.venues.bms.dao.TplTemplateMapper;
-import com.venues.bms.po.TplTemplate;
+import com.venues.bms.dao.TmpTemplateMapper;
+import com.venues.bms.po.TmpTemplate;
 import com.venues.bms.service.tpl.TemplateService;
 
 @Service("templateService")
 public class TemplateServiceImpl implements TemplateService {
 
 	@Autowired
-	private TplTemplateMapper tplTemplateMapper;
+	private TmpTemplateMapper tmpTemplateMapper;
 
 	@Override
-	public Page<TplTemplate> findTemplatePage(Page<TplTemplate> page, Map<String, Object> params) {
-		int count = tplTemplateMapper.selectCountByParams(params);
+	public Page<TmpTemplate> findTemplatePage(Page<TmpTemplate> page, Map<String, Object> params) {
+		int count = tmpTemplateMapper.selectCountByParams(params);
 		if (count > 0) {
 			page.setTotalCount(count);
 
 			params.put("begin", page.getBeginRow());
 			params.put("offset", page.getPageSize());
 			params.put("orderBy", page.getOrderBy());
-			List<TplTemplate> list = findTemplateList(params);
+			List<TmpTemplate> list = findTemplateList(params);
 			page.setItemList(list);
 		}
 		return page;
 	}
 
 	@Override
-	public List<TplTemplate> findTemplateList(Map<String, Object> params) {
-		return tplTemplateMapper.selectByParams(params);
+	public List<TmpTemplate> findTemplateList(Map<String, Object> params) {
+		return tmpTemplateMapper.selectByParams(params);
 	}
 
 	@Override
-	public TplTemplate getTemplate(Integer templateId) {
-		return tplTemplateMapper.selectByPrimaryKey(templateId);
+	public TmpTemplate getTemplate(Integer templateId) {
+		return tmpTemplateMapper.selectByPrimaryKey(templateId);
 	}
 
 	@Override
-	public TplTemplate saveTemplate(TplTemplate template) {
-		tplTemplateMapper.insert(template);
+	public TmpTemplate saveTemplate(TmpTemplate template) {
+		tmpTemplateMapper.insert(template);
 		return template;
 	}
 
 	@Override
-	public int updateTemplate(TplTemplate template) {
-		return tplTemplateMapper.updateByPrimaryKeySelective(template);
+	public int updateTemplate(TmpTemplate template) {
+		return tmpTemplateMapper.updateByPrimaryKeySelective(template);
 	}
 
 }

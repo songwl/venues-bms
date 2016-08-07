@@ -55,7 +55,7 @@ public class PageAuditController extends BaseController {
 		for (String str : arr) {
 			int id = NumberUtils.toInt(str);
 			if (id > 0) {
-				//pageService.updatePassFile(id);
+				pageService.updatePageStatus(id, Enums.PAGE_STATUS.AuditPass.getCode());
 			}
 		}
 		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "页面审核", "批量页面审核通过：资源ID=" + ids);
@@ -69,7 +69,7 @@ public class PageAuditController extends BaseController {
 		for (String str : arr) {
 			int id = NumberUtils.toInt(str);
 			if (id > 0) {
-				//pageService.updatePassFile(id);
+				pageService.updatePageStatus(id, Enums.PAGE_STATUS.AuditNotPass.getCode());
 			}
 		}
 		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "页面审核", "批量页面审核不通过：页面ID=" + ids);

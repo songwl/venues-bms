@@ -12,14 +12,14 @@ import com.venues.bms.po.PgPage;
 import com.venues.bms.service.page.PageService;
 
 @Service
-public class PageServiceImpl implements PageService{
+public class PageServiceImpl implements PageService {
 
 	@Autowired
 	private PgPageMapper pgPageMapper;
-	
+
 	@Override
 	public Page<PgPage> findPgPages(Page<PgPage> page, Map<String, Object> params) {
-		
+
 		int count = pgPageMapper.selectCountByParams(params);
 		if (count > 0) {
 			page.setTotalCount(count);
@@ -36,6 +36,15 @@ public class PageServiceImpl implements PageService{
 	@Override
 	public List<PgPage> findPageList(Map<String, Object> params) {
 		return pgPageMapper.selectByParams(params);
+	}
+
+	@Override
+	public int updatePageStatus(int id, Integer code) {
+		// TODO Auto-generated method stub
+		PgPage page = new PgPage();
+		page.setId(id);
+		page.setPageState(code);
+		return pgPageMapper.updateByPrimaryKeySelective(page);
 	}
 
 }

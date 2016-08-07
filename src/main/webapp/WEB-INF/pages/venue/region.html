@@ -1,0 +1,64 @@
+<#macro region stateId provinceId cityId>
+	<div class="col-md-4">
+		<select name="stateId" class="form-control m-bot15">
+			<option value=''>请选择</option>
+		</select>
+	</div>
+	<div class="col-md-4">
+		<select name="provinceId" class="form-control m-bot15">
+			<option value=''>请选择</option>
+		</select>
+	</div>
+	<div class="col-md-4">
+		<select name="cityId" class="form-control m-bot15">
+			<option value=''>请选择</option>
+		</select>
+	</div>
+	
+	<script type="text/javascript">
+		loadRegionByParentId(0,"select[name='stateId']",function(){
+			<#if stateId!=null>
+				$("select[name='stateId']").val("${stateId}");
+				loadRegionByParentId(${stateId},"select[name='provinceId']",function(){
+					<#if provinceId!=null>
+						$("select[name='provinceId']").val("${provinceId}");
+						loadRegionByParentId(${provinceId},"select[name='cityId']",function(){
+							<#if cityId!=null>
+								$("select[name='cityId']").val("${cityId}");
+							</#if>
+						});
+					</#if>
+				});
+			</#if>
+		});
+		
+		$("select[name='stateId']").change(function(){
+			var pid = $(this).val();
+			loadRegionByParentId(pid,"select[name='provinceId']");
+		});
+		$("select[name='provinceId']").change(function(){
+			var pid = $(this).val();
+			loadRegionByParentId(pid,"select[name='cityId']");
+		});
+		
+		function loadRegionByParentId(parentId,sid,callback){
+			$.ajax({
+				   type: "get",
+				   url: "${ctx}/region/queryByPid",
+				   data: {"pid":parentId},
+				   dataType: "json",
+				   success: function(rs){
+					   $(sid).html("<option value=''>请选择</option>");
+					   var items = rs.data;
+					   for(var i in items){
+						   var item = items[i];
+						   $(sid).append("<option value='"+item.id+"'>"+item.regionName+"</option>")
+					   }
+					   if(callback){
+						   callback();
+					   }
+				   }
+				});
+		}
+	</script>
+</#macro>

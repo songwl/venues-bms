@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.venues.bms.core.model.Page;
-import com.venues.bms.po.TplTemplate;
+import com.venues.bms.po.TmpTemplate;
 
 public interface TemplateService {
 
-	Page<TplTemplate> findTemplatePage(Page<TplTemplate> page, Map<String, Object> params);
+	Page<TmpTemplate> findTemplatePage(Page<TmpTemplate> page, Map<String, Object> params);
 
-	List<TplTemplate> findTemplateList(Map<String, Object> params);
+	List<TmpTemplate> findTemplateList(Map<String, Object> params);
 
-	TplTemplate getTemplate(Integer templateId);
+	TmpTemplate getTemplate(Integer templateId);
 
-	TplTemplate saveTemplate(TplTemplate template);
+	TmpTemplate saveTemplate(TmpTemplate template);
 
-	int updateTemplate(TplTemplate template);
+	int updateTemplate(TmpTemplate template);
 }

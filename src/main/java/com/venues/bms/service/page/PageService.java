@@ -11,4 +11,6 @@ public interface PageService {
 	Page<PgPage> findPgPages(Page<PgPage> page, Map<String, Object> params);
 
 	List<PgPage> findPageList(Map<String, Object> params);
+
+	int updatePageStatus(int id, Integer code);
 }

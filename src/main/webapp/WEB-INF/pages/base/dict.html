@@ -55,9 +55,17 @@
     </#if></@compress>
 </#macro>
 
-<#macro showDest dictKey><@compress single_line=true>
+<#macro showTemplate dictKey><@compress single_line=true>
 	<#if dictKey!="">
-    <@showDictContent dictType="DEST" dictKey=dictKey/>
+    <@showDictContent dictType="tmp" dictKey=dictKey/>
+    <#list dictList as dict>
+    	<#if dict_index!=0>,</#if>${dict.label}
+    </#list>
+    </#if></@compress>
+</#macro>
+<#macro showVenue dictKey><@compress single_line=true>
+	<#if dictKey!="">
+    <@showDictContent dictType="venue" dictKey=dictKey/>
     <#list dictList as dict>
     	<#if dict_index!=0>,</#if>${dict.label}
     </#list>

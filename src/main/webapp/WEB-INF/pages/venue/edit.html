@@ -2,6 +2,7 @@
 <#import "/base/func.html" as func>
 <#import "/base/dict.html" as dict>
 <#import "/venue/attr.html" as attr>
+<#import "/venue/region.html" as region>
 
 	<div class="wrapper">
 		<div class="row">
@@ -34,12 +35,7 @@
 			               <@dict.showCheckbox dictKey="enums.LANGUAGE" selectValue="${venue.languages}" name="languages" required="required" />
 						</@func.formGroup>
 						<@func.formGroup "地区" "area">
-			               <select name="stateId" class="form-control m-bot15">
-				           </select>
-				           <select name="provinceId" class="form-control m-bot15">
-				           </select>
-				           <select name="cityId" class="form-control m-bot15">
-				           </select>
+							<@region.region "${venue.stateId}" "${venue.provinceId}" "${venue.cityId}" />
 						</@func.formGroup>
 						<@func.formGroup "经度" "longitude">
 			               <input type="text" class="form-control {required:true}" name="longitude"  value="${venue.longitude}" />
@@ -72,7 +68,7 @@
 										<#assign prefix = "attrs[${key}]" />
 										<input type="hidden" name="${prefix}.language" value="${language.value}" />
 										<input type="hidden" name="${prefix}.venueType" value="${attrGroup.venueType}" />
-										<input type="hidden" name="${prefix}.attrId" value="${attrObj.attrId}" />
+										<input type="hidden" name="${prefix}.attrId" value="${attrObj.id}" />
 										<input type="hidden" name="${prefix}.attrCode" value="${attrObj.attrCode}" />
 										<@attr.showAttr attrObj "${prefix}.attrValue" "${venue.attrs[key].attrValue}" />
 									</#list>
