@@ -25,8 +25,10 @@ public class TmpTemplateComponent implements IDictDataLoader {
 		if (StringUtils.isNotBlank(keyCode)) {
 			Integer id = NumberUtils.toInt(keyCode);
 			TmpTemplate tmp = templateService.getTemplate(id);
-			LabelValue lv = new LabelValue(tmp.getTemplateName().toString(), tmp.getId().toString());
-			list.add(lv);
+			if (tmp != null) {
+				LabelValue lv = new LabelValue(tmp.getTemplateName().toString(), tmp.getId().toString());
+				list.add(lv);
+			}
 		}
 		return list;
 	}

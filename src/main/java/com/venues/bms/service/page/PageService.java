@@ -13,4 +13,6 @@ public interface PageService {
 	List<PgPage> findPageList(Map<String, Object> params);
 
 	int updatePageStatus(int id, Integer code);
+
+	int updatePublishByVenueIds(String ids);
 }

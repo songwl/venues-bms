@@ -238,6 +238,9 @@
    	<if test="pagePublish != null">
    		AND PagePublish = #{pagePublish,jdbcType=INTEGER}
    	</if>
+   	<if test="pageState != null">
+   		AND PageState = #{pageState,jdbcType=INTEGER}
+   	</if>
    	<if test="startCreateTime != null">
    		AND PageCreateTime = #{startCreateTime,jdbcType=TIMESTAMP}
    	</if>
@@ -246,4 +249,10 @@
    	</if>
    	
   </sql>
+  
+  <update id="updatePublishByVenueIds" parameterType="String" >
+    update tbl_page
+    set PagePublish = 1
+    where VenueID in (${venueIds})
+  </update>
 </mapper>

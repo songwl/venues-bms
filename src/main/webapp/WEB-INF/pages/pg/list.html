@@ -30,7 +30,8 @@
 					  	</div>
 					  	<div class="form-group">
 					    	<label for="venueID" class="control-label text-right">所属场所:</label>
-					    	<input type="text" class="form-control" name="search_venueID" id="venueID" value="${searchParams.venueID!''}">
+					    	<input type="text" class="form-control" name="venueName" id="venueID" value="${searchParams.venueID!''}">
+					    	<input type="hidden" name="search_venueID" value="${searchParams.venueID!''}">
 					  	</div>
 					  	<br>
 					  	<div class="form-group">
@@ -92,4 +93,16 @@
 		
 	</div>
 	
+	<script type="text/javascript">
+		$("input#venueID").jsonSuggest({
+	      	url:"${ctx}/venue/queryAutoComplete.do",
+	      	maxResults: 10,
+	      	emptyKeyup:true,
+	      	width:200,
+	      	minCharacters:1,
+	      	onSelect:function(item){
+	      		$("#productManager_hidden").val(item.id);
+	      	}
+	      });
+	</script>
 

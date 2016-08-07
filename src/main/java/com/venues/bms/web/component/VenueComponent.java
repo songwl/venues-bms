@@ -31,7 +31,7 @@ public class VenueComponent implements IDictDataLoader {
 			if (venue != null && venue.getAttrs() != null) {
 				String key = "DEFAULT_" + Enums.LANGUAGE.CHINESE.name() + "_venueName";
 				String label = getValue(venue.getAttrs(), key);
-				if (StringUtils.isNotBlank(label)) { //中文名称不存在，取英文名称
+				if (StringUtils.isBlank(label)) { //中文名称不存在，取英文名称
 					key = "DEFAULT_" + Enums.LANGUAGE.ENGLISH.name() + "_venueName";
 					label = getValue(venue.getAttrs(), key);
 				}

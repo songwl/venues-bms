@@ -1,0 +1,76 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
+<#import "/venue/region.html" as region>
+
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb panel">
+                    <li><a href="#"><i class="fa fa-home"></i> 酒店及会议室信息发布平台</a></li>
+                    <li><a href="#">手册发布</a></li>
+                    <li class="active">列表</li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<@func.queryForm "${ctx}/page/publish/list">
+						
+					    	<label for="venueID" class="control-label col-md-2">区域:</label>
+					    	<div class="col-md-10">
+					    	<@region.region "${searchParams.stateId}" "${searchParams.provinceId}" "${searchParams.cityId}" />
+					    	</div>
+					  	<button class="btn btn-primary" type="submit">查询</button>
+					</@func.queryForm>
+					
+					<hr/>
+					<div class="col-md-12">
+					    <a checkToDo rel="ids" class="btn btn-info" href="${ctx}/page/publish/batchPublish">发布</a>
+				    </div>
+					<@func.table>
+				    	<thead>
+				          <tr>
+				          	<th><input type="checkbox" name="checkAll" rel="ids" /></th>
+				            <th>场所代码</th>
+				            <th>场所类型</th>
+				            <th>语言</th>
+				            <th>场所登录名</th>
+				            <th>付费类型</th>
+				            <th>创建时间</th>
+				          </tr>
+				        </thead>
+				        <#list itemList as item >
+				           <tr>
+				           	  <td><input type="checkbox" name="ids" value="${item.id}" /></td>
+				              <td>${item.id}</td>
+				              <td>
+				              	<#if item.venueTypes??>
+				              		<#list item.venueTypes?split(",") as venueType>
+				              			<@dict.showLabel dictKey="enums.VENUE_TYPE" selectValue="${venueType}" />
+				              		</#list>
+				              	</#if>
+				              </td>
+				              <td>
+				              	<#if item.languages??>
+				              		<#list item.languages?split(",") as language>
+				              			<@dict.showLabel dictKey="enums.LANGUAGE" selectValue="${language}" />
+				              		</#list>
+				              	</#if>
+				              </td>
+				              <td>${item.venueManager}</td>
+				              <td><@dict.showLabel dictKey="enums.TEMPLATE_TYPE" selectValue="${item.payType}" /></td>
+				              <td>${item.createTime?string("yyyy-MM-dd")}</td>
+				           </tr>
+						</#list>
+				    </@func.table>
+				</section>
+			</div>
+		</div>
+		
+	</div>
+	
+

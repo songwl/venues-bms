@@ -57,7 +57,7 @@ public class PageController extends BaseController {
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") java.lang.Integer id, ModelMap model) {
 		FlexParam param = new FlexParam();
-		param.setTpType(FlexParam.TP_TYPE.template.name());
+		param.setTpType(FlexParam.TP_TYPE.page.name());
 		param.setTpID(id);
 		param.setIsNewOrModify(1);
 		param.setIsOnlyView(0);
@@ -69,7 +69,7 @@ public class PageController extends BaseController {
 	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable("id") java.lang.Integer id, ModelMap model) {
 		FlexParam param = new FlexParam();
-		param.setTpType(FlexParam.TP_TYPE.template.name());
+		param.setTpType(FlexParam.TP_TYPE.page.name());
 		param.setTpID(id);
 		param.setIsNewOrModify(1);
 		param.setIsOnlyView(1);

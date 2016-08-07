@@ -47,4 +47,9 @@ public class PageServiceImpl implements PageService {
 		return pgPageMapper.updateByPrimaryKeySelective(page);
 	}
 
+	@Override
+	public int updatePublishByVenueIds(String ids) {
+		return pgPageMapper.updatePublishByVenueIds(ids);
+	}
+
 }

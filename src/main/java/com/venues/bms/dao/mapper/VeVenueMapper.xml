@@ -73,7 +73,7 @@
     -->
     insert into tbl_venue
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="ID != null" >
+      <if test="id != null" >
         ID,
       </if>
       <if test="venueCode != null" >
@@ -120,7 +120,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="ID != null" >
+      <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
       <if test="venueCode != null" >
@@ -258,8 +258,11 @@
   </select>
   <sql id="Base_Query_Sql">
   	where 1=1 
-   	<if test="ID != null" > 
+   	<if test="id != null" > 
    		AND ID = #{id,jdbcType=INTEGER}
+   	</if>
+   	<if test="ids != null and ids!='' " > 
+   		AND ID in (${ids})
    	</if>
    	<if test="venueCode != null" > 
        	AND VenueCode = #{venueCode,jdbcType=VARCHAR}

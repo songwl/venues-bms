@@ -1,6 +1,7 @@
 package com.venues.bms.web.venue;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -113,7 +114,7 @@ public class VenueController extends BaseController {
 	@ResponseBody
 	public ResultMessage delete(@PathVariable("id") Integer userId) {
 		venueService.deleteSysUserByUserId(userId);
-
+	
 		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "用户管理", "删除：userId=" + userId);
 		return this.ajaxDoneSuccess("删除成功");
 	}*/
@@ -127,5 +128,20 @@ public class VenueController extends BaseController {
 		sysUser.setUserTypeid(Enums.USER_TYPE.VENUE_MANAGER.getCode());
 		sysUser = userService.saveSysUser(sysUser);
 		return sysUser.getUserId();
+	}
+
+	@RequestMapping(value = "/queryAutoComplete")
+	public Object queryAutoComplete(String search) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		//		params.put("", value)
+		//		venueService.findVenueList(params);
+		//		
+		//		Page<VeVenue> page = this.getPageRequest();
+		//		Map<String, Object> params = this.getSearchRequest();
+		//
+		//		page = venueService.findVenuePage(page, params);
+		//		model.put("page", page);
+		//		return "venue/list";
+		return null;
 	}
 }
