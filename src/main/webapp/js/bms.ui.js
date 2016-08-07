@@ -65,7 +65,7 @@ function initMainBody(){
 		});
 	});
 	
-	$(".body-section a[target!='_blank']").click(function(){
+	$(".body-section a[target][target!='_blank']").click(function(){
 		var $this = $(this);
 		var url = $this.attr("href");
 		loadMainBody(url);
