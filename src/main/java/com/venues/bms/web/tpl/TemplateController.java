@@ -39,7 +39,7 @@ public class TemplateController extends BaseController {
 
 	@RequestMapping(value = "/list")
 	public String list(ModelMap model) throws Exception {
-		Page<TplTemplate> page = this.getPageRequest();
+		/*Page<TplTemplate> page = this.getPageRequest();
 		Map<String, Object> params = this.getSearchRequest();
 
 		List<String> orderBy = new ArrayList<>();
@@ -47,7 +47,7 @@ public class TemplateController extends BaseController {
 		page.setOrderBy(orderBy);
 		page = templateService.findTemplatePage(page, params);
 		model.put("page", page);
-		model.put("searchParams", params);
+		model.put("searchParams", params);*/
 		return "template/list";
 	}
 
@@ -60,7 +60,7 @@ public class TemplateController extends BaseController {
 		param.setUserId(this.getCurrentAccountId());
 		param.setUserType(this.getCurrentAccount().getLoginUserType());
 		model.put("param", param);
-		return "Html2Venues";
+		return "HtmlToVenues";
 	}
 
 	/*@RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -80,7 +80,7 @@ public class TemplateController extends BaseController {
 		param.setUserId(this.getCurrentAccountId());
 		param.setUserType(this.getCurrentAccount().getLoginUserType());
 		model.put("param", param);
-		return "Html2Venues";
+		return "HtmlToVenues";
 	}
 	/*
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)

@@ -77,7 +77,7 @@ public class FlexParam {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("_o=" + super.toString());
+		sb.append("_o=" + super.hashCode());
 		if (this.tpType != null) {
 			sb.append("&tpType=" + this.tpType);
 		}
@@ -99,7 +99,7 @@ public class FlexParam {
 		if (this.userType != null) {
 			sb.append("&userType=" + this.userType);
 		}
-		return super.toString();
+		return sb.toString();
 	}
 
 }
