@@ -20,15 +20,21 @@
 					<@func.queryForm "${ctx}/page/audit/list">
 					  	<div class="form-group">
 					    	<label for="venueID" class="control-label text-right">所属场所:</label>
-					    	<input type="text" class="form-control" name="search_venueID" id="venueID" value="${searchParams.venueID!''}">
+					    	<input type="text" class="form-control" name="search_venueName" id="venueName" value="${searchParams.venueName!''}">
+					    	<input type="hidden" name="search_venueID" id="venueId" value="${searchParams.venueID!''}">
 					  	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
 					</@func.queryForm>
 					
 					<hr/>
+					<div class="col-md-12">
+					    <a checkToDo rel="ids" class="btn btn-info" href="${ctx}/page/audit/batchPass">审核通过</a>
+					    <a checkToDo rel="ids" class="btn btn-danger" href="${ctx}/page/audit/batchUnPass">审核不通过</a>
+				    </div>
 					<@func.table>
 				    	<thead>
 				          <tr>
+				          	<th><input type="checkbox" name="checkAll" rel="ids" /></th>
 				            <th>所属场所</th>
 				            <th>页面名称</th>
 				            <th>所属模板</th>
@@ -43,6 +49,7 @@
 				        </thead>
 				        <#list page.itemList as item>
 				           <tr>
+				              <td><input type="checkbox" name="ids" value="${item.id}" /></td>
 				           	  <td><@dict.showVenue dictKey="${item.venueID}" /></td>
 				              <td>${item.pageName}</td>
 				              <td><@dict.showTemplate dictKey="${item.templateID}" /></td>
@@ -51,10 +58,10 @@
 				               <td><@dict.showLabel dictKey="enums.PAGE_TYPE" selectValue="${item.pageTypeID}" /></td>
 				              <td><@dict.showLabel dictKey="enums.PAGE_STATUS" selectValue="${item.pageState}" /></td>
 				              <td><#if item.pagePublish==1>是<#else>否</#if></td>
-				              <td>${item.templateDescription}</td>
+				              <td>${item.pageDescription}</td>
 				              <td>
-				              	  <a ajaxToDo class="btn btn-xs btn-info" href="${ctx}/page/audit/batchPass?pageIds=${item.id}">审核通过</a>
-				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/page/audit/batchUnPass?pageIds=${item.id}">审核不通过</a>
+				              	  <a ajaxToDo class="btn btn-xs btn-info" href="${ctx}/page/audit/batchPass?ids=${item.id}">审核通过</a>
+				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/page/audit/batchUnPass?ids=${item.id}">审核不通过</a>
 				              </td>
 				           </tr>
 						</#list>
@@ -67,4 +74,15 @@
 		
 	</div>
 	
-
+	<script type="text/javascript">
+		$("input#venueName").jsonSuggest({
+	      	url:"${ctx}/venue/queryAutoComplete.do",
+	      	maxResults: 10,
+	      	emptyKeyup:true,
+	      	width:200,
+	      	minCharacters:1,
+	      	onSelect:function(item){
+	      		$("#venueId").val(item.id);
+	      	}
+	      });
+	</script>

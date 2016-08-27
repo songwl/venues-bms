@@ -182,4 +182,31 @@
       Sector = #{sector,jdbcType=VARCHAR}
     where ID = #{ID,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_guest
+    <include refid="Base_Query_Sql" />
+    <if test="begin != null and offset != null" >
+  		limit #{begin},#{offset} 
+  	</if>
+  </select>
+  <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(ID)
+    from tbl_guest
+    <include refid="Base_Query_Sql" />
+  </select>
+  <sql id="Base_Query_Sql">
+  	where 1=1 
+   	<if test="guestName != null" > 
+   		AND GuestName = #{guestName,jdbcType=VARCHAR}
+   	</if>
+   	<if test="startTime != null" > 
+   		AND GuestCreateTime > #{startTime,jdbcType=TIMESTAMP}
+   	</if>
+   	<if test="endTime != null" > 
+   		AND  #{endTime,jdbcType=TIMESTAMP} > GuestCreateTime 
+   	</if>
+  </sql>
 </mapper>

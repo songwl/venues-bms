@@ -19,8 +19,20 @@
 				<section class="panel">
 					<@func.queryForm "${ctx}/venue/list">
 				    	<div class="form-group">
-					    	<label for="productName" class="control-label text-right">场所id:</label>
-					    	<input type="text" class="form-control" name="ID" id="ID" value="">
+					    	<label for="venueTypes" class="control-label text-right">场所类型:</label>
+					    	<select class="form-control" name="search_venueType">
+					    		<@dict.showOptions dictKey="enums.VENUE_TYPE" selectValue="${searchParams.venueType}" haveBlank="Y" />
+					    	</select>
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="languages" class="control-label text-right">语种:</label>
+					    	<select class="form-control" name="search_language">
+					    		<@dict.showOptions dictKey="enums.LANGUAGE" selectValue="${searchParams.language}" haveBlank="Y" />
+					    	</select>
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="venueManager" class="control-label text-right">场所登录名:</label>
+					    	<input type="text" class="form-control" name="search_venueManager" id="venueManager" value="${searchParams.venueManager}">
 					  	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
 				      	<a class="btn btn-success" target href="${ctx}/venue/new">新  增</a>

@@ -1,6 +1,7 @@
 package com.venues.bms.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.venues.bms.po.VeVenueAttr;
 
@@ -54,4 +55,6 @@ public interface VeVenueAttrMapper {
 	int updateByPrimaryKey(VeVenueAttr record);
 
 	List<VeVenueAttr> selectByVenueId(Integer venueId);
+
+	List<VeVenueAttr> selectByCodeAndValue(Map<String, Object> params);
 }

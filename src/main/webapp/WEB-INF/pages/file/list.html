@@ -64,13 +64,14 @@
 				           <tr downloadPath="${item.attach.downloadPath}">
 				           	  <td><input type="checkbox" name="ids" value="${item.id}" /></td>
 				              <td class="s-name"><a href="#" class="view-file">${item.attach.name}</td>
-				              <td class="s-user">${item.userID}</td>
+				              <td class="s-user"><@dict.showUser "${item.userID}" /></td>
 				              <td class="s-ext">${item.attach.ext}</td>
 				              <td class="s-size">${item.attach.displaySize}</td>
 				              <td>${item.fileUploadTime?string("yyyy-MM-dd")}</td>
 				              <td><#if item.isPass==0>未审核<#else>审核通过</#if></td>
 				              <td class="s-describeInfo">${item.describeInfo}</td>
 				              <td>
+				              	<p class="s-venue" style="display:none;"><@dict.showVenue dictKey="${item.venueId}" /></p>
 				              	<a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/file/delete/${item.id}">删除</a>
 				              	<#if item.isPass==0>
 				              	<a ajaxToDo class="btn btn-xs btn-info" href="${ctx}/file/pass/${item.id}">审核通过</a>
@@ -108,6 +109,13 @@
 	                </div>
 	                <div class="col-md-6">
 	                	<form modal action="${ctx}/file/create" callurl="${ctx}/file/list">
+	                		<#if isAdmin>
+	                			<div class="form-group">
+							    	<label for="venueID" class="control-label text-right">所属场所:</label>
+							    	<input type="text" class="form-control" name="venueName" id="venueName" value="">
+							    	<input type="hidden" name="venueId" id="venueId" value="">
+							  	</div>
+	                		</#if>
 	                        <div class="form-group">
 	                            <label> 描述</label>
 	                            <input type="hidden" name="attachId" value="" class="{required:true}" />
@@ -145,6 +153,12 @@
                         <p><strong>上传人:</strong> <span id="s-user"></span></p>
                     </div>
                     <div class="col-md-6">
+                    	<#if isAdmin>
+	               			<div class="form-group">
+	               				<label> 场所</label>
+						    	<p id="s-venue"></p>
+						  	</div>
+	               		</#if>
                         <div class="form-group">
                             <label> 描述</label>
                             <p id="s-describeInfo"></p>
@@ -191,6 +205,7 @@
 			$("#fileCreateModal .upload-modal").show();
 			$("#fileCreateModal .img-modal").html("");
 			$("#fileCreateModal form input[name='attachId']").val("");
+			$("#fileCreateModal form input").val("");
 			$("#fileCreateModal form textarea").val("");
 		});
 		
@@ -212,6 +227,7 @@
 			$("#fileViewModal #s-ext").text(ext);
 			$("#fileViewModal #s-size").text($tr.find(".s-size").text());
 			$("#fileViewModal #s-user").text($tr.find(".s-user").text());
+			$("#fileViewModal #s-venue").text($tr.find(".s-venue").text());
 			$("#fileViewModal #s-describeInfo").text($tr.find(".s-describeInfo").text());
 			$('#fileViewModal').modal('show');
 			return false;
@@ -227,4 +243,15 @@
 			s1.addVariable("height",height);
 			s1.write(rel);
 		};
+		
+		$("input#venueName").jsonSuggest({
+	      	url:"${ctx}/venue/queryAutoComplete.do",
+	      	maxResults: 10,
+	      	emptyKeyup:true,
+	      	width:200,
+	      	minCharacters:1,
+	      	onSelect:function(item){
+	      		$("#venueId").val(item.id);
+	      	}
+	      });
 	</script>

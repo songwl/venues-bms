@@ -1,0 +1,63 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
+
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb panel">
+                    <li><a href="#"><i class="fa fa-home"></i> 酒店及会议室信息发布平台</a></li>
+                    <li><a href="#">促销管理</a></li>
+                    <li class="active">列表</li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<div class="col-md-12">
+						<!-- 主题 -->
+						<div class="col-md-4">
+							<div class="col-md-12">
+							    <a checkToDo rel="ids" class="btn btn-danger" href="${ctx}/guest/batchDelete">添加主题</a>
+						    </div>
+							<@func.table>
+						    	<thead>
+						          <tr>
+						            <th>主题名称</th>
+						            <th>主题图标</th>
+						            <th>操作</th>
+						          </tr>
+						        </thead>
+						        <#list list as item>
+						           <tr class="theme-item" rel="${item.ID}">
+						              <td>${item.themeName}</td>
+						              <td>${item.themeImage}</td>
+						              <td>
+						              	  <a target class="btn btn-xs btn-info" href="${ctx}/sale/theme/delete/${item.ID}">删除</a>
+						              </td>
+						           </tr>
+								</#list>
+						    </@func.table>
+						</div>
+						<!-- 促销页 -->
+						<div class="col-md-8" id="salesList">
+						
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		
+	</div>
+	
+	<script type="text/javascript">
+		$(function(){
+			$(".theme-item").click(function(){
+				var id = $(this).attr("rel");
+				$("#salesList").load("${ctx}/sale/themeSales/"+id);
+			});
+		});
+	</script>

@@ -247,6 +247,12 @@
     <include refid="Base_Column_List" />
     from tbl_venue
     <include refid="Base_Query_Sql" />
+    <if test="orderBy != null and orderBy.size()>0" > 
+   		order by
+        <foreach collection="orderBy" item="sort" separator=",">
+        	${sort}
+      	</foreach>
+   	</if>
     <if test="begin != null and offset != null" >
   		limit #{begin},#{offset} 
   	</if>
@@ -266,6 +272,27 @@
    	</if>
    	<if test="venueCode != null" > 
        	AND VenueCode = #{venueCode,jdbcType=VARCHAR}
+    </if>
+    <if test="createUserId != null" > 
+       	AND CreateUserId = #{createUserId,jdbcType=VARCHAR}
+    </if>
+    <if test="venueManager != null and venueManager!='' " > 
+       	AND VenueManager like  CONCAT('%',#{venueManager,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="venueType != null and venueType!='' " > 
+       	AND VenueTypes like  CONCAT('%',#{venueType,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="language != null and language!='' " > 
+       	AND Languages like  CONCAT('%',#{language,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="stateId != null" > 
+       	AND StateId = #{stateId,jdbcType=INTEGER}
+    </if>
+    <if test="provinceId != null" > 
+       	AND ProvinceId = #{provinceId,jdbcType=INTEGER}
+    </if>
+    <if test="cityId != null" > 
+       	AND CityId = #{cityId,jdbcType=INTEGER}
     </if>
   </sql>
 </mapper>

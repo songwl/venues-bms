@@ -1,14 +1,14 @@
 <#import "/base/func.html" as afunc>
 <#import "/base/dict.html" as adict>
 
-<#macro showAttr attr itemName value>
+<#macro showAttr attr itemId itemName value>
 	<@afunc.formGroup "${attr.attrName}" "${itemName}">
 		<#if attr.attrType == "input">
-    		<input type="text" class="form-control" name="${itemName}"  value="${value}" />
+    		<input type="text" class="form-control <#if attr.required=='Y'>required</#if>" name="${itemName}"  value="${value}" />
 		<#elseif attr.attrType == "radio">
-			<@adict.showRadio dictType="DICT" dictKey="${attr.dataSource}" selectValue="${value}" name="${itemName}" required="" />
+			<@adict.showRadio dictType="DICT" dictKey="${attr.dataSource}" selectValue="${value}" name="${itemName}" required="${attr.required}" />
 		<#elseif attr.attrType == "checkbox">
-			<@adict.showCheckbox dictType="DICT" dictKey="${attr.dataSource}" selectValue="${value}" name="${itemName}" required="" />
+			<@adict.showCheckbox dictType="DICT" dictKey="${attr.dataSource}" selectValue="${value}" name="${itemName}" required="${attr.required}" />
 		<#elseif attr.attrType == "select">
 			<select name="${itemName}" class="form-control m-bot15">
                <@adict.showOptions dictType="DICT"  dictKey="${attr.dataSource}" selectValue="${value}" />
@@ -18,11 +18,27 @@
 		<#elseif attr.attrType == "richtext">
 		
 		<#elseif attr.attrType == "image">
-		
+			<@showImageAttr attr itemId itemName value />
 		<#elseif attr.attrType == "video">
 		
 	    </#if>
              
 	</@afunc.formGroup>
     
+</#macro>
+
+<#macro showImageAttr attr itemId itemName value>
+	<button class="btn btn-success upload" id="${itemId}_upload">点击上传</button>
+	<input type="hidden" name="${itemName}" id="${itemId}" value="${value}" <#if attr.required=="Y">required</#if> />
+	<div style="" id="${itemId}_show">
+	</div>
+	<script type="text/javascript">
+		BmsAjaxUpload($("#${itemId}_upload"),function(attach){
+			$("#${itemId}_show").html('<img width="200" src="${ctx}/'+attach.downloadPath+'" alt="">');
+			$("input#${itemId}]").val(attach.downloadPath);
+		});
+		<#if value?? && value!="">
+			$("#${itemId}_show").html('<img src="${ctx}/${value}" alt="">');
+		</#if>
+	</script>
 </#macro>

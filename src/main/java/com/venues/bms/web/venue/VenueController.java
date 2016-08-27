@@ -1,7 +1,7 @@
 package com.venues.bms.web.venue;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.venues.bms.core.crypto.CryptoUtils;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.core.model.ResultMessage;
 import com.venues.bms.po.SysUser;
 import com.venues.bms.po.VeVenue;
+import com.venues.bms.po.VeVenueAttr;
 import com.venues.bms.service.attr.AttrService;
 import com.venues.bms.service.sys.LogService;
 import com.venues.bms.service.sys.UserService;
@@ -51,9 +53,12 @@ public class VenueController extends BaseController {
 	public String list(ModelMap model) throws Exception {
 		Page<VeVenue> page = this.getPageRequest();
 		Map<String, Object> params = this.getSearchRequest();
-
+		if (!isAdmin()) {
+			params.put("createUserId", getCurrentAccountId());
+		}
 		page = venueService.findVenuePage(page, params);
 		model.put("page", page);
+		model.put("searchParams", params);
 		return "venue/list";
 	}
 
@@ -72,15 +77,15 @@ public class VenueController extends BaseController {
 		venue.setCreateUserId(getCurrentAccountId());
 
 		String userLoginname = venue.getVenueManager();
-		if (StringUtils.isEmpty(userLoginname)) {
-			return this.ajaxDoneError("场所管理员名不能为空");
+		if (StringUtils.isNotEmpty(userLoginname)) {
+			SysUser su = userService.getSysUserByLoginname(userLoginname);
+			if (su != null) {
+				return this.ajaxDoneError("场所管理员名已存在");
+			}
+			int managerId = registSysUser(userLoginname);
+			venue.setManagerId(managerId);
 		}
-		SysUser su = userService.getSysUserByLoginname(userLoginname);
-		if (su != null) {
-			return this.ajaxDoneError("场所管理员名已存在");
-		}
-		int managerId = registSysUser(userLoginname);
-		venue.setManagerId(managerId);
+
 		venueService.save(venue, venue.getAttrs().values());
 
 		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "创所管理", JSONObject.toJSONString(venue));
@@ -131,17 +136,18 @@ public class VenueController extends BaseController {
 	}
 
 	@RequestMapping(value = "/queryAutoComplete")
+	@ResponseBody
 	public Object queryAutoComplete(String search) throws Exception {
-		Map<String, Object> params = new HashMap<>();
-		//		params.put("", value)
-		//		venueService.findVenueList(params);
-		//		
-		//		Page<VeVenue> page = this.getPageRequest();
-		//		Map<String, Object> params = this.getSearchRequest();
-		//
-		//		page = venueService.findVenuePage(page, params);
-		//		model.put("page", page);
-		//		return "venue/list";
-		return null;
+		JSONArray arr = new JSONArray();
+		if (StringUtils.isNotBlank(search)) {
+			List<VeVenueAttr> list = venueService.searchAttrValue("venueName", search);
+			for (VeVenueAttr attr : list) {
+				JSONObject obj = new JSONObject();
+				obj.put("id", attr.getVenueId());
+				obj.put("text", attr.getAttrValue());
+				arr.add(obj);
+			}
+		}
+		return arr;
 	}
 }

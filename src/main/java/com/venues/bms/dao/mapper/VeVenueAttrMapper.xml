@@ -154,5 +154,10 @@
     where VenueId = #{venueId,jdbcType=INTEGER}
     order by Id
   </select>
-  
+  <select id="selectByCodeAndValue" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from tbl_venue_attr
+    where AttrCode = #{attrCode,jdbcType=VARCHAR} and AttrValue like CONCAT('%',#{attrValue,jdbcType=VARCHAR},'%')
+  </select>
 </mapper>

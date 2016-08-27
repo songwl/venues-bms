@@ -212,6 +212,12 @@
     <include refid="Base_Column_List" />
     from tbl_page
     <include refid="Base_Query_Sql" />
+    <if test="orderBy != null and orderBy.size()>0" > 
+   		order by
+        <foreach collection="orderBy" item="sort" separator=",">
+        	${sort}
+      	</foreach>
+   	</if>
     <if test="begin != null and offset != null" >
   		limit #{begin},#{offset} 
   	</if>
@@ -223,36 +229,50 @@
   </select>
   <sql id="Base_Query_Sql">
   	where 1=1 
-   	<if test="id != null" > 
+   	<if test="id != null and id!='' " > 
    		AND ID = #{id,jdbcType=INTEGER}
    	</if>
-   	<if test="pageName != null">
-   		AND PageName = #{pageName,jdbcType=VARCHAR}
+   	<if test="pageName != null and pageName != ''">
+   		AND PageName like  CONCAT('%',#{pageName,jdbcType=VARCHAR},'%')
    	</if>
-   	<if test="venueID != null">
+   	<if test="venueID != null and venueID!='' ">
    		AND VenueID = #{venueID,jdbcType=INTEGER}
    	</if>
-   	<if test="pageTypeID != null">
+   	<if test="pageTypeID != null and pageTypeID!='' ">
    		AND PageTypeID = #{pageTypeID,jdbcType=INTEGER}
    	</if>
-   	<if test="pagePublish != null">
+   	<if test="pagePublish != null and pagePublish!='' ">
    		AND PagePublish = #{pagePublish,jdbcType=INTEGER}
    	</if>
-   	<if test="pageState != null">
+   	<if test="pageState != null and pageState!=''">
    		AND PageState = #{pageState,jdbcType=INTEGER}
    	</if>
-   	<if test="startCreateTime != null">
-   		AND PageCreateTime = #{startCreateTime,jdbcType=TIMESTAMP}
+   	<if test="startCreateTime != null and startCreateTime != '' ">
+   		AND PageCreateTime > #{startCreateTime,jdbcType=TIMESTAMP}
    	</if>
-   	<if test="endCreateTime != null">
-   		AND PageCreateTime = #{endCreateTime,jdbcType=TIMESTAMP}
+   	<if test="endCreateTime != null and endCreateTime != '' ">
+   		AND #{endCreateTime,jdbcType=TIMESTAMP} > PageCreateTime
    	</if>
-   	
+   	<if test="createUserId !=null and createUserId != '' ">
+   		AND exists (select 1 from tbl_venue v where v.ID=VenueID and ManagerId=#{createUserId,jdbcType=INTEGER}) 
+   	</if>
   </sql>
   
   <update id="updatePublishByVenueIds" parameterType="String" >
     update tbl_page
     set PagePublish = 1
-    where VenueID in (${venueIds})
+    where VenueID in (${venueIds}) and PageState=37
   </update>
+  
+  <update id="updatePublishByIds" parameterType="String" >
+    update tbl_page
+    set PagePublish = 1
+    where ID in (${ids})
+  </update>
+  
+  <update id="updateAllPublishOff">
+    update tbl_page
+    set PagePublish = 0
+  </update>
+  
 </mapper>

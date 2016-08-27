@@ -22,7 +22,7 @@
 						
 					    	<label for="venueID" class="control-label col-md-2">区域:</label>
 					    	<div class="col-md-10">
-					    	<@region.region "${searchParams.stateId}" "${searchParams.provinceId}" "${searchParams.cityId}" />
+					    	<@region.region "${searchParams.stateId!''}" "${searchParams.provinceId!''}" "${searchParams.cityId!''}" />
 					    	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
 					</@func.queryForm>
@@ -39,12 +39,14 @@
 				            <th>场所类型</th>
 				            <th>语言</th>
 				            <th>场所登录名</th>
+				            <th>区域</th>
 				            <th>付费类型</th>
 				            <th>创建时间</th>
+				            <th>操作</th>
 				          </tr>
 				        </thead>
 				        <#list itemList as item >
-				           <tr>
+				           <tr itemid="${item.id}" class="queue">
 				           	  <td><input type="checkbox" name="ids" value="${item.id}" /></td>
 				              <td>${item.id}</td>
 				              <td>
@@ -62,8 +64,14 @@
 				              	</#if>
 				              </td>
 				              <td>${item.venueManager}</td>
+				              <td><@region.showRegion "${item.stateId!''}" "${item.provinceId!''}" "${item.cityId!''}" /></td>
 				              <td><@dict.showLabel dictKey="enums.TEMPLATE_TYPE" selectValue="${item.payType}" /></td>
 				              <td>${item.createTime?string("yyyy-MM-dd")}</td>
+				              <td>
+				                  <a class="go-top btn btn-xs btn-success" href="javascript:void(0);">置顶</a>
+				              	  <a class="go-up" href="javascript:void(0);"><i class="fa fa-arrow-up"></i></a>
+				                  <a class="go-down" href="javascript:void(0);"><i class="fa fa-arrow-down"></i></a>
+				              </td>
 				           </tr>
 						</#list>
 				    </@func.table>
@@ -74,3 +82,61 @@
 	</div>
 	
 
+<script type="text/javascript">
+		$(function(){
+			$(".go-up").click(function(){
+				var $cur = $(this).closest("tr.queue");
+				if($cur.prev("tr.queue").length>0){
+					var $pre = $cur.prev("tr.queue");
+					var curId = $cur.attr("itemid");
+					var preId = $pre.attr("itemid");
+					var url = "${ctx}/page/publish/exchange?orgId="+curId+"&destId="+preId;
+					$.get(url,function(rs){
+						if(rs.success){
+							exchange($cur,$pre);	
+						}
+					});
+				}
+			});
+			
+			$(".go-down").click(function(){
+				var $cur = $(this).closest("tr.queue");
+				if($cur.next("tr.queue").length>0){
+					var $next = $cur.next("tr.queue");
+					var curId = $cur.attr("itemid");
+					var nextId = $next.attr("itemid");
+					var url = "${ctx}/page/publish/exchange?orgId="+curId+"&destId="+nextId;
+					$.get(url,function(rs){
+						if(rs.success){
+							exchange($next,$cur);	
+						}
+					});
+				}
+			});
+			
+			$(".go-top").click(function(){
+				var $cur = $(this).closest("tr.queue");
+				if($cur.prev("tr.queue").length>0){
+					var $top = $("tr.queue").first();
+					if($top){
+						var topId = $cur.attr("itemid");
+						var oldId = $top.attr("itemid");
+						var url = "${ctx}/page/publish/top?topId="+topId+"&oldId="+oldId;
+						$.get(url,function(rs){
+							if(rs.success){
+								exchange($cur,$top);
+							}
+						});
+					}
+				}
+			});
+			
+			function exchange(org,dest){
+				var tmp = org.clone(true);
+	            org.remove();
+	            dest.before(tmp);
+			}
+
+
+		});
+	</script>

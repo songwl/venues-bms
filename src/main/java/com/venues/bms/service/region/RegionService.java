@@ -8,4 +8,5 @@ public interface RegionService {
 
 	List<Region> queryRegionByParentId(Integer pid);
 
+	Region getRegionById(Integer id);
 }

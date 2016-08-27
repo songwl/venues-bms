@@ -118,7 +118,7 @@ public abstract class Enums {
 	}
 
 	public static enum VENUE_TYPE {
-		HOTEL("酒店"), MEETING("会所"), SPECIAL("特殊场所"), LANDMARK("地标");
+		HOTEL("酒店"), MEETING("会议中心"), SPECIAL("特殊场所"), LANDMARK("地标");
 
 		private String cnName;
 

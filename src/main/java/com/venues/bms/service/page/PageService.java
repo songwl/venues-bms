@@ -15,4 +15,10 @@ public interface PageService {
 	int updatePageStatus(int id, Integer code);
 
 	int updatePublishByVenueIds(String ids);
+
+	int updatePublish(String ids);
+
+	PgPage getPgPageById(int id);
+
+	int update(PgPage page);
 }

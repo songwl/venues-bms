@@ -18,15 +18,14 @@
                     <img alt="" src="${ctx}/adminx/images/photos/user-avatar.png" class="media-object">
                     <div class="media-body">
                         <h4><a href="#">${bmsModel.account.loginUsername}</a></h4>
-                        <span>"Hello There..."</span>
+                        <span>"欢迎回来！"</span>
                     </div>
                 </div>
 
                 <h5 class="left-nav-title">用户信息</h5>
                 <ul class="nav nav-pills nav-stacked custom-nav">
-                  <li><a href="#"><i class="fa fa-user"></i> <span>Profile</span></a></li>
-                  <li><a href="#"><i class="fa fa-cog"></i> <span>Settings</span></a></li>
-                  <li><a href="#"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
+                  <li><a href="#myModal" data-toggle="modal"><i class="fa fa-cog"></i> <span>修改密码</span></a></li>
+                  <li><a href="${ctx}/logout"><i class="fa fa-sign-out"></i> <span>注销</span></a></li>
                 </ul>
             </div>
 
@@ -286,7 +285,7 @@
 	                        <span class="caret"></span>
 	                    </a>
 	                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-	                        <li><a href="${ctx}/profile"><i class="fa fa-user"></i>  个人中心</a></li>
+	                       <!--  <li><a href="${ctx}/profile"><i class="fa fa-user"></i>  个人中心</a></li> -->
 	                        <li><a href="#myModal" data-toggle="modal"><i class="fa fa-cog"></i>  修改密码</a></li>
 	                        <li><a href="${ctx}/logout"><i class="fa fa-sign-out"></i> 注销</a></li>
 	                    </ul>

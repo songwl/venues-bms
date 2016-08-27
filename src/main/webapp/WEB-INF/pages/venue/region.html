@@ -62,3 +62,11 @@
 		}
 	</script>
 </#macro>
+
+<#macro showRegion stateId provinceId cityId>
+	<#assign key="${stateId!''},${provinceId!''},${cityId!''}" />
+	<@showDictContent dictType="region" dictKey=key/>
+    <#list dictList as dict>
+    	<#if dict_index!=0>-&gt;</#if>${dict.label}
+    </#list>
+</#macro>

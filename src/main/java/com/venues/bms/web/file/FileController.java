@@ -42,6 +42,9 @@ public class FileController extends BaseController {
 		Page<FiFile> page = this.getPageRequest();
 		Map<String, Object> params = this.getSearchRequest();
 		params.put("isDelete", 0);
+		if (!isAdmin()) {
+			params.put("userID", getCurrentAccountId());
+		}
 
 		List<String> orderBy = new ArrayList<>();
 		orderBy.add("id desc");
@@ -49,6 +52,7 @@ public class FileController extends BaseController {
 		page = fileService.findFilePage(page, params);
 		model.put("page", page);
 		model.put("searchParams", params);
+		model.put("isAdmin", isAdmin());
 		return "file/list";
 	}
 

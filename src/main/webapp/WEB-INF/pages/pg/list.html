@@ -30,8 +30,8 @@
 					  	</div>
 					  	<div class="form-group">
 					    	<label for="venueID" class="control-label text-right">所属场所:</label>
-					    	<input type="text" class="form-control" name="venueName" id="venueID" value="${searchParams.venueID!''}">
-					    	<input type="hidden" name="search_venueID" value="${searchParams.venueID!''}">
+					    	<input type="text" class="form-control" name="search_venueName" id="venueName" value="${searchParams.venueName!''}">
+					    	<input type="hidden" name="search_venueID" id="venueId" value="${searchParams.venueID!''}">
 					  	</div>
 					  	<br>
 					  	<div class="form-group">
@@ -43,11 +43,17 @@
 					    	<input type="text" class="form-control date-picker" name="search_endCreateTime" id="endCreateTime" value="${searchParams.endCreateTime!''}">
 					  	</div>
 					  	<div class="form-group">
+					    	<label for="pageState" class="control-label text-right">状态:</label>
+					    	<select class="form-control" name="search_pageState">
+					    		<@dict.showOptions dictKey="enums.PAGE_STATUS" selectValue="${searchParams.pageState!''}" haveBlank="Y" />
+					    	</select>
+					  	</div>
+					  	<div class="form-group">
 					    	<label for="pagePublish" class="control-label text-right">是否发布:</label>
 					    	<input type="checkbox" class="form-control" name="search_pagePublish" id="pagePublish" value="1" <#if searchParams.pagePublish!'' == 1>checked</#if> />
 					  	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
-				      	<a target="_blank" class="btn btn-success" href="${ctx}/template/new">新  增</a>
+				      	<a target="_blank" class="btn btn-success" href="${ctx}/page/new">新  增</a>
 					</@func.queryForm>
 					
 					<hr/>
@@ -76,7 +82,7 @@
 				              <td><@dict.showLabel dictKey="enums.PAGE_TYPE" selectValue="${item.pageTypeID}" /></td>
 				              <td><@dict.showLabel dictKey="enums.PAGE_STATUS" selectValue="${item.pageState}" /></td>
 				              <td><#if item.pagePublish==1>是<#else>否</#if></td>
-				              <td>${item.templateDescription}</td>
+				              <td>${item.pageDescription}</td>
 				              <td>
 				              	  <a target="_blank" class="btn btn-xs btn-info" href="${ctx}/page/update/${item.id}">编辑</a>
 				              	  <a target="_blank" class="btn btn-xs btn-info" href="${ctx}/page/view/${item.id}">查看</a>
@@ -94,14 +100,14 @@
 	</div>
 	
 	<script type="text/javascript">
-		$("input#venueID").jsonSuggest({
+		$("input#venueName").jsonSuggest({
 	      	url:"${ctx}/venue/queryAutoComplete.do",
 	      	maxResults: 10,
 	      	emptyKeyup:true,
 	      	width:200,
 	      	minCharacters:1,
 	      	onSelect:function(item){
-	      		$("#productManager_hidden").val(item.id);
+	      		$("#venueId").val(item.id);
 	      	}
 	      });
 	</script>

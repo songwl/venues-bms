@@ -32,6 +32,9 @@ function loadMainBody(url,data){
 }
 
 function initMainBody(){
+	$("html").getNiceScroll(0).doScrollTop(0, 0);
+	$('.main-content').css("height","auto");
+	
 	initPicker();
 	initTree();
 	
@@ -54,6 +57,7 @@ function initMainBody(){
 		var modalId = $modal.attr("id");
 		formSubmit(this,function(){
 			$("#"+modalId).modal("hide");
+			$(".modal-backdrop").remove();
 		});
 		return false;
 	});

@@ -88,6 +88,8 @@
             	<map key-type="java.lang.String" value-type="com.venues.bms.core.freemarker.IDictDataLoader">
             		<entry key="tmp" value-ref="tmpTemplateComponent" />
             		<entry key="venue" value-ref="venueComponent" />
+            		<entry key="user" value-ref="sysUserComponent" />
+            		<entry key="region" value-ref="regionComponent" />
                 </map>
             </property>
        </bean>

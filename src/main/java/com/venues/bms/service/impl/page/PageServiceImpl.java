@@ -49,7 +49,23 @@ public class PageServiceImpl implements PageService {
 
 	@Override
 	public int updatePublishByVenueIds(String ids) {
+		pgPageMapper.updateAllPublishOff();
 		return pgPageMapper.updatePublishByVenueIds(ids);
+	}
+
+	@Override
+	public int updatePublish(String ids) {
+		return pgPageMapper.updatePublishByIds(ids);
+	}
+
+	@Override
+	public PgPage getPgPageById(int id) {
+		return pgPageMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public int update(PgPage page) {
+		return pgPageMapper.updateByPrimaryKey(page);
 	}
 
 }

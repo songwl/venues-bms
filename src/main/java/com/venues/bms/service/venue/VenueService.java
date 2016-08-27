@@ -19,4 +19,8 @@ public interface VenueService {
 	VeVenue getVenueById(Integer id);
 
 	int update(VeVenue venue, Collection<VeVenueAttr> attrs);
+
+	int updateVenue(VeVenue venue);
+
+	List<VeVenueAttr> searchAttrValue(String attrCode, String attrValue);
 }

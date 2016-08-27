@@ -20,4 +20,9 @@ public class RegionServiceImpl implements RegionService {
 		return regionMapper.selectByParentId(pid);
 	}
 
+	@Override
+	public Region getRegionById(Integer id) {
+		return regionMapper.selectByPrimaryKey(id);
+	}
+
 }

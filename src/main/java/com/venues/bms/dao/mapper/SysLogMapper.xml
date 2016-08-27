@@ -150,16 +150,16 @@
   </select>
   <sql id="Base_Query_Sql">
   	where 1=1 
-   	<if test="startLogTimestamp != null" > 
+   	<if test="startLogTimestamp != null and startLogTimestamp!='' " > 
    		AND Log_Timestamp > #{startLogTimestamp,jdbcType=TIMESTAMP}
    	</if>
-   	<if test="endLogTimestamp != null" > 
+   	<if test="endLogTimestamp != null and endLogTimestamp!='' " > 
    		AND  #{endLogTimestamp,jdbcType=TIMESTAMP} > Log_Timestamp 
    	</if>
-   	<if test="logUsername != null" > 
+   	<if test="logUsername != null and logUsername!='' " > 
        	AND Log_Username like CONCAT('%',#{logUsername,jdbcType=VARCHAR},'%')
     </if>
-    <if test="logType != null" > 
+    <if test="logType != null and logType!='' " > 
        	AND Log_Type = #{logType,jdbcType=VARCHAR}
     </if>
   </sql>

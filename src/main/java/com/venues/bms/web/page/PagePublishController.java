@@ -1,5 +1,6 @@
 package com.venues.bms.web.page;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,9 +46,6 @@ public class PagePublishController extends BaseController {
 			throws Exception {
 		Map<String, Object> params = this.getSearchRequest();
 		params.put("pageState", Enums.PAGE_STATUS.AuditPass.getCode());
-		params.put("stateId", stateId);
-		params.put("provinceId", provinceId);
-		params.put("cityId", cityId);
 
 		List<PgPage> list = pageService.findPageList(params);
 		Set<Integer> venueIds = new HashSet<>();
@@ -59,19 +57,65 @@ public class PagePublishController extends BaseController {
 			String ids = StringUtils.join(venueIds, ",");
 			Map<String, Object> map = new HashMap<>();
 			map.put("ids", ids);
+			map.put("stateId", stateId);
+			map.put("provinceId", provinceId);
+			map.put("cityId", cityId);
+			List<String> orderBy = new ArrayList<>();
+			orderBy.add("seq desc");
+			map.put("orderBy", orderBy);
 			List<VeVenue> itemLists = venueService.findVenueList(map);
 			model.put("itemList", itemLists);
+			model.put("searchParams", map);
 		}
-
-		model.put("searchParams", params);
 		return "pg/publish_list";
 	}
 
+	/**
+	 * 通过场所发布
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping(value = "/batchPublish", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultMessage batchPublish(String ids) {
+	public ResultMessage batchPublishByVenueIds(String ids) {
 		pageService.updatePublishByVenueIds(ids);
 		//logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "页面审核", "批量页面审核通过：资源ID=" + ids);
 		return this.ajaxDoneSuccess("发布成功");
+	}
+
+	/**
+	 * 通过页面发布
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value = "/pagePublish", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage pagePublish(String ids) {
+		pageService.updatePublish(ids);
+		//logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "页面审核", "批量页面审核通过：资源ID=" + ids);
+		return this.ajaxDoneSuccess("发布成功");
+	}
+
+	@RequestMapping(value = "/exchange", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage exchange(Integer orgId, Integer destId) {
+		VeVenue org = venueService.getVenueById(orgId);
+		VeVenue dest = venueService.getVenueById(destId);
+		int temp = org.getSeq();
+		org.setSeq(dest.getSeq());
+		dest.setSeq(temp);
+		venueService.updateVenue(org);
+		venueService.updateVenue(dest);
+		return this.ajaxDoneSuccess("");
+	}
+
+	@RequestMapping(value = "/top", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage top(Integer topId, Integer oldId) {
+		VeVenue page = venueService.getVenueById(topId);
+		VeVenue old = venueService.getVenueById(oldId);
+		page.setSeq(old.getSeq() + 1);
+		venueService.updateVenue(page);
+		return this.ajaxDoneSuccess("");
 	}
 }

@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.venues.bms.core.model.RequestKV;
@@ -204,7 +205,7 @@ public abstract class WebUtils {
 					// Do nothing, no values found at all.
 				} else if (values.length > 1) {
 					params.put(unprefixed, values);
-				} else {
+				} else if (StringUtils.isNotBlank(values[0])) {
 					params.put(unprefixed, values[0]);
 				}
 			}

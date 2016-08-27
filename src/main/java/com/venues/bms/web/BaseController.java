@@ -21,6 +21,7 @@ import com.venues.bms.core.spring.interceptor.BaseCommController;
 import com.venues.bms.core.spring.interceptor.HttpLocalThread;
 import com.venues.bms.core.utils.ServletUtil;
 import com.venues.bms.core.utils.WebUtils;
+import com.venues.bms.vo.Enums;
 
 /**
  * 
@@ -39,7 +40,7 @@ public abstract class BaseController extends BaseCommController {
 	public static final String SEARCH_PARAMETERS_STARTING_WITH_PARAM = "search_";
 
 	//默认分页大小
-	public static final int DEFAUTL_PAGE_SIZE = 10;
+	public static final int DEFAUTL_PAGE_SIZE = 20;
 
 	protected LoginAccount getCurrentAccount() {
 		return (LoginAccount) getSession(ServletUtil.SESSION_USER);
@@ -51,6 +52,11 @@ public abstract class BaseController extends BaseCommController {
 			return account.getLoginUserId();
 		}
 		return null;
+	}
+
+	protected boolean isAdmin() {
+		LoginAccount account = getCurrentAccount();
+		return Enums.USER_TYPE.SYS_ADMIN.getValue().equals(account.getLoginUserType());
 	}
 
 	@InitBinder

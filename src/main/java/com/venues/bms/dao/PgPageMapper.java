@@ -61,4 +61,8 @@ public interface PgPageMapper {
 	List<PgPage> selectByParams(Map<String, Object> params);
 
 	int updatePublishByVenueIds(@Param(value = "venueIds") String venueIds);
+
+	int updatePublishByIds(@Param(value = "ids") String ids);
+
+	int updateAllPublishOff();
 }

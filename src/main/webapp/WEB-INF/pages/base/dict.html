@@ -18,7 +18,7 @@
     <div class="col-lg-10">
     	<#list dictList as dict>
 	    	<label class="checkbox-inline">
-	            <input type="radio" name="${name}" value="${dict.value}" <#if dict.value==selectValue>checked</#if> /> ${dict.label}
+	            <input type="radio" name="${name}" value="${dict.value}" <#if dict.value==selectValue>checked</#if> <#if required=="Y">required</#if> /> ${dict.label}
 	        </label>
 	    </#list>
     </div>
@@ -30,15 +30,15 @@
     <div class="col-lg-10">
     	<#list dictList as dict>
 	    	<label class="checkbox-inline">
-	            <input type="checkbox" name="${name}" value="${dict.value}" <#if selectValues?seq_contains(dict.value)>checked</#if> /> ${dict.label}
+	            <input type="checkbox" name="${name}" value="${dict.value}" <#if selectValues?seq_contains(dict.value)>checked</#if> <#if required=="Y">required</#if> /> ${dict.label}
 	        </label>
 	    </#list>
     </div>
 </#macro>
 
-<#macro showPermUser dictKey><@compress single_line=true>
+<#macro showUser dictKey><@compress single_line=true>
 	<#if dictKey!="">
-    <@showDictContent dictType="USER" dictKey=dictKey/>
+    <@showDictContent dictType="user" dictKey=dictKey/>
     <#list dictList as dict>
     	${dict.label}
     </#list>

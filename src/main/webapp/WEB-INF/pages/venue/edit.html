@@ -4,6 +4,9 @@
 <#import "/venue/attr.html" as attr>
 <#import "/venue/region.html" as region>
 
+<script src="${ctx}/js/ajaxupload/ajaxupload.js"></script>
+	<script src="${ctx}/js/bms.ajaxupload.js"></script>
+	
 	<div class="wrapper">
 		<div class="row">
 			<div class="col-md-12">
@@ -26,7 +29,7 @@
 							<input type="text" class="form-control {required:true}" name="venueCode"  value="${venue.venueCode}" <#if venue.venueCode??>readonly</#if> />
 						</@func.formGroup> -->
 						<@func.formGroup "场所管理员" "venueManager">
-							<input type="text" class="form-control {required:true}" name="venueManager"  value="${venue.venueManager}" />
+							<input type="text" class="form-control" name="venueManager"  value="${venue.venueManager}" />
 						</@func.formGroup>
 						<@func.formGroup "场所类型" "venueTypes">
 			               <@dict.showCheckbox dictKey="enums.VENUE_TYPE" selectValue="${venue.venueTypes}" name="venueTypes" required="required" />
@@ -62,7 +65,7 @@
 									<div class="col-md-2">
 										<h4>${attrGroup.attrGroupName}</h4>
 									</div>
-									<div class="col-md-10">
+									<div class="col-md-8">
 									<#list attrGroup.attrs as attrObj>
 										<#assign key = "${attrGroup.venueType}_${language.value}_${attrObj.attrCode}" />	
 										<#assign prefix = "attrs[${key}]" />
@@ -70,7 +73,7 @@
 										<input type="hidden" name="${prefix}.venueType" value="${attrGroup.venueType}" />
 										<input type="hidden" name="${prefix}.attrId" value="${attrObj.id}" />
 										<input type="hidden" name="${prefix}.attrCode" value="${attrObj.attrCode}" />
-										<@attr.showAttr attrObj "${prefix}.attrValue" "${venue.attrs[key].attrValue}" />
+										<@attr.showAttr attrObj key "${prefix}.attrValue" "${venue.attrs[key].attrValue}" />
 									</#list>
 									</div>
 								</div>

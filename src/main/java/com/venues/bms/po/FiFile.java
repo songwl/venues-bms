@@ -53,6 +53,8 @@ public class FiFile {
 
 	private Integer isDelete;
 
+	private Integer venueId;
+
 	private FiAttach attach;
 
 	/**
@@ -213,6 +215,14 @@ public class FiFile {
 
 	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
+	}
+
+	public Integer getVenueId() {
+		return venueId;
+	}
+
+	public void setVenueId(Integer venueId) {
+		this.venueId = venueId;
 	}
 
 }

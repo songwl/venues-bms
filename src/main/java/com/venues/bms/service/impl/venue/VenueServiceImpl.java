@@ -96,4 +96,17 @@ public class VenueServiceImpl implements VenueService {
 		return attrMap;
 	}
 
+	@Override
+	public int updateVenue(VeVenue venue) {
+		return veVenueMapper.updateByPrimaryKey(venue);
+	}
+
+	@Override
+	public List<VeVenueAttr> searchAttrValue(String attrCode, String attrValue) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("attrCode", attrCode);
+		params.put("attrValue", attrValue);
+		return veVenueAttrMapper.selectByCodeAndValue(params);
+	}
+
 }

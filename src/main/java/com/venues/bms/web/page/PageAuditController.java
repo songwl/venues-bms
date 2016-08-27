@@ -37,10 +37,12 @@ public class PageAuditController extends BaseController {
 	@RequestMapping(value = "/list")
 	public String list(ModelMap model) throws Exception {
 		Page<PgPage> page = this.getPageRequest();
+		page.setPageSize(50);
 		Map<String, Object> params = this.getSearchRequest();
+		params.put("pageState", Enums.PAGE_STATUS.Submit.getCode());
 
 		List<String> orderBy = new ArrayList<>();
-		orderBy.add("id desc");
+		orderBy.add("pageModifyTime desc");
 		page.setOrderBy(orderBy);
 		page = pageService.findPgPages(page, params);
 		model.put("page", page);
@@ -59,7 +61,7 @@ public class PageAuditController extends BaseController {
 			}
 		}
 		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "页面审核", "批量页面审核通过：资源ID=" + ids);
-		return this.ajaxDoneSuccess("批量审核成功");
+		return this.ajaxDoneSuccess("审核成功");
 	}
 
 	@RequestMapping(value = "/batchUnPass", method = RequestMethod.GET)
@@ -73,7 +75,7 @@ public class PageAuditController extends BaseController {
 			}
 		}
 		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "页面审核", "批量页面审核不通过：页面ID=" + ids);
-		return this.ajaxDoneSuccess("批量审核成功");
+		return this.ajaxDoneSuccess("审核成功");
 	}
 
 }
