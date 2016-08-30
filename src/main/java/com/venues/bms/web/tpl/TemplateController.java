@@ -110,7 +110,7 @@ public class TemplateController extends BaseController {
 		template.setUserId(this.getCurrentAccountId());
 		//template = templateService.saveTemplate(template);
 
-		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "用户管理", JSONObject.toJSONString(template));
+		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "模版管理", JSONObject.toJSONString(template));
 		return this.ajaxDoneSuccess("创建成功", template.getId());
 	}
 
@@ -120,7 +120,7 @@ public class TemplateController extends BaseController {
 		template.setTemplateUpdateTime(new Date());
 		//templateService.updateTemplate(template);
 
-		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "用户管理", JSONObject.toJSONString(template));
+		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "模版管理", JSONObject.toJSONString(template));
 		return this.ajaxDoneSuccess("修改成功");
 	}
 
@@ -136,10 +136,12 @@ public class TemplateController extends BaseController {
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultMessage delete(@PathVariable("id") Integer userId) {
-		/*userService.deleteSysUserByUserId(userId);
-		
-		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "用户管理", "删除：userId=" + userId);*/
+	public ResultMessage delete(@PathVariable("id") Integer id) {
+		int result = templateService.deleteTemplate(id);
+		if (result == 0) {
+			return this.ajaxDoneError("该模版已被页面使用，不能删除。");
+		}
+		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "模版管理", "删除：id=" + id);
 		return this.ajaxDoneSuccess("删除成功");
 	}
 

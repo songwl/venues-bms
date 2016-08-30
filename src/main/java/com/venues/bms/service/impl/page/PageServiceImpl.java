@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.venues.bms.core.model.Page;
+import com.venues.bms.dao.PgPageContentMapper;
 import com.venues.bms.dao.PgPageMapper;
 import com.venues.bms.po.PgPage;
 import com.venues.bms.service.page.PageService;
@@ -16,6 +17,9 @@ public class PageServiceImpl implements PageService {
 
 	@Autowired
 	private PgPageMapper pgPageMapper;
+
+	@Autowired
+	private PgPageContentMapper pgPageContentMapper;
 
 	@Override
 	public Page<PgPage> findPgPages(Page<PgPage> page, Map<String, Object> params) {
@@ -66,6 +70,11 @@ public class PageServiceImpl implements PageService {
 	@Override
 	public int update(PgPage page) {
 		return pgPageMapper.updateByPrimaryKey(page);
+	}
+
+	@Override
+	public int deletePage(Integer id) {
+		return pgPageMapper.deleteByPrimaryKey(id);
 	}
 
 }

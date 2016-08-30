@@ -21,4 +21,6 @@ public interface PageService {
 	PgPage getPgPageById(int id);
 
 	int update(PgPage page);
+
+	int deletePage(Integer id);
 }

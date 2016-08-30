@@ -26,6 +26,8 @@ public interface VenueService {
 	int updateVenue(VeVenue venue);
 
 	List<VeVenueAttr> searchAttrValue(String attrCode, String attrValue);
+
+	int deleteVenue(Integer id);
 	
 	VeVenueMeetingroom saveMeeting(VeVenueMeetingroom venue);
 	

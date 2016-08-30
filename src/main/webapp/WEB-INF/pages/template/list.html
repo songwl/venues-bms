@@ -53,7 +53,7 @@
 				              <td>${item.templateCreateTime?string("yyyy-MM-dd HH:mm")}</td>
 				              <td>
 				              	  <a target="_blank" class="btn btn-xs btn-info" href="${ctx}/template/update/${item.id}">编辑</a>
-				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/template/delete/${item.userId}">删除</a>
+				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/template/delete/${item.id}" warn="确认删除吗？">删除</a>
 				              </td>
 				           </tr>
 						</#list>

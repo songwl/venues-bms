@@ -115,6 +115,11 @@ public class VenueServiceImpl implements VenueService {
 	}
 
 	@Override
+	public int deleteVenue(Integer id) {
+		return veVenueMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
 	public List<VeVenueMeetingroom> findMeetingList(Map<String, Object> params) {
 		
 		return veVenueMeetingroomMapper.selectByParams(params);
