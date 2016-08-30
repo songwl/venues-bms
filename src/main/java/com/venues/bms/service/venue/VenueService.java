@@ -7,12 +7,15 @@ import java.util.Map;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.po.VeVenue;
 import com.venues.bms.po.VeVenueAttr;
+import com.venues.bms.po.VeVenueMeetingroom;
 
 public interface VenueService {
 
 	Page<VeVenue> findVenuePage(Page<VeVenue> page, Map<String, Object> params);
 
 	List<VeVenue> findVenueList(Map<String, Object> params);
+	
+	List<VeVenueMeetingroom> findMeetingList(Map<String, Object> params);
 
 	VeVenue save(VeVenue venue, Collection<VeVenueAttr> attrs);
 
@@ -23,4 +26,10 @@ public interface VenueService {
 	int updateVenue(VeVenue venue);
 
 	List<VeVenueAttr> searchAttrValue(String attrCode, String attrValue);
+	
+	VeVenueMeetingroom saveMeeting(VeVenueMeetingroom venue);
+	
+	VeVenueMeetingroom getVenueMeetingroomById(Integer id);
+	
+	int updateMeeting(VeVenueMeetingroom venue);
 }

@@ -1,0 +1,117 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
+
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb panel">
+                    <li><a href="#"><i class="fa fa-home"></i> 酒店及会议室信息发布平台</a></li>
+                    <li><a href="#">场所管理</a></li>
+                    <li class="active">会议室管理</li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<@func.queryForm "${ctx}/venue/meetinglist">
+						<input type="hidden" class="form-control" name="venueID" id="venueID" value="${venueID}">
+					  	<div class="form-group">
+					    	<label for="functionRoom" class="control-label text-right">FunctionRoom:</label>
+					    	<input type="text" class="form-control" name="search_functionRoom" id="functionRoom" value="${searchParams.functionRoom}">
+					  	</div>
+					  	<button class="btn btn-primary" type="submit">查询</button>
+				      	<a class="btn btn-success" target href="${ctx}/venue/newMeeting/${venueID}">新  增</a>
+					</@func.queryForm>
+					
+					<hr/>
+					<@func.table>
+				    	<thead>
+				          <tr>
+				            <th>FunctionRoom</th>
+				            <th>Dimensions</th>
+				            <th>Size(sq.m/sq.ft)</th>
+				            <th>Height(m/ft)</th>
+				            <th>Reception</th>
+				            <th>Banquet</th>
+				            <th>Theatre</th>
+				            <th>Classroom</th>
+				            <th>UShape</th>
+				            <th>Boardroom</th>
+				            <th>HollowSquare</th>
+				            <th>操作</th>
+				          </tr>
+				        </thead>
+				        <#list list as item >
+				           <tr itemid="${item.ID}" class="queue">
+				              <td>${item.functionRoom}</td>
+				              <td>${item.dimensions}</td>
+				              <td>${item.size}</td>
+				              <td>${item.height}</td>
+				              <td>${item.reception}</td>
+				              <td>${item.banquet}</td>
+				              <td>${item.theatre}</td>
+				              <td>${item.classroom}</td>
+				              <td>${item.UShape}</td>
+				              <td>${item.boardroom}</td>
+				              <td>${item.hollowSquare}</td>
+				              <td>
+				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/venue/deleteMeeting/${item.ID}">删除</a>
+				                  <a target class="btn btn-xs btn-info" href="${ctx}/venue/updateMeeting/${item.ID}">编辑</a>
+				                  <a class="go-up" href="javascript:void(0);"><i class="fa fa-arrow-up"></i></a>
+				                  <a class="go-down" href="javascript:void(0);"><i class="fa fa-arrow-down"></i></a>
+				              </td>
+				           </tr>
+						</#list>
+				    </@func.table>
+				</section>
+			</div>
+		</div>
+		
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$(".go-up").click(function(){
+				var $cur = $(this).closest("tr.queue");
+				if($cur.prev("tr.queue").length>0){
+					var $pre = $cur.prev("tr.queue");
+					var curId = $cur.attr("itemid");
+					var preId = $pre.attr("itemid");
+					var url = "${ctx}/venue/exchangeMeeting?orgId="+curId+"&destId="+preId;
+					$.get(url,function(rs){
+						if(rs.success){
+							exchange($cur,$pre);	
+						}
+					});
+				}
+			});
+			
+			$(".go-down").click(function(){
+				var $cur = $(this).closest("tr.queue");
+				if($cur.next("tr.queue").length>0){
+					var $next = $cur.next("tr.queue");
+					var curId = $cur.attr("itemid");
+					var nextId = $next.attr("itemid");
+					var url = "${ctx}/venue/exchangeMeeting?orgId="+curId+"&destId="+nextId;
+					$.get(url,function(rs){
+						if(rs.success){
+							exchange($next,$cur);	
+						}
+					});
+				}
+			});
+			
+			function exchange(org,dest){
+				var tmp = org.clone(true);
+	            org.remove();
+	            dest.before(tmp);
+			}
+
+
+		});
+	</script>
+
+

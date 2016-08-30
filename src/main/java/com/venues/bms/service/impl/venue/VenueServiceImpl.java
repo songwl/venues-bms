@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.venues.bms.core.model.Page;
 import com.venues.bms.dao.VeVenueAttrMapper;
 import com.venues.bms.dao.VeVenueMapper;
+import com.venues.bms.dao.VeVenueMeetingroomMapper;
 import com.venues.bms.po.VeVenue;
 import com.venues.bms.po.VeVenueAttr;
+import com.venues.bms.po.VeVenueMeetingroom;
 import com.venues.bms.service.venue.VenueService;
 
 @Service
@@ -23,6 +25,9 @@ public class VenueServiceImpl implements VenueService {
 
 	@Autowired
 	private VeVenueAttrMapper veVenueAttrMapper;
+	
+	@Autowired
+	private VeVenueMeetingroomMapper veVenueMeetingroomMapper;
 
 	@Override
 	public Page<VeVenue> findVenuePage(Page<VeVenue> page, Map<String, Object> params) {
@@ -108,5 +113,32 @@ public class VenueServiceImpl implements VenueService {
 		params.put("attrValue", attrValue);
 		return veVenueAttrMapper.selectByCodeAndValue(params);
 	}
+
+	@Override
+	public List<VeVenueMeetingroom> findMeetingList(Map<String, Object> params) {
+		
+		return veVenueMeetingroomMapper.selectByParams(params);
+	}
+
+	@Override
+	public VeVenueMeetingroom saveMeeting(VeVenueMeetingroom venue) {
+		venue.setMRSequence(veVenueMeetingroomMapper.getMaxMRSequence(venue.getVenueID())+1);
+		veVenueMeetingroomMapper.insert(venue);
+		return venue;
+	}
+
+	@Override
+	public VeVenueMeetingroom getVenueMeetingroomById(Integer id) {
+		// TODO Auto-generated method stub
+		return veVenueMeetingroomMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public int updateMeeting(VeVenueMeetingroom venue) {
+		veVenueMeetingroomMapper.updateByPrimaryKeySelective(venue);
+
+		return 0;
+	}
+
 
 }

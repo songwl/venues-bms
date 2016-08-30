@@ -1,5 +1,8 @@
 package com.venues.bms.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.venues.bms.po.VeVenueMeetingroom;
 
 public interface VeVenueMeetingroomMapper {
@@ -50,4 +53,8 @@ public interface VeVenueMeetingroomMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(VeVenueMeetingroom record);
+
+	List<VeVenueMeetingroom> selectByParams(Map<String, Object> params);
+	
+	int getMaxMRSequence(Integer venueID);
 }

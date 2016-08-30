@@ -33,6 +33,7 @@
 						</@func.formGroup>
 						<@func.formGroup "场所类型" "venueTypes">
 			               <@dict.showCheckbox dictKey="enums.VENUE_TYPE" selectValue="${venue.venueTypes}" name="venueTypes" required="required" />
+							<a target class="btn btn-xs btn-info" href="${ctx}/venue/meetinglist?venueID=${venue.id}">会议室管理</a>
 						</@func.formGroup>
 						<@func.formGroup "语言" "languages">
 			               <@dict.showCheckbox dictKey="enums.LANGUAGE" selectValue="${venue.languages}" name="languages" required="required" />
