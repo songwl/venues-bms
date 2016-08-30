@@ -72,7 +72,7 @@
 				              <td><@dict.showLabel dictKey="enums.TEMPLATE_TYPE" selectValue="${item.payType}" /></td>
 				              <td>${item.createTime?string("yyyy-MM-dd")}</td>
 				              <td>
-				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/venue/delete/${item.id}">删除</a>
+				                  <a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/venue/delete/${item.id}" warn="确认删除吗？">删除</a>
 				                  <a target class="btn btn-xs btn-info" href="${ctx}/venue/update/${item.id}">编辑</a>
 				              </td>
 				           </tr>

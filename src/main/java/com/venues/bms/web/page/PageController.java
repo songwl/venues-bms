@@ -10,11 +10,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.venues.bms.core.model.Constant;
 import com.venues.bms.core.model.Page;
+import com.venues.bms.core.model.ResultMessage;
 import com.venues.bms.po.PgPage;
 import com.venues.bms.service.page.PageService;
+import com.venues.bms.service.sys.LogService;
+import com.venues.bms.vo.Enums;
 import com.venues.bms.vo.FlexParam;
 import com.venues.bms.web.BaseController;
 
@@ -28,6 +32,9 @@ public class PageController extends BaseController {
 
 	@Autowired
 	private PageService pageService;
+
+	@Autowired
+	private LogService logService;
 
 	@RequestMapping(value = "/list")
 	public String list(ModelMap model) throws Exception {
@@ -80,5 +87,14 @@ public class PageController extends BaseController {
 		param.setUserId(this.getCurrentAccountId());
 		param.setUserType(this.getCurrentAccount().getLoginUserType());
 		return "redirect:" + Constant.getInstance().getProperty("flex_url") + "?" + param.toString();
+	}
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage delete(@PathVariable("id") Integer id) {
+		pageService.deletePage(id);
+
+		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "页面管理", "删除：id=" + id);
+		return this.ajaxDoneSuccess("删除成功");
 	}
 }

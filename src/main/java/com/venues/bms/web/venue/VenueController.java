@@ -88,7 +88,7 @@ public class VenueController extends BaseController {
 
 		venueService.save(venue, venue.getAttrs().values());
 
-		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "创所管理", JSONObject.toJSONString(venue));
+		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "场所管理", JSONObject.toJSONString(venue));
 		return this.ajaxDoneSuccess("创建成功");
 	}
 
@@ -115,14 +115,14 @@ public class VenueController extends BaseController {
 		return this.ajaxDoneSuccess("修改成功");
 	}
 
-	/*@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultMessage delete(@PathVariable("id") Integer userId) {
-		venueService.deleteSysUserByUserId(userId);
-	
-		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "用户管理", "删除：userId=" + userId);
+	public ResultMessage delete(@PathVariable("id") Integer id) {
+		venueService.deleteVenue(id);
+
+		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "场所管理", "删除：id=" + id);
 		return this.ajaxDoneSuccess("删除成功");
-	}*/
+	}
 
 	private int registSysUser(String userLoginname) {
 		SysUser sysUser = new SysUser();

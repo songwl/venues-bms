@@ -80,6 +80,18 @@ function initMainBody(){
 		var $this = $(this);
 		var url = $this.attr("href");
 		var callurl = $this.attr("callurl");
+		var warn = $this.attr("warn");
+		if(warn && warn!=''){
+//			alertMsg.warn(warn,{
+//				buttons: [ 
+//				          {text: "取消", click:function(){alertMsg.close();}},
+//				          {text: "确认", click:function(){alertMsg.close();ajaxTodo(url,callurl);}}
+//				]
+//			});
+//			return false;
+			var cfm = confirm(warn);
+			if(!cfm) return false;
+		}
 		ajaxTodo(url,callurl);
 		return false;
 	});

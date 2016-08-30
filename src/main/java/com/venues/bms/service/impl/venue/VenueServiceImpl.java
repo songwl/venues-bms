@@ -109,4 +109,9 @@ public class VenueServiceImpl implements VenueService {
 		return veVenueAttrMapper.selectByCodeAndValue(params);
 	}
 
+	@Override
+	public int deleteVenue(Integer id) {
+		return veVenueMapper.deleteByPrimaryKey(id);
+	}
+
 }

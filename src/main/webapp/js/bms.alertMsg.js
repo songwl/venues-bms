@@ -70,6 +70,7 @@ var alertMsg = {
 		//按钮事件
 		for(var i in op.buttons){
 			var button = op.buttons[i];
+			//var btnStyle = button.style? button.style : op.style;
 			var $button = $('<button type="button" class="btn btn-'+op.style+'">'+button.text+'</button>');
 			_$box.find(".modal-footer").append($button);
 			$button.bind("click",function(){

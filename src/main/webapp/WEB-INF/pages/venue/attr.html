@@ -29,16 +29,21 @@
 
 <#macro showImageAttr attr itemId itemName value>
 	<button class="btn btn-success upload" id="${itemId}_upload">点击上传</button>
-	<input type="hidden" name="${itemName}" id="${itemId}" value="${value}" <#if attr.required=="Y">required</#if> />
+	<button class="btn btn-danger upload" id="${itemId}_remove">移除</button>
+	<input type="hidden" name="${itemName}" id="${itemId}" value="${value}" <#if attr.required=="Y">class="{required:true,messages:{required:'必须上传'}}"</#if> />
 	<div style="" id="${itemId}_show">
 	</div>
 	<script type="text/javascript">
 		BmsAjaxUpload($("#${itemId}_upload"),function(attach){
 			$("#${itemId}_show").html('<img width="200" src="${ctx}/'+attach.downloadPath+'" alt="">');
-			$("input#${itemId}]").val(attach.downloadPath);
+			$("input#${itemId}").val(attach.downloadPath);
+		});
+		$("#${itemId}_remove").click(function(){
+			$("#${itemId}_show").html("");
+			$("input#${itemId}").val("");
 		});
 		<#if value?? && value!="">
-			$("#${itemId}_show").html('<img src="${ctx}/${value}" alt="">');
+			$("#${itemId}_show").html('<img width="200" src="${ctx}/${value}" alt="">');
 		</#if>
 	</script>
 </#macro>

@@ -53,4 +53,9 @@ public class TemplateServiceImpl implements TemplateService {
 		return tmpTemplateMapper.updateByPrimaryKeySelective(template);
 	}
 
+	@Override
+	public int deleteTemplate(Integer id) {
+		return tmpTemplateMapper.deleteByPrimaryKey(id);
+	}
+
 }
