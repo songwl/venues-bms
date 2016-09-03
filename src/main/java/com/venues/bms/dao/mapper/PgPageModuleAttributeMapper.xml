@@ -135,4 +135,13 @@
       MAValue = #{MAValue,jdbcType=VARCHAR}
     where ID = #{ID,jdbcType=BIGINT}
   </update>
+  
+  <select id="selectByPageIdAndModuleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_page_module_attribute
+    where PageID = #{pageID,jdbcType=INTEGER}
+    AND ModuleID = #{moduleID,jdbcType=INTEGER}
+    order by ModuleID
+  </select>
 </mapper>

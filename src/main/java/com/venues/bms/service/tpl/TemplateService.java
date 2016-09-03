@@ -19,4 +19,6 @@ public interface TemplateService {
 	int updateTemplate(TmpTemplate template);
 
 	int deleteTemplate(Integer id);
+
+	TmpTemplate getTemplateDetail(Integer id);
 }

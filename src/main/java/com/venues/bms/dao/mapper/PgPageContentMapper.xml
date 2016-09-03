@@ -135,4 +135,22 @@
       ContentSequence = #{contentSequence,jdbcType=INTEGER}
     where ID = #{ID,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByPageId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_page_content
+    where PageID = #{pageId,jdbcType=INTEGER}
+    order by ContentSequence
+  </select>
+  
+  <select id="selectByPageIdAndModuleId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_page_content
+    where PageID = #{pageID,jdbcType=INTEGER} and ModuleID = #{moduleID,jdbcType=INTEGER}
+    order by ContentSequence
+  </select>
+  
+  
 </mapper>
