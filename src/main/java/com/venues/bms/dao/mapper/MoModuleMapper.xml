@@ -263,4 +263,13 @@
    		AND ID = #{ID,jdbcType=INTEGER}
    	</if>
   </sql>
+  
+  <select id="selectByTemplateId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_module
+    where TemplateID = #{templateId,jdbcType=INTEGER}
+    order by ID
+  </select>
+  
 </mapper>

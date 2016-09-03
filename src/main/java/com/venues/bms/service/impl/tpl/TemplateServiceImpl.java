@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.venues.bms.core.model.Page;
+import com.venues.bms.dao.MoModuleAttributeMapper;
+import com.venues.bms.dao.MoModuleMapper;
 import com.venues.bms.dao.TmpTemplateMapper;
+import com.venues.bms.po.MoModule;
 import com.venues.bms.po.TmpTemplate;
 import com.venues.bms.service.tpl.TemplateService;
 
@@ -16,6 +19,12 @@ public class TemplateServiceImpl implements TemplateService {
 
 	@Autowired
 	private TmpTemplateMapper tmpTemplateMapper;
+
+	@Autowired
+	private MoModuleMapper moModuleMapper;
+
+	@Autowired
+	private MoModuleAttributeMapper moModuleAttributeMapper;
 
 	@Override
 	public Page<TmpTemplate> findTemplatePage(Page<TmpTemplate> page, Map<String, Object> params) {
@@ -56,6 +65,13 @@ public class TemplateServiceImpl implements TemplateService {
 	@Override
 	public int deleteTemplate(Integer id) {
 		return tmpTemplateMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public TmpTemplate getTemplateDetail(Integer templateId) {
+		TmpTemplate template = tmpTemplateMapper.selectByPrimaryKey(templateId);
+		List<MoModule> moduleList = moModuleMapper.selectByTemplateId(template.getId());
+		return template;
 	}
 
 }

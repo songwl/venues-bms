@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.venues.bms.core.model.Constant;
 import com.venues.bms.core.utils.JSONResultUtils;
 import com.venues.bms.po.FiAttach;
 import com.venues.bms.service.file.FileService;
@@ -95,7 +96,8 @@ public class FileUploadController extends BaseController {
 	 * @return 绝对路径  D:/server/root/upload/xxx/xxx
 	 */
 	private String getAbsolutePath(HttpServletRequest request, String path) {
-		return request.getSession().getServletContext().getRealPath(path);
+		//return request.getSession().getServletContext().getRealPath(path);
+		return Constant.getInstance().getProperty("static_upload_path") + path;
 	}
 
 }

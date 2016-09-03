@@ -57,4 +57,6 @@ public interface MoModuleMapper {
 	int selectCountByParams(Map<String, Object> params);
 
 	List<MoModule> selectByParams(Map<String, Object> params);
+
+	List<MoModule> selectByTemplateId(Integer templateId);
 }

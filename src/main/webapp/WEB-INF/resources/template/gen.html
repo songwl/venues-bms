@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="description" content="${page.pageDescription}">
+	<title>${page.pageName}</title>
+	<link rel="stylesheet" href="${static_host}/resources/js/swiper/swiper.min.css" type="text/css" />
+	
+	<style type="text/css">
+		#module_123456{
+			position: absolute;
+			left: 1px;
+			top: 1px;
+			width: 300px;
+			height: 250px;
+			background-image:url("11");
+			z-index: 100;
+			color: #111111;
+			font-family: serif;
+			font-size:10;
+			font-weight: bold;
+			font-style: 11;
+			text-decoration: underline;
+			background-color: #23993;
+			opacity: 30;
+			vertical-align: top;
+			text-align: center; 
+			zoom:normal;
+		}
+		body{
+			width: ${page.bodyWidth}px;
+			height: ${page.bodyHeight}px;
+			background-color: #${page.backgroundColor};
+			background-image: url('${static_host}/${page.backgroundImage}');
+		}
+		<#list page.modules as m>
+		#module_${m.moduleId}{
+			position: absolute;
+			display: block;
+			overflow: hidden;
+			left: ${m.left}px;
+			top: ${m.top}px;
+			width: ${m.width}px;
+			height: ${m.height}px;
+			<#if m.backgroundImage?? && m.backgroundImage!=''>
+			background-image:url("${static_host}/${m.backgroundImage}");
+			</#if>
+			z-index: ${m.zIndex!0};
+			color: ${m.color!'inherit'};
+			font-family: ${m.fontFamily!'inherit'};
+			font-size: ${m.fontSize!'inherit'}px;
+			font-weight: ${m.fontWeight!'inherit'};
+			font-style: ${m.fontStyle!'inherit'};
+			text-decoration: ${m.textDecoration!'none'};
+			background-color: ${m.backgroundColor!'inherit'};
+			opacity: ${m.opacity!100};
+			vertical-align: ${m.verticalAlign!'inherit'};
+			text-align: ${m.textAlign!'inherit'}; 
+			<#if m.zoomMode??>
+			zoom: ${m.zoomMode};
+			</#if>
+		}
+		</#list>
+	</style>
+</head>
+<body>
+	<#list page.modules as module>
+			<#if module.moduleType=="IMAGE" && module.imageUrls??>
+				<div id="module_${module.moduleId}" class="swiper-container swiper-top">
+					<div class="swiper-wrapper">
+						<#list module.imageUrls as url>
+							<div class="swiper-slide">
+								<a href="javascript:;">
+									<img class="module-img" width="100%"  alt="" src="${static_host}/${url}" >
+								</a>
+							</div>
+						</#list>
+					</div>
+					<#if module.imageUrls?size gt 1>
+						<div class="swiper-pagination swiper-pagination-top"></div>
+					</#if>
+				</div>
+			<#elseif module.moduleType=="VIDEO">
+				<div id="module_${module.moduleId}" class="module_video" url="${static_host}/${module.videoUrl}">
+				</div>
+			<#else>
+				<div id="module_${module.moduleId}">
+					${module.content}
+				</div>
+			</#if>
+	</#list>
+	<!-- <div id="module_123456" class="module_video" url="http://222.73.31.232:8080/venues/upload/2016_3/8_8/2.flv">
+	<div> -->
+				
+	<script src="${static_host}/resources/js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="${static_host}/resources/js/swiper/swiper.min.js"></script>
+	<script src="${static_host}/resources/js/swfplayer/swfobject.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var topSliderSwiper = new Swiper('.swiper-container', {
+					pagination: '.swiper-pagination-top',
+					autoplay: 3000,
+					autoplayDisableOnInteraction: false,
+					loop: true,
+					effect: 'fade',
+					observe: true,
+					observeParents: true,
+					paginationClickable: false,
+					runCallbacksOnInit: true,
+					paginationBulletRender: function (index, className) {
+							return '<span class="' + className + '"></span>';
+					},
+					onSlideChangeEnd: function(swiper) {
+					}
+			});
+			
+			$(".module_video").each(function(){
+				var rel = $(this).attr("id");
+				var filePath = $(this).attr("url");
+				showVideo(rel,filePath);
+			});
+			
+			function showVideo(rel,filePath){
+				var width = $("#"+rel).width();
+				var height = $("#"+rel).height();
+				var s1 = new SWFObject("${static_host}/resources/js/swfplayer/flvplayer.swf","single",width,height,"7");
+				s1.addParam("allowfullscreen","true");
+				s1.addVariable("file", filePath);
+				s1.addVariable("width",width);
+				s1.addVariable("height",height);
+				s1.write(rel);
+			};
+		});
+	</script>
+	
+	
+</body>
+</html>

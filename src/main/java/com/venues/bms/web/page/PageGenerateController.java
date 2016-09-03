@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.venues.bms.po.PgPage;
 import com.venues.bms.service.page.PageService;
+import com.venues.bms.vo.GenPage;
 import com.venues.bms.web.BaseController;
 
 /**
@@ -22,15 +22,17 @@ public class PageGenerateController extends BaseController {
 	@Autowired
 	private PageService pageService;
 
-	@RequestMapping(value = "/generate")
-	public String generate(ModelMap model) throws Exception {
-		return "pg/list";
+	@RequestMapping(value = "/generate/{id}")
+	public String generate(ModelMap model, @PathVariable Integer id) throws Exception {
+		pageService.generatePage(id);
+		return "redirect:/upload/" + id + ".html";
 	}
 
 	@RequestMapping(value = "/review/{id}", method = RequestMethod.GET)
 	public String review(ModelMap model, @PathVariable Integer id) throws Exception {
-		PgPage page = pageService.getPgPageById(id);
-		return "";
+		GenPage page = pageService.getPageDetail(id);
+		model.put("page", page);
+		return "pg/review";
 	}
 
 }

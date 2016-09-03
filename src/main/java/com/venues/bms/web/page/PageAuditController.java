@@ -72,6 +72,7 @@ public class PageAuditController extends BaseController {
 			int id = NumberUtils.toInt(str);
 			if (id > 0) {
 				pageService.updatePageStatus(id, Enums.PAGE_STATUS.AuditNotPass.getCode());
+				pageService.generatePage(id);
 			}
 		}
 		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "页面审核", "批量页面审核不通过：页面ID=" + ids);
