@@ -1,7 +1,7 @@
 <#macro page pageInfo="" paramPage="page" ajax="">
 <#if pageInfo!0 gt 0>
 	<div class="panel-body">
-		<form action="${pageInfo.url}" page>
+		<form action="${pageInfo.url}" page <#if ajax!="">ajax="${ajax}"</#if>>
 		<div class="span6">
 			<div class="dataTables_info" id="hidden-table-info_info">第${pageInfo.page}页/共${pageInfo.totalCount}条</div>
 		</div>

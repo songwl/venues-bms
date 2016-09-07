@@ -1,0 +1,41 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
+
+					<@func.table>
+				    	<thead>
+				          <tr>
+				            <th>资源名称</th>
+				            <th>所属用户</th>
+				            <th>资源类型</th>
+				            <th>资源大小</th>
+				            <th>上传时间</th>
+				            <th>操作</th>
+				          </tr>
+				        </thead>
+				        <#list page.itemList as item >
+				           <tr>
+				              <td>${item.attach.name}</td>
+				              <td><@dict.showUser "${item.userID}" /></td>
+				              <td>${item.attach.ext}</td>
+				              <td>${item.attach.displaySize}</td>
+				              <td>${item.fileUploadTime?string("yyyy-MM-dd")}</td>
+				              <td>
+				              	<a class="btn btn-xs btn-success" href="javascript:selectItem('${item.attach.downloadPath}','${item.attach.name}');">选择</a>
+				              </td>
+				           </tr>
+						</#list>
+				    </@func.table>
+				    <#import "/base/pagination.html" as pagination>
+					<@pagination.page pageInfo=page ajax="#${groupId}" />
+					
+					<script type="text/javascript">
+						function selectItem(itemPath,itemName){
+							$("#${groupId}_id").val(itemPath);
+							$("#${groupId}_name").val(itemName);
+							$("#${groupId}_show").html('<img width="200" src="${ctx}/'+itemPath+'" alt="">');
+							var modalId = $("#${groupId}_select").attr("data-target");
+							$(modalId).modal("hide");
+							$(".modal-backdrop").remove();
+						}
+					</script>

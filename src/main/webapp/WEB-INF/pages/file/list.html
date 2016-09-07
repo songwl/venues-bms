@@ -73,7 +73,7 @@
 				              <td>
 				              	<p class="s-venue" style="display:none;"><@dict.showVenue dictKey="${item.venueId}" /></p>
 				              	<a ajaxToDo class="btn btn-xs btn-danger" href="${ctx}/file/delete/${item.id}">删除</a>
-				              	<#if item.isPass==0>
+				              	<#if isAdmin && item.isPass==0>
 				              	<a ajaxToDo class="btn btn-xs btn-info" href="${ctx}/file/pass/${item.id}">审核通过</a>
 				              	</#if>
 				              </td>

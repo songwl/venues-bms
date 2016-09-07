@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
@@ -110,5 +111,26 @@ public class FileController extends BaseController {
 		}
 		logService.saveLog(Enums.LOG_TYPE.UPDATE, this.getCurrentAccount().getLoginUsername(), "资源管理", "批量审核通过：资源ID=" + ids);
 		return this.ajaxDoneSuccess("批量审核成功");
+	}
+
+	@RequestMapping(value = "/select")
+	public String select(ModelMap model, @RequestParam String groupId) throws Exception {
+		Page<FiFile> page = this.getPageRequest();
+		Map<String, Object> params = this.getSearchRequest();
+		params.put("isDelete", 0);
+		params.put("isPass", 1);
+		if (!isAdmin()) {
+			params.put("userID", getCurrentAccountId());
+		}
+
+		List<String> orderBy = new ArrayList<>();
+		orderBy.add("id desc");
+		page.setOrderBy(orderBy);
+		page = fileService.findFilePage(page, params);
+		model.put("groupId", groupId);
+		model.put("page", page);
+		model.put("searchParams", params);
+		model.put("isAdmin", isAdmin());
+		return "file/select";
 	}
 }
