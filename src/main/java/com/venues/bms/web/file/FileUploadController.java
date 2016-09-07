@@ -85,7 +85,7 @@ public class FileUploadController extends BaseController {
 		StringBuilder sb = new StringBuilder();
 		Calendar cal = Calendar.getInstance();
 		sb.append("/").append(cal.get(Calendar.YEAR)).append('_').append(cal.get((Calendar.MONTH)) / 3 + 1).append("/").append(cal.get(Calendar.MONTH) + 1).append('_')
-				.append(cal.get(Calendar.DAY_OF_MONTH));
+				.append(cal.get(Calendar.DAY_OF_MONTH)).append("/");
 		return sb.toString();
 	}
 

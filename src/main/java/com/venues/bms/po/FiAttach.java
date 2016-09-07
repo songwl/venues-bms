@@ -203,7 +203,7 @@ public class FiAttach {
 	 * @return
 	 */
 	public String getDownloadPath() {
-		return this.getUrlPath() + "/" + this.getName();
+		return this.getUrlPath() + this.getName();
 	}
 
 	public String getDisplaySize() {
