@@ -116,10 +116,15 @@
 	<!--Modal Template -->
     <div class="modal fade" id="modalTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width:800px;">
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    	$('#modalTemplate').on("hidden.bs.modal", function() {  
+    	    $(this).removeData("bs.modal");  
+    	});  
+	</script>
     <!-- modal -->
 </@base.html>
 
