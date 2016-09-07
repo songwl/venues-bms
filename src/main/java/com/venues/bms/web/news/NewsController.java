@@ -69,9 +69,10 @@ public class NewsController extends BaseController {
 
 	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable("id") java.lang.Integer id, ModelMap model) {
+		NeNews news = newsService.getNewsById(id);
 		FlexParam param = new FlexParam();
 		param.setTpType(FlexParam.TP_TYPE.page.name());
-		param.setTpID(id);
+		param.setTpID(news.getNewsPage());
 		param.setIsNewOrModify(1);
 		param.setIsOnlyView(1);
 		param.setPageTypeID(Enums.PAGE_TYPE.NewsPage.getCode());

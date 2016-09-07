@@ -23,6 +23,12 @@
 					    	<input type="text" class="form-control" name="search_venueName" id="venueName" value="${searchParams.venueName!''}">
 					    	<input type="hidden" name="search_venueID" id="venueId" value="${searchParams.venueID!''}">
 					  	</div>
+					  	<div class="form-group">
+					    	<label for="pageState" class="control-label text-right">状态:</label>
+					    	<select class="form-control" name="search_pageState">
+					    		<@dict.showOptions dictKey="enums.PAGE_STATUS" selectValue="${searchParams.pageState!''}" haveBlank="Y" />
+					    	</select>
+					  	</div>
 					  	<button class="btn btn-primary" type="submit">查询</button>
 					</@func.queryForm>
 					

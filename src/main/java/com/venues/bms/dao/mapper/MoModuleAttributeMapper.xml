@@ -111,4 +111,12 @@
       MAValue = #{MAValue,jdbcType=VARCHAR}
     where ID = #{ID,jdbcType=INTEGER}
   </update>
+  
+   <select id="selectByTemplateID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_module_attribute
+    WHERE ModuleID in (select ID FROM tbl_module m WHERE m.templateID=#{templateID,jdbcType=INTEGER})
+  </select>
+  
 </mapper>

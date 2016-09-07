@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.venues.bms.core.model.Page;
+import com.venues.bms.po.PgPage;
 import com.venues.bms.po.VeVenue;
 import com.venues.bms.po.VeVenueAttr;
 import com.venues.bms.po.VeVenueMeetingroom;
@@ -34,4 +35,7 @@ public interface VenueService {
 	VeVenueMeetingroom getVenueMeetingroomById(Integer id);
 	
 	int updateMeeting(VeVenueMeetingroom venue);
+	
+	int deleteVenueMeeting(Integer id);
+
 }

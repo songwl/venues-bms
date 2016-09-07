@@ -17,7 +17,7 @@ public class GenPage implements Serializable {
 
 	private Integer bodyHeight;
 
-	private Integer backgroundColor;
+	private String backgroundColor;
 
 	private String backgroundImage;
 
@@ -71,11 +71,11 @@ public class GenPage implements Serializable {
 		this.bodyHeight = bodyHeight;
 	}
 
-	public Integer getBackgroundColor() {
+	public String getBackgroundColor() {
 		return backgroundColor;
 	}
 
-	public void setBackgroundColor(Integer backgroundColor) {
+	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 

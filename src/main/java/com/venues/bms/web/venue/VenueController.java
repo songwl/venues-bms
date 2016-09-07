@@ -170,6 +170,15 @@ public class VenueController extends BaseController {
 		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "场所管理", "删除：id=" + id);
 		return this.ajaxDoneSuccess("删除成功");
 	}
+	
+	@RequestMapping(value = "/deleteMeeting/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage deleteMeeting(@PathVariable("id") Integer id) {
+		venueService.deleteVenueMeeting(id);
+
+		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "会议室管理", "删除：id=" + id);
+		return this.ajaxDoneSuccess("删除成功");
+	}
 
 	private int registSysUser(String userLoginname) {
 		SysUser sysUser = new SysUser();
@@ -210,4 +219,5 @@ public class VenueController extends BaseController {
 		venueService.updateMeeting(dest);
 		return this.ajaxDoneSuccess("");
 	}
+	
 }

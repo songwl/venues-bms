@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.venues.bms.core.model.Page;
 import com.venues.bms.po.PgPage;
+import com.venues.bms.po.VeVenue;
 import com.venues.bms.vo.GenPage;
 
 public interface PageService {
@@ -28,4 +29,6 @@ public interface PageService {
 	GenPage getPageDetail(int id);
 
 	int generatePage(int id);
+	
+	PgPage buildHomePage(VeVenue venue, String languageCode);
 }

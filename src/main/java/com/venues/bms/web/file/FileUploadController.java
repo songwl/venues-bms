@@ -85,7 +85,7 @@ public class FileUploadController extends BaseController {
 		StringBuilder sb = new StringBuilder();
 		Calendar cal = Calendar.getInstance();
 		sb.append("/").append(cal.get(Calendar.YEAR)).append('_').append(cal.get((Calendar.MONTH)) / 3 + 1).append("/").append(cal.get(Calendar.MONTH) + 1).append('_')
-				.append(cal.get(Calendar.DAY_OF_MONTH)).append("/");
+				.append(cal.get(Calendar.DAY_OF_MONTH));
 		return sb.toString();
 	}
 
@@ -97,7 +97,7 @@ public class FileUploadController extends BaseController {
 	 */
 	private String getAbsolutePath(HttpServletRequest request, String path) {
 		//return request.getSession().getServletContext().getRealPath(path);
-		return Constant.getInstance().getProperty("static_upload_path") + path;
+		return Constant.getInstance().getProperty("static_upload_path") + "/" + path;
 	}
 
 }

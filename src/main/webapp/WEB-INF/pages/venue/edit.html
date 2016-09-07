@@ -24,16 +24,16 @@
 				<section class="panel">
 					<@func.validForm "${ctx}/venue/${action}" "${ctx}/venue/list">
 						<input type="hidden" name="id" value="${venue.id}" />
-						<#-- 
+						
 						<@func.formGroup "场所编号" "venueCode">
 							<input type="text" class="form-control {required:true}" name="venueCode"  value="${venue.venueCode}" <#if venue.venueCode??>readonly</#if> />
-						</@func.formGroup> -->
+						</@func.formGroup>
 						<@func.formGroup "场所管理员" "venueManager">
 							<input type="text" class="form-control" name="venueManager"  value="${venue.venueManager}" />
 						</@func.formGroup>
 						<@func.formGroup "场所类型" "venueTypes">
 			               <@dict.showCheckbox dictKey="enums.VENUE_TYPE" selectValue="${venue.venueTypes}" name="venueTypes" required="required" />
-							<a target class="btn btn-xs btn-info" href="${ctx}/venue/meetinglist?venueID=${venue.id}">会议室管理</a>
+							<#if venue.id??><a target class="btn btn-xs btn-info" href="${ctx}/venue/meetinglist?venueID=${venue.id}">会议室管理</a></#if>
 						</@func.formGroup>
 						<@func.formGroup "语言" "languages">
 			               <@dict.showCheckbox dictKey="enums.LANGUAGE" selectValue="${venue.languages}" name="languages" required="required" />
@@ -59,7 +59,7 @@
 						<#assign languages = dictList />
 						<#list languages as language>
 							<div id="${language.value}" class="col-md-12 language" style="border:1px solid #eff2f7;margin-bottom: 15px;"><h3>${language.label}</h3>
-								
+							<#if venue.id??><a ajaxTodo class="btn btn-xs btn-info" href="${ctx}/page/buildHomePage?venueId=${venue.id}&languageCode=${language.value}">自动生成首页</a></#if>
 							<#list attrGroups as attrGroup>
 								<#if attrGroup.attrs?? && attrGroup.attrs?size gt 0>
 								<div id="${attrGroup.venueType}_${language.value}" class="attrGroup col-md-12" style="padding-top:15px;border-top: 1px solid #eff2f7;">

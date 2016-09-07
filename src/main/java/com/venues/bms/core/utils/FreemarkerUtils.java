@@ -77,6 +77,7 @@ public class FreemarkerUtils {
 			config.setDefaultEncoding("UTF-8");
 			config.setDirectoryForTemplateLoading(file);
 			config.setClassicCompatible(true);
+			config.setNumberFormat("0.##########");
 			Template tp = config.getTemplate(template);
 			StringWriter stringWriter = new StringWriter();
 			writer = new BufferedWriter(stringWriter);

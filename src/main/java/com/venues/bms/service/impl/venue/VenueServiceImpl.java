@@ -1,6 +1,7 @@
 package com.venues.bms.service.impl.venue;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.venues.bms.core.model.Page;
+import com.venues.bms.dao.PgPageContentMapper;
+import com.venues.bms.dao.PgPageMapper;
 import com.venues.bms.dao.VeVenueAttrMapper;
 import com.venues.bms.dao.VeVenueMapper;
 import com.venues.bms.dao.VeVenueMeetingroomMapper;
+import com.venues.bms.po.PgPage;
 import com.venues.bms.po.VeVenue;
 import com.venues.bms.po.VeVenueAttr;
 import com.venues.bms.po.VeVenueMeetingroom;
@@ -22,6 +26,12 @@ public class VenueServiceImpl implements VenueService {
 
 	@Autowired
 	private VeVenueMapper veVenueMapper;
+	
+	@Autowired
+	private PgPageMapper pgPageMapper;
+	
+	@Autowired
+	private PgPageContentMapper pgPageContentMapper;
 
 	@Autowired
 	private VeVenueAttrMapper veVenueAttrMapper;
@@ -127,7 +137,11 @@ public class VenueServiceImpl implements VenueService {
 
 	@Override
 	public VeVenueMeetingroom saveMeeting(VeVenueMeetingroom venue) {
-		venue.setMRSequence(veVenueMeetingroomMapper.getMaxMRSequence(venue.getVenueID())+1);
+		Integer max=veVenueMeetingroomMapper.getMaxMRSequence(venue.getVenueID());
+		if(max==null){
+			max = 0;
+		}
+		venue.setMRSequence(max+1);
 		veVenueMeetingroomMapper.insert(venue);
 		return venue;
 	}
@@ -143,6 +157,12 @@ public class VenueServiceImpl implements VenueService {
 		veVenueMeetingroomMapper.updateByPrimaryKeySelective(venue);
 
 		return 0;
+	}
+
+	@Override
+	public int deleteVenueMeeting(Integer id) {
+		// TODO Auto-generated method stub
+		return veVenueMeetingroomMapper.deleteByPrimaryKey(id);
 	}
 
 

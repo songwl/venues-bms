@@ -56,5 +56,5 @@ public interface VeVenueMeetingroomMapper {
 
 	List<VeVenueMeetingroom> selectByParams(Map<String, Object> params);
 	
-	int getMaxMRSequence(Integer venueID);
+	Integer getMaxMRSequence(Integer venueID);
 }

@@ -65,4 +65,6 @@ public interface PgPageMapper {
 	int updatePublishByIds(@Param(value = "ids") String ids);
 
 	int updateAllPublishOff();
+	
+	Integer getMaxSequence();
 }

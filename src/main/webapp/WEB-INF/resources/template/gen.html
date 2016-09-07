@@ -32,7 +32,9 @@
 			width: ${page.bodyWidth}px;
 			height: ${page.bodyHeight}px;
 			background-color: #${page.backgroundColor};
+			<#if page.backgroundImage??>
 			background-image: url('${static_host}/${page.backgroundImage}');
+			</#if>
 		}
 		<#list page.modules as m>
 		#module_${m.moduleId}{
@@ -54,12 +56,11 @@
 			font-style: ${m.fontStyle!'inherit'};
 			text-decoration: ${m.textDecoration!'none'};
 			background-color: ${m.backgroundColor!'inherit'};
-			opacity: ${m.opacity!100};
+			<#if m.opacity??>
+			opacity: ${1-(m.opacity?number)};
+			</#if>
 			vertical-align: ${m.verticalAlign!'inherit'};
 			text-align: ${m.textAlign!'inherit'}; 
-			<#if m.zoomMode??>
-			zoom: ${m.zoomMode};
-			</#if>
 		}
 		</#list>
 	</style>
@@ -72,7 +73,16 @@
 						<#list module.imageUrls as url>
 							<div class="swiper-slide">
 								<a href="javascript:;">
-									<img class="module-img" width="100%"  alt="" src="${static_host}/${url}" >
+									<img class="module-img" alt="" src="${static_host}/${url}" 
+									<#if module.zoomMode??>
+										<#if module.zoomMode=="stretch">
+											width="100%" height="100%"
+										<#elseif module.zoomMode=="letterbox">
+											min-width="100%" min-height="100%"
+										<#elseif module.zoomMode=="zoom">
+										</#if>
+									</#if>
+									>
 								</a>
 							</div>
 						</#list>

@@ -1,5 +1,7 @@
 package com.venues.bms.dao;
 
+import java.util.List;
+
 import com.venues.bms.po.MoModuleAttribute;
 
 public interface MoModuleAttributeMapper {
@@ -50,4 +52,6 @@ public interface MoModuleAttributeMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(MoModuleAttribute record);
+
+	List<MoModuleAttribute> selectByTemplateID(Integer templateID);
 }

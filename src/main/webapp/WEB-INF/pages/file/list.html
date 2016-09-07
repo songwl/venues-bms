@@ -183,11 +183,11 @@
 			$("#fileCreateModal .upload-modal").hide();
 			var html = '';
 			var ext = attach.ext;
-			var filePath = "${ctx}/"+attach.downloadPath;
+			var filePath = "${static_host}/"+attach.downloadPath;
 			if(ext=="flv"){
 				html += '<div align="center" id="c-video" style="display: none;"></div>';
 			}else{
-				html += '<img src="${ctx}/'+attach.downloadPath+'" alt="">';
+				html += '<img src="${static_host}/'+attach.downloadPath+'" alt="">';
 			}
 			html += '<p class="mtop10"><strong>资源名称:</strong>'+attach.name+'</p>';
 			html += '<p><strong>资源类型:</strong> '+attach.ext+'</p>';
@@ -212,7 +212,7 @@
 		$(".view-file").click(function(){
 			var $tr = $(this).closest("tr");
 			var ext = $.trim($tr.find(".s-ext").text());
-			var filePath = "${ctx}/"+$tr.attr("downloadPath");
+			var filePath = "${static_host}/"+$tr.attr("downloadPath");
 			if(ext=="flv"){
 				showVideo("s-video",filePath);
 				$("#fileViewModal #s-video").show();

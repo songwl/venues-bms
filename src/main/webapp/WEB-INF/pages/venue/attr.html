@@ -35,7 +35,7 @@
 	</div>
 	<script type="text/javascript">
 		BmsAjaxUpload($("#${itemId}_upload"),function(attach){
-			$("#${itemId}_show").html('<img width="200" src="${ctx}/'+attach.downloadPath+'" alt="">');
+			$("#${itemId}_show").html('<img width="200" src="${static_host}/'+attach.downloadPath+'" alt="">');
 			$("input#${itemId}").val(attach.downloadPath);
 		});
 		$("#${itemId}_remove").click(function(){
@@ -43,7 +43,7 @@
 			$("input#${itemId}").val("");
 		});
 		<#if value?? && value!="">
-			$("#${itemId}_show").html('<img width="200" src="${ctx}/${value}" alt="">');
+			$("#${itemId}_show").html('<img width="200" src="${static_host}/${value}" alt="">');
 		</#if>
 	</script>
 </#macro>
