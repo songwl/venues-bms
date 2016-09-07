@@ -105,10 +105,10 @@
        	AND file.IsDelete = #{isDelete,jdbcType=INTEGER}
     </if>
     <if test="startTime != null and startTime != ''" > 
-       	AND file.FileUploadTime > #{startTime,jdbcType=TIMESTAMP}
+       	AND file.FileUploadTime >= #{startTime,jdbcType=TIMESTAMP}
     </if>
     <if test="endTime != null and endTime != ''" > 
-       	AND file.FileUploadTime &lt; #{endTime,jdbcType=TIMESTAMP}
+       	AND #{endTime,jdbcType=TIMESTAMP} >= file.FileUploadTime 
     </if>
     <if test="fileName != null and fileName != ''" > 
        	AND attach.Name like CONCAT('%',#{fileName,jdbcType=VARCHAR},'%')

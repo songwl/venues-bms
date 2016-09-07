@@ -46,13 +46,14 @@
 			$("#${itemId}_show").html('<img width="200" src="${static_host}/${value}" alt="">');
 		</#if>
 	</script> -->
-	
-	<input class="form-control" id="${itemId}_name" readonly="readonly" />
-	<input type="hidden" name="${itemName}" id="${itemId}_id" value="${value}" <#if attr.required=="Y">class="{required:true,messages:{required:'必须上传'}}"</#if> />
 	<a id="${itemId}_select" class="btn btn-success" data-toggle="modal" data-target="#modalTemplate" href="${ctx}/file/select?groupId=${itemId}">选择图片</a>
+	<!-- <input class="form-control" id="${itemId}_name" readonly="readonly" /> -->
+	<input type="hidden" name="${itemName}" id="${itemId}_id" value="${value}" <#if attr.required=="Y">class="{required:true,messages:{required:'必须上传'}}"</#if> />
+	
 	<div style="" id="${itemId}_show"></div>
 	<script type="text/javascript">
 		<#if value?? && value!="">
 			$("#${itemId}_show").html('<img width="200" src="${static_host}/${value}" alt="">');
 		</#if>
 	</script> 
+</#macro>
