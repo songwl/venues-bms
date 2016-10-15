@@ -62,7 +62,7 @@ public class FileController extends BaseController {
 	public ResultMessage create(FiFile file) {
 		file.setUserID(getCurrentAccountId());
 		file.setFileUploadTime(new Date());
-		file.setIsPass(0);
+		file.setIsPass(1);
 		file.setIsDelete(0);
 		fileService.saveFile(file);
 		logService.saveLog(Enums.LOG_TYPE.NEW, this.getCurrentAccount().getLoginUsername(), "资源管理", JSONObject.toJSONString(file));

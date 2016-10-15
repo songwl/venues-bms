@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.venues.bms.core.model.Page;
 import com.venues.bms.core.model.ResultMessage;
+import com.venues.bms.po.GuComment;
 import com.venues.bms.po.GuGuest;
 import com.venues.bms.po.GuGuestMessage;
 import com.venues.bms.service.guest.GuestService;
@@ -69,6 +70,17 @@ public class GuestController extends BaseController {
 			guestService.deleteGuestMessage(id);
 		}
 		return ajaxDoneSuccess("删除成功！");
+	}
+
+	@RequestMapping(value = "/comment/list")
+	public String commentList(ModelMap model) throws Exception {
+		Page<GuComment> page = this.getPageRequest();
+		Map<String, Object> params = this.getSearchRequest();
+
+		page = guestService.findCommentPage(page, params);
+		model.put("page", page);
+		model.put("searchParams", params);
+		return "guest/comment_list";
 	}
 
 }

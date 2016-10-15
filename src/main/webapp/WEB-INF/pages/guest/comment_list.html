@@ -1,0 +1,85 @@
+<#import "/base/bms.html" as bms>
+<#import "/base/func.html" as func>
+<#import "/base/dict.html" as dict>
+
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb panel">
+                    <li><a href="#"><i class="fa fa-home"></i> 酒店及会议室信息发布平台</a></li>
+                    <li><a href="#">评论管理</a></li>
+                    <li class="active">列表</li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<@func.queryForm "${ctx}/guest/list">
+				    	<div class="form-group">
+					    	<label for="pageName" class="control-label text-right">场所:</label>
+					    	<input type="text" class="form-control" name="search_venueName" id="venueName" value="${searchParams.venueName!''}">
+					    	<input type="hidden" name="search_venueID" id="venueId" value="${searchParams.venueID!''}">
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="startCreateTime" class="control-label text-right">起始日期:</label>
+					    	<input type="text" class="form-control date-picker" name="search_startTime" id="startTime" value="${searchParams.startTime!''}">
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="endCreateTime" class="control-label text-right">结束日期:</label>
+					    	<input type="text" class="form-control date-picker" name="search_endTime" id="endTime" value="${searchParams.endTime!''}">
+					  	</div>
+					  	<button class="btn btn-primary" type="submit">查询</button>
+					</@func.queryForm>
+					
+					<hr/>
+					<div class="col-md-12">
+					    <a checkToDo rel="ids" class="btn btn-danger" href="${ctx}/guest/batchDelete">删除</a>
+				    </div>
+					<@func.table>
+				    	<thead>
+				          <tr>
+				            <th>场所名称</th>
+				            <th>游客</th>
+				            <th>评论内容</th>
+				            <th>评论时间</th>
+				            <th>语种</th>
+				            <th>评论状态</th>
+				            <th>操作</th>
+				          </tr>
+				        </thead>
+				        <#list page.itemList as item>
+				           <tr>
+				              <td><@dict.showVenue dictKey="${item.venueID}" /></td>
+				              <td>${item.guestID}</td>
+				              <td>${item.content}</td>
+				              <td>${item.createTIme?string("yyyy-MM-dd HH:mm")}</td>
+				              <td>${item.languageCode}</td>
+				              <td>${item.commState}</td>
+				              <td>
+				              	  <a target class="btn btn-xs btn-danger" href="${ctx}/guest/comment/delete/${item.ID}">删除</a>
+				              </td>
+				           </tr>
+						</#list>
+				    </@func.table>
+				    <#import "/base/pagination.html" as pagination>
+					<@pagination.page page/>
+				</section>
+			</div>
+		</div>
+		
+	</div>
+	<script type="text/javascript">
+		$("input#venueName").jsonSuggest({
+	      	url:"${ctx}/venue/queryAutoComplete.do",
+	      	maxResults: 10,
+	      	emptyKeyup:true,
+	      	width:200,
+	      	minCharacters:1,
+	      	onSelect:function(item){
+	      		$("#venueId").val(item.id);
+	      	}
+	      });
+	</script>

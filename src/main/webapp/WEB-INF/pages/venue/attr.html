@@ -21,6 +21,8 @@
 			<@showImageAttr attr itemId itemName value />
 		<#elseif attr.attrType == "video">
 		
+		<#elseif attr.attrType == "tag">
+			<@showTagAttr attr itemId itemName value />
 	    </#if>
              
 	</@afunc.formGroup>
@@ -28,7 +30,7 @@
 </#macro>
 
 <#macro showImageAttr attr itemId itemName value>
-	<!-- <button class="btn btn-success upload" id="${itemId}_upload">点击上传</button>
+	<button class="btn btn-success upload" id="${itemId}_upload">点击上传</button>
 	<button class="btn btn-danger upload" id="${itemId}_remove">移除</button>
 	<input type="hidden" name="${itemName}" id="${itemId}" value="${value}" <#if attr.required=="Y">class="{required:true,messages:{required:'必须上传'}}"</#if> />
 	<div style="" id="${itemId}_show">
@@ -45,9 +47,10 @@
 		<#if value?? && value!="">
 			$("#${itemId}_show").html('<img width="200" src="${static_host}/${value}" alt="">');
 		</#if>
-	</script> -->
+	</script>
+	<!-- 选择图片
 	<a id="${itemId}_select" class="btn btn-success" data-toggle="modal" data-target="#modalTemplate" href="${ctx}/file/select?groupId=${itemId}">选择图片</a>
-	<!-- <input class="form-control" id="${itemId}_name" readonly="readonly" /> -->
+	<!-- <input class="form-control" id="${itemId}_name" readonly="readonly" />
 	<input type="hidden" name="${itemName}" id="${itemId}_id" value="${value}" <#if attr.required=="Y">class="{required:true,messages:{required:'必须上传'}}"</#if> />
 	
 	<div style="" id="${itemId}_show"></div>
@@ -55,5 +58,42 @@
 		<#if value?? && value!="">
 			$("#${itemId}_show").html('<img width="200" src="${static_host}/${value}" alt="">');
 		</#if>
-	</script> 
+	</script> --> 
+</#macro>
+
+<#macro showTagAttr attr itemId itemName value>
+	<div class="input-group">
+    	<input type="text" class="form-control" id="${itemId}_tag_search" value="" />
+      	<span class="input-group-btn">
+        	<button class="btn btn-default" type="button" id="addImageTag">添加为标签</button>
+      	</span>
+    </div>
+    <div id="${itemId}_tags">
+    
+    </div>
+    
+    <script type="text/javascript">
+	    $("input#${itemId}_tag_search").jsonSuggest({
+	      	url:"/back/pub/image/autocomplete/queryImageTag.do",
+	      	maxResults: 10,
+	      	emptyKeyup:true,
+	      	width:280,
+	      	minCharacters:1,
+	      	onSelect:function(item){
+	      		var text = item.text;
+	            var id = item.id;
+	            var idx = $("form#comImageForm #tags .tag").length;
+	            if($.trim(id)!=''){
+	                var body = "<span class='tag'><input type='hidden' name='tags["+idx+"].tagName' value='"+text+"'/><span>"+text+"[<a href='javascript:void(0)' class='delete'>X</a>]</span></span>";
+	                $("#${itemId}_tags").append(body);
+	                $("input#${itemId}_tag_search").val("");
+	            }
+	      	}
+	      });
+	    
+	    $("#${itemId}_tags a.delete").live("click",function(){
+	    	var $span = $(this).closest("span.tag");
+	        $span.remove();
+	    });
+    </script>
 </#macro>

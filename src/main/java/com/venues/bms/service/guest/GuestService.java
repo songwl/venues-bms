@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.venues.bms.core.model.Page;
+import com.venues.bms.po.GuComment;
 import com.venues.bms.po.GuGuest;
 import com.venues.bms.po.GuGuestMessage;
 
@@ -19,4 +20,7 @@ public interface GuestService {
 
 	int deleteGuestMessage(Integer id);
 
+	Page<GuComment> findCommentPage(Page<GuComment> page, Map<String, Object> params);
+
+	List<GuComment> findCommentList(Map<String, Object> params);
 }
