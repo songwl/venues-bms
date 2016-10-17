@@ -21,7 +21,7 @@
 			<@showImageAttr attr itemId itemName value />
 		<#elseif attr.attrType == "video">
 			<@showVideoAttr attr itemId itemName value />
-		<#elseif attr.attrType == "tag">
+		<#elseif attr.attrType == "label">
 			<@showTagAttr attr itemId itemName value />
 	    </#if>
              
@@ -32,6 +32,7 @@
 <#macro showImageAttr attr itemId itemName value>
 	<button class="btn btn-success upload" id="${itemId}_upload">点击上传</button>
 	<button class="btn btn-danger upload" id="${itemId}_remove">移除</button>
+	<a id="${itemId}_select" class="btn btn-info" data-toggle="modal" data-target="#modalTemplate" href="${ctx}/file/select?groupId=${itemId}">选择图片</a>
 	<input type="hidden" name="${itemName}" id="${itemId}" value="${value}" <#if attr.required=="Y">class="{required:true,messages:{required:'必须上传'}}"</#if> />
 	<div style="" id="${itemId}_show">
 	</div>
@@ -111,7 +112,7 @@
     <div id="${itemId}_tags" style="padding:10px 0px;">
     	<#if value?? && value!="">
     		<#list value?split(",") as tag>
-    			<span class="label label-success" style="margin-left: 5px;">${tag}<em aria-hidden="true" style="background:#f60;margin-left:5px;cursor:pointer;">&times;</em></span>	
+    			<span class="label label-success" style="margin-left: 5px;"><i>${tag}</i><em aria-hidden="true" style="background:#f60;margin-left:5px;cursor:pointer;">&times;</em></span>	
     		</#list>
     	</#if>
     </div>
@@ -120,7 +121,11 @@
     	
 	    $("#${itemId}_tags").on('click','span>em',function(){
 	        $(this).parent().remove();
-			$("#${itemId}").val( $("#${itemId}_tags span").text().match(/\S+/g).join(',') );
+	        var arr =[];
+	        $("#${itemId}_tags i").each(function(i,it){
+	        	arr[i]=$(it).text();
+	        });
+			$("#${itemId}").val( arr.join(',') );
 	    });
 	    
 	    $("#${itemId}_addTag").on('click',function(){				//添加预处理
@@ -129,21 +134,37 @@
 		});
 	    
 	    $("#${itemId}_tag_search").jsonSuggest({
-	      	url:"${ctx}/pub/tag/autocomplete",
+	      	url:"${ctx}/pub/label/autocomplete",
 	      	maxResults: 10,
 	      	emptyKeyup:true,
-	      	width:280,
+	      	width:150,
 	      	minCharacters:1,
 	      	onSelect:function(item){
+	      		$("#${itemId}").attr("suggestId",item.id);
+	      		$("#${itemId}_tag_search").focus();
 	      	}
 	     });
 	    
 	    $("#${itemId}_tag_search").on('blur',function(){	//验证添加字段
+	    	if($("#${itemId}_tag_search").next(".jsonSuggest:visible").length>0){
+	    		return;
+	    	}
 			var t = $(this),v = t.val();
 			if(v){
 				t.val("");
-				$("#${itemId}_tags").append( $('<span class="label label-success" style="margin-left: 5px;">'+v+'<em aria-hidden="true" style="background:#f60;margin-left:5px;cursor:pointer;">&times;</em></span>') );
-				$("#${itemId}").val( $("#${itemId}_tags span").text().match(/\S+/g).join(',') );
+				$("#${itemId}_tags").append( $('<span class="label label-success" style="margin-left: 5px;"><i>'+v+'</i><em aria-hidden="true" style="background:#f60;margin-left:5px;cursor:pointer;">&times;</em></span>') );
+				var arr =[];
+				$("#${itemId}_tags i").each(function(i,it){
+		        	arr[i]=$(it).text();
+		        });
+				$("#${itemId}").val( arr.join(',') );
+				var suggestId = $("#${itemId}").attr("suggestId");
+				if(suggestId && suggestId!=""){
+					$("#${itemId}").attr("suggestId","");
+				}else{
+					$.post("${ctx}/pub/label/create",{"labelName":v});
+				}
+					
 			}
 			$(this).hide();
 	   		$("#${itemId}_addTag").show();
