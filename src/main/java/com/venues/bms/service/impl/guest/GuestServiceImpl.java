@@ -91,4 +91,10 @@ public class GuestServiceImpl implements GuestService {
 		return list;
 	}
 
+	@Override
+	public int deleteComment(Integer id) {
+		// TODO Auto-generated method stub
+		return guCommentMapper.deleteByPrimaryKey(id);
+	}
+
 }

@@ -23,4 +23,6 @@ public interface GuestService {
 	Page<GuComment> findCommentPage(Page<GuComment> page, Map<String, Object> params);
 
 	List<GuComment> findCommentList(Map<String, Object> params);
+	
+	int deleteComment(Integer id);
 }

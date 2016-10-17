@@ -20,7 +20,7 @@
 		<#elseif attr.attrType == "image">
 			<@showImageAttr attr itemId itemName value />
 		<#elseif attr.attrType == "video">
-		
+			<@showVideoAttr attr itemId itemName value />
 		<#elseif attr.attrType == "tag">
 			<@showTagAttr attr itemId itemName value />
 	    </#if>
@@ -60,6 +60,45 @@
 		</#if>
 	</script> --> 
 </#macro>
+
+<#macro showVideoAttr attr itemId itemName value>
+	<button class="btn btn-success video" id="${itemId}_video">点击上传</button>
+	<button class="btn btn-danger" id="${itemId}_remove">移除</button>
+	<input type="hidden" name="${itemName}" id="${itemId}" value="${value}" <#if attr.required=="Y">class="{required:true,messages:{required:'必须上传'}}"</#if> />
+	<div style="" id="${itemId}_show">
+	</div>
+	<script type="text/javascript">
+		BmsAjaxUpload($("#${itemId}_video"),function(attach){
+			$("input#${itemId}").val(attach.downloadPath);
+			
+			var filePath = "${static_host}/"+attach.downloadPath;
+			
+			showVideo("${itemId}_show",filePath);
+		});
+		
+		$("#${itemId}_remove").click(function(){
+			$("#${itemId}_show").html("");
+			$("input#${itemId}").val("");
+		});
+		
+		function showVideo(rel,filePath){
+			var width = 250;
+			var height = 150;
+			var s1 = new SWFObject("${ctx}/js/swfplayer/flvplayer.swf","single",width,height,"7");
+			s1.addParam("allowfullscreen","true");
+			s1.addVariable("file", filePath);
+			s1.addVariable("width",width);
+			s1.addVariable("height",height);
+			s1.write(rel);
+		};
+		
+		<#if value?? && value!="">
+			showVideo("${itemId}_show","${static_host}/${value}");
+		</#if>
+	</script>
+	
+</#macro>
+
 
 <#macro showTagAttr attr itemId itemName value>
 	<div class="input-group">

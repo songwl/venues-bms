@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,6 +19,8 @@ import com.venues.bms.po.GuComment;
 import com.venues.bms.po.GuGuest;
 import com.venues.bms.po.GuGuestMessage;
 import com.venues.bms.service.guest.GuestService;
+import com.venues.bms.service.sys.LogService;
+import com.venues.bms.vo.Enums;
 import com.venues.bms.web.BaseController;
 
 /**
@@ -30,7 +33,9 @@ public class GuestController extends BaseController {
 
 	@Autowired
 	private GuestService guestService;
-
+	@Autowired
+	private LogService logService;
+	
 	@RequestMapping(value = "/list")
 	public String list(ModelMap model) throws Exception {
 		Page<GuGuest> page = this.getPageRequest();
@@ -83,4 +88,12 @@ public class GuestController extends BaseController {
 		return "guest/comment_list";
 	}
 
+	@RequestMapping(value = "/comment/delete/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultMessage delete(@PathVariable("id") Integer id) {
+		guestService.deleteComment(id);
+
+		logService.saveLog(Enums.LOG_TYPE.DELETE, this.getCurrentAccount().getLoginUsername(), "评论管理", "删除：id=" + id);
+		return this.ajaxDoneSuccess("删除成功");
+	}
 }
